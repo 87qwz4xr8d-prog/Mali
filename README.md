@@ -13,6 +13,7 @@
 | ขั้นตอนการจัดการเหตุการณ์ด้านความปลอดภัย (PROC-IR-001) | [Incident-Response-Procedure.md](docs/policies/Incident-Response-Procedure.md) | [Incident-Response-Procedure.docx](docs/policies/Incident-Response-Procedure.docx) |
 | ขั้นตอนการขอ/เปลี่ยนแปลง/เพิกถอนสิทธิ์ผู้ใช้ (PROC-IAM-001) | [User-Access-Management-Procedure.md](docs/policies/User-Access-Management-Procedure.md) | [User-Access-Management-Procedure.docx](docs/policies/User-Access-Management-Procedure.docx) |
 | แผนความต่อเนื่องทางธุรกิจและกู้คืนจากภัยพิบัติ (PROC-BCP-001) | [Business-Continuity-Disaster-Recovery-Plan.md](docs/policies/Business-Continuity-Disaster-Recovery-Plan.md) | [Business-Continuity-Disaster-Recovery-Plan.docx](docs/policies/Business-Continuity-Disaster-Recovery-Plan.docx) |
+| แบบฟอร์มขอยกเว้นนโยบายความปลอดภัย (FORM-EXC-001) | [Security-Policy-Exception-Form.md](docs/policies/Security-Policy-Exception-Form.md) | [Security-Policy-Exception-Form.docx](docs/policies/Security-Policy-Exception-Form.docx) |
 | คู่มือสรุปสำหรับผู้ใช้งาน | [IT-Security-User-Guide.md](docs/policies/IT-Security-User-Guide.md) | [IT-Security-User-Guide.docx](docs/policies/IT-Security-User-Guide.docx) |
 | ชุดดาวน์โหลดทั้งหมด | — | [Mali-IT-Security-Policy.zip](docs/policies/Mali-IT-Security-Policy.zip) |
 
