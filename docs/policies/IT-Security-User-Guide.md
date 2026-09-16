@@ -7,6 +7,7 @@
 - [มาตรฐานการจัดประเภทข้อมูล](./Data-Classification-Standard.md) (STD-ITSEC-002)
 - [ขั้นตอนการจัดการเหตุการณ์ด้านความปลอดภัย](./Incident-Response-Procedure.md) (PROC-IR-001)
 - [ขั้นตอนการขอ/เปลี่ยนแปลง/เพิกถอนสิทธิ์ผู้ใช้](./User-Access-Management-Procedure.md) (PROC-IAM-001)
+- [แผนความต่อเนื่องทางธุรกิจและกู้คืนจากภัยพิบัติ](./Business-Continuity-Disaster-Recovery-Plan.md) (PROC-BCP-001)
 
 ---
 
@@ -74,6 +75,17 @@
 รายละเอียดขั้นตอนเต็มดูที่ [Incident-Response-Procedure.md](./Incident-Response-Procedure.md)
 
 **จำไว้:** อย่าปกปิดเหตุ อย่าลบหลักฐานเอง และรอคำสั่งทีม IR ก่อนดำเนินการเพิ่มเติม
+
+---
+
+## เมื่อเกิดภัยธรรมชาติหรือสถานที่ทำงานใช้ไม่ได้
+
+1. **ชีวิตมาก่อน** — อพยพตามจุดรวมพล ห้ามกลับเข้าพื้นที่เสี่ยงเอง
+2. ติดตามประกาศจากหัวหน้างาน / ทีมวิกฤต เท่านั้น
+3. เตรียมทำงานระยะไกลผ่านช่องทางที่องค์กรอนุมัติ (VPN/MFA)
+4. อย่านำข้อมูลระดับลับขึ้นไปไปไว้คลาวด์ส่วนตัวโดยไม่ได้รับอนุญาต
+
+รายละเอียดเต็มดูที่ [Business-Continuity-Disaster-Recovery-Plan.md](./Business-Continuity-Disaster-Recovery-Plan.md)
 
 ---
 
