@@ -3,6 +3,7 @@
 
 เอกสารนี้อ่านคู่กับ
 - [นโยบายการรักษาความปลอดภัยระบบเทคโนโลยีสารสนเทศ](./IT-Security-Policy.md) (POL-ITSEC-001)
+- [นโยบายคุ้มครองข้อมูลส่วนบุคคล](./Personal-Data-Protection-Policy.md) (POL-PDPA-001)
 - [มาตรฐานรหัสผ่านและการพิสูจน์ตัวตน](./Password-Authentication-Standard.md) (STD-ITSEC-001)
 - [มาตรฐานการจัดประเภทข้อมูล](./Data-Classification-Standard.md) (STD-ITSEC-002)
 - [ขั้นตอนการจัดการเหตุการณ์ด้านความปลอดภัย](./Incident-Response-Procedure.md) (PROC-IR-001)
@@ -72,7 +73,8 @@
 
 **เมื่อแจ้ง ให้ระบุ:** เวลาที่พบ, ระบบ/บัญชีที่เกี่ยวข้อง, สิ่งที่เกิดขึ้น, ผลกระทบเบื้องต้น (ถ้าทราบ)
 
-รายละเอียดขั้นตอนเต็มดูที่ [Incident-Response-Procedure.md](./Incident-Response-Procedure.md)
+รายละเอียดขั้นตอนเต็มดูที่ [Incident-Response-Procedure.md](./Incident-Response-Procedure.md)  
+รายละเอียดสิทธิเจ้าของข้อมูลและแนวทาง PDPA ดูที่ [Personal-Data-Protection-Policy.md](./Personal-Data-Protection-Policy.md)
 
 **จำไว้:** อย่าปกปิดเหตุ อย่าลบหลักฐานเอง และรอคำสั่งทีม IR ก่อนดำเนินการเพิ่มเติม
 

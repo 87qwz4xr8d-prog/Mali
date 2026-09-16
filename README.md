@@ -7,6 +7,7 @@
 | เอกสาร | Markdown | Word (.docx) |
 |--------|----------|--------------|
 | นโยบายหลัก (POL-ITSEC-001) | [IT-Security-Policy.md](docs/policies/IT-Security-Policy.md) | [IT-Security-Policy.docx](docs/policies/IT-Security-Policy.docx) |
+| นโยบายคุ้มครองข้อมูลส่วนบุคคล (POL-PDPA-001) | [Personal-Data-Protection-Policy.md](docs/policies/Personal-Data-Protection-Policy.md) | [Personal-Data-Protection-Policy.docx](docs/policies/Personal-Data-Protection-Policy.docx) |
 | มาตรฐานรหัสผ่านและการพิสูจน์ตัวตน (STD-ITSEC-001) | [Password-Authentication-Standard.md](docs/policies/Password-Authentication-Standard.md) | [Password-Authentication-Standard.docx](docs/policies/Password-Authentication-Standard.docx) |
 | มาตรฐานการจัดประเภทข้อมูล (STD-ITSEC-002) | [Data-Classification-Standard.md](docs/policies/Data-Classification-Standard.md) | [Data-Classification-Standard.docx](docs/policies/Data-Classification-Standard.docx) |
 | ขั้นตอนการจัดการเหตุการณ์ด้านความปลอดภัย (PROC-IR-001) | [Incident-Response-Procedure.md](docs/policies/Incident-Response-Procedure.md) | [Incident-Response-Procedure.docx](docs/policies/Incident-Response-Procedure.docx) |
