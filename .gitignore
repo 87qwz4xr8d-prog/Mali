@@ -1,6 +1,5 @@
 /public/uploads/receipts/*
 !/public/uploads/receipts/.gitkeep
-!/public/uploads/receipts/.gitignore
 .env
 *.log
 .DS_Store
