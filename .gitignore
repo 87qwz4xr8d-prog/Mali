@@ -1,0 +1,7 @@
+/public/uploads/receipts/*
+!/public/uploads/receipts/.gitkeep
+.env
+*.log
+.DS_Store
+/vendor/
+/dist/Mali/

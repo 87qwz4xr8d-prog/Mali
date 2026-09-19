@@ -1,0 +1,228 @@
+:root {
+  --mali-bg: #f3f6f4;
+  --mali-surface: #ffffff;
+  --mali-ink: #1a2e24;
+  --mali-muted: #5f7268;
+  --mali-accent: #1f7a4d;
+  --mali-accent-2: #0e4d33;
+  --mali-warn: #c47a12;
+  --mali-danger: #b42318;
+  --mali-border: #d7e3db;
+  --mali-sidebar: #123528;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Sarabun", "Noto Sans Thai", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(31, 122, 77, 0.12), transparent 40%),
+    linear-gradient(180deg, #eaf3ee 0%, var(--mali-bg) 40%, #eef2f0 100%);
+  color: var(--mali-ink);
+  min-height: 100vh;
+}
+
+a { color: var(--mali-accent); text-decoration: none; }
+a:hover { color: var(--mali-accent-2); }
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: linear-gradient(180deg, var(--mali-sidebar), #0c241b);
+  color: #e8f5ee;
+  padding: 1.5rem 1rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .5rem .75rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  margin-bottom: 1rem;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3cb371, #1f7a4d);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(0,0,0,.25);
+}
+
+.brand h1 {
+  font-size: 1.25rem;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.brand small {
+  display: block;
+  opacity: .7;
+  font-size: .75rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  color: rgba(255,255,255,.82);
+  padding: .7rem .9rem;
+  border-radius: .75rem;
+  margin-bottom: .25rem;
+  transition: .15s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: rgba(255,255,255,.1);
+  color: #fff;
+}
+
+.main {
+  padding: 1.5rem;
+}
+
+.page-title {
+  font-weight: 700;
+  font-size: 1.6rem;
+  margin-bottom: .25rem;
+}
+
+.page-sub {
+  color: var(--mali-muted);
+  margin-bottom: 1.25rem;
+}
+
+.stat-card {
+  background: var(--mali-surface);
+  border: 1px solid var(--mali-border);
+  border-radius: 1rem;
+  padding: 1.1rem 1.2rem;
+  height: 100%;
+  box-shadow: 0 10px 24px rgba(18, 53, 40, .05);
+}
+
+.stat-card .label {
+  color: var(--mali-muted);
+  font-size: .9rem;
+  margin-bottom: .35rem;
+}
+
+.stat-card .value {
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+
+.panel {
+  background: var(--mali-surface);
+  border: 1px solid var(--mali-border);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 10px 24px rgba(18, 53, 40, .05);
+  margin-bottom: 1.25rem;
+}
+
+.wizard-steps {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.wizard-step {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: .75rem .5rem;
+  border-radius: .85rem;
+  border: 1px solid var(--mali-border);
+  background: #fff;
+  color: var(--mali-muted);
+  font-size: .85rem;
+}
+
+.wizard-step.active {
+  border-color: var(--mali-accent);
+  background: #e8f6ee;
+  color: var(--mali-accent-2);
+  font-weight: 700;
+}
+
+.wizard-step.done {
+  border-color: #9bc9ae;
+  background: #f3faf6;
+  color: var(--mali-accent);
+}
+
+.btn-mali {
+  background: var(--mali-accent);
+  border-color: var(--mali-accent);
+  color: #fff;
+}
+
+.btn-mali:hover {
+  background: var(--mali-accent-2);
+  border-color: var(--mali-accent-2);
+  color: #fff;
+}
+
+.login-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255,255,255,.95);
+  border: 1px solid var(--mali-border);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  box-shadow: 0 24px 60px rgba(18, 53, 40, .12);
+}
+
+.table > :not(caption) > * > * {
+  vertical-align: middle;
+}
+
+.progress {
+  height: .65rem;
+  background: #e4eee8;
+}
+
+.chart-wrap {
+  position: relative;
+  height: 240px;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.badge-soft {
+  background: #e8f6ee;
+  color: var(--mali-accent-2);
+}
+
+@media (max-width: 991px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: relative;
+    height: auto;
+  }
+}
