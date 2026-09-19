@@ -308,8 +308,8 @@ final class BudgetService
     {
         $stmt = $this->db->prepare(
             'INSERT INTO transactions
-             (month_id, type, category, loan_id, allocation_id, txn_date, amount, description, notes)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+             (month_id, type, category, loan_id, allocation_id, txn_date, amount, description, payee, payment_method, reference_no, notes)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
         );
         $stmt->execute([
             $data['month_id'],
@@ -320,6 +320,9 @@ final class BudgetService
             $data['txn_date'],
             $data['amount'],
             $data['description'] ?? '',
+            $data['payee'] ?? null,
+            $data['payment_method'] ?? null,
+            $data['reference_no'] ?? null,
             $data['notes'] ?? null,
         ]);
         return (int) $this->db->lastInsertId();
@@ -406,6 +409,9 @@ final class BudgetService
                 'txn_date' => $data['txn_date'],
                 'amount' => $amount,
                 'description' => $data['description'] ?? '',
+                'payee' => $data['payee'] ?? null,
+                'payment_method' => $data['payment_method'] ?? null,
+                'reference_no' => $data['reference_no'] ?? null,
                 'notes' => $data['notes'] ?? null,
             ]);
 
@@ -452,6 +458,9 @@ final class BudgetService
                 'txn_date' => $data['txn_date'],
                 'amount' => $amount,
                 'description' => $data['description'] ?? '',
+                'payee' => $data['payee'] ?? null,
+                'payment_method' => $data['payment_method'] ?? null,
+                'reference_no' => $data['reference_no'] ?? null,
                 'notes' => $data['notes'] ?? null,
             ]);
 
@@ -571,24 +580,199 @@ final class BudgetService
                 }
             }
 
-            if ($txn['type'] === 'expense' && $txn['allocation_id']) {
-                $this->db->prepare(
-                    'UPDATE budget_allocations SET spent_amount = GREATEST(0, spent_amount - ?) WHERE id = ?'
-                )->execute([(float) $txn['amount'], $txn['allocation_id']]);
-            }
-
-            if ($txn['type'] === 'expense' && $txn['category'] === 'loan' && $txn['loan_id']) {
-                $this->db->prepare(
-                    'UPDATE loans SET balance = balance + ? WHERE id = ?'
-                )->execute([(float) $txn['amount'], $txn['loan_id']]);
-            }
-
+            $this->revertTransactionSideEffects($txn);
             $this->db->prepare('DELETE FROM transactions WHERE id = ?')->execute([$id]);
             $this->db->commit();
         } catch (Throwable $e) {
             $this->db->rollBack();
             throw $e;
         }
+    }
+
+    /** @param array<string, mixed> $txn */
+    private function revertTransactionSideEffects(array $txn): void
+    {
+        if ($txn['type'] === 'expense' && $txn['allocation_id']) {
+            $this->db->prepare(
+                'UPDATE budget_allocations SET spent_amount = GREATEST(0, spent_amount - ?) WHERE id = ?'
+            )->execute([(float) $txn['amount'], $txn['allocation_id']]);
+        }
+
+        if ($txn['type'] === 'expense' && $txn['category'] === 'loan' && $txn['loan_id']) {
+            $this->db->prepare(
+                'UPDATE loans SET balance = balance + ? WHERE id = ?'
+            )->execute([(float) $txn['amount'], $txn['loan_id']]);
+        }
+    }
+
+    public function updateTransaction(int $id, array $data, ?array $file = null): void
+    {
+        $txn = $this->getTransaction($id);
+        if (!$txn) {
+            throw new RuntimeException('ไม่พบรายการ');
+        }
+
+        $month = $this->getMonth((int) $txn['month_id']);
+        if (!$month || $month['status'] === 'closed') {
+            throw new RuntimeException('แก้ไขได้เฉพาะเดือนที่ยังไม่ปิด');
+        }
+
+        $amount = (float) $data['amount'];
+        if ($amount <= 0) {
+            throw new RuntimeException('จำนวนเงินต้องมากกว่า 0');
+        }
+
+        $type = $data['type'] ?? $txn['type'];
+        $category = $data['category'] ?? $txn['category'];
+        $loanId = ($data['loan_id'] ?? '') !== '' && ($data['loan_id'] ?? null) !== null
+            ? (int) $data['loan_id']
+            : null;
+
+        // ตรวจกรอบงบจากยอดหลังแก้ (คืนยอดเดิมก่อนคิด)
+        if ($type === 'expense') {
+            if ($txn['type'] === 'income') {
+                $balanceWithout = $this->getCashBalance((int) $month['id']) - (float) $txn['amount'];
+            } else {
+                $balanceWithout = $this->getCashBalance((int) $month['id']) + (float) $txn['amount'];
+            }
+            if ($amount > $balanceWithout && empty($data['force'])) {
+                throw new RuntimeException('ยอดจ่ายเกินเงินคงเหลือหลังแก้ไข (' . money($balanceWithout) . ' บาท)');
+            }
+        }
+
+        $this->db->beginTransaction();
+        try {
+            $this->revertTransactionSideEffects($txn);
+
+            $allocationId = null;
+            if ($type === 'expense') {
+                if ($category === 'personal') {
+                    $stmt = $this->db->prepare(
+                        "SELECT id, planned_amount, spent_amount FROM budget_allocations
+                         WHERE month_id = ? AND category = 'personal' LIMIT 1"
+                    );
+                    $stmt->execute([$month['id']]);
+                    $personal = $stmt->fetch();
+                    if ($personal) {
+                        $allocationId = (int) $personal['id'];
+                        $remain = (float) $personal['planned_amount'] - (float) $personal['spent_amount'];
+                        if ($amount > $remain && empty($data['force'])) {
+                            throw new RuntimeException('เกินงบส่วนตัวที่เหลือ (' . money($remain) . ' บาท)');
+                        }
+                    }
+                } elseif ($category === 'mother') {
+                    $stmt = $this->db->prepare(
+                        "SELECT id FROM budget_allocations WHERE month_id = ? AND category = 'mother' LIMIT 1"
+                    );
+                    $stmt->execute([$month['id']]);
+                    $row = $stmt->fetch();
+                    $allocationId = $row ? (int) $row['id'] : null;
+                } elseif ($category === 'loan' && $loanId) {
+                    $stmt = $this->db->prepare(
+                        "SELECT id FROM budget_allocations WHERE month_id = ? AND category = 'loan' AND loan_id = ? LIMIT 1"
+                    );
+                    $stmt->execute([$month['id'], $loanId]);
+                    $row = $stmt->fetch();
+                    $allocationId = $row ? (int) $row['id'] : null;
+                }
+            }
+
+            $upd = $this->db->prepare(
+                'UPDATE transactions SET
+                    type = ?, category = ?, loan_id = ?, allocation_id = ?,
+                    txn_date = ?, amount = ?, description = ?, payee = ?,
+                    payment_method = ?, reference_no = ?, notes = ?
+                 WHERE id = ?'
+            );
+            $upd->execute([
+                $type,
+                $category,
+                $loanId,
+                $allocationId,
+                $data['txn_date'],
+                $amount,
+                $data['description'] ?? '',
+                $data['payee'] ?? null,
+                $data['payment_method'] ?? null,
+                $data['reference_no'] ?? null,
+                $data['notes'] ?? null,
+                $id,
+            ]);
+
+            if ($type === 'expense' && $allocationId) {
+                $this->db->prepare(
+                    'UPDATE budget_allocations SET spent_amount = spent_amount + ? WHERE id = ?'
+                )->execute([$amount, $allocationId]);
+            }
+
+            if ($type === 'expense' && $category === 'loan' && $loanId) {
+                $this->reduceLoanBalance($loanId, $amount);
+            }
+
+            if ($file && ($file['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
+                $this->storeAttachment($id, $file);
+            }
+
+            $this->db->commit();
+        } catch (Throwable $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
+    }
+
+    /**
+     * สรุปยอดรายจ่ายแยกหมวดสำหรับกราฟวงกลม
+     * @return list<array{category: string, label: string, total: float}>
+     */
+    public function expenseBreakdownByCategory(?int $monthId): array
+    {
+        if (!$monthId) {
+            return [];
+        }
+        $stmt = $this->db->prepare(
+            "SELECT category, COALESCE(SUM(amount), 0) AS total
+             FROM transactions
+             WHERE month_id = ? AND type = 'expense'
+             GROUP BY category
+             HAVING total > 0
+             ORDER BY total DESC"
+        );
+        $stmt->execute([$monthId]);
+        $rows = $stmt->fetchAll();
+        $out = [];
+        foreach ($rows as $row) {
+            $out[] = [
+                'category' => $row['category'],
+                'label' => category_label($row['category']),
+                'total' => (float) $row['total'],
+            ];
+        }
+        return $out;
+    }
+
+    /**
+     * สรุปยอดรายจ่ายสินเชื่อแยกวงเงิน
+     * @return list<array{label: string, total: float}>
+     */
+    public function loanExpenseBreakdown(?int $monthId): array
+    {
+        if (!$monthId) {
+            return [];
+        }
+        $stmt = $this->db->prepare(
+            "SELECT COALESCE(l.name, 'สินเชื่อ') AS label, COALESCE(SUM(t.amount), 0) AS total
+             FROM transactions t
+             LEFT JOIN loans l ON l.id = t.loan_id
+             WHERE t.month_id = ? AND t.type = 'expense' AND t.category = 'loan'
+             GROUP BY t.loan_id, l.name
+             HAVING total > 0
+             ORDER BY total DESC"
+        );
+        $stmt->execute([$monthId]);
+        return array_map(static fn ($r) => [
+            'label' => (string) $r['label'],
+            'total' => (float) $r['total'],
+        ], $stmt->fetchAll());
     }
 
     public function closeMonth(int $monthId): array

@@ -39,6 +39,8 @@ try {
             $stats = $budget->dashboardStats($month);
             $loans = $budget->activeLoans();
             $recent = $month ? array_slice($budget->transactions((int) $month['id']), 0, 8) : [];
+            $expenseBreakdown = $month ? $budget->expenseBreakdownByCategory((int) $month['id']) : [];
+            $loanBreakdown = $month ? $budget->loanExpenseBreakdown((int) $month['id']) : [];
             require base_path('views/dashboard.php');
             break;
 
@@ -122,6 +124,7 @@ try {
             $month = $budget->currentMonth();
             $months = $budget->allMonths();
             $loans = $budget->activeLoans();
+            $edit = null;
 
             if ($action === 'save' && $_SERVER['REQUEST_METHOD'] === 'POST') {
                 verify_csrf();
@@ -133,10 +136,22 @@ try {
                     'txn_date' => $_POST['txn_date'] ?? date('Y-m-d'),
                     'amount' => (float) ($_POST['amount'] ?? 0),
                     'description' => trim((string) ($_POST['description'] ?? '')),
-                    'notes' => trim((string) ($_POST['notes'] ?? '')),
+                    'payee' => trim((string) ($_POST['payee'] ?? '')) ?: null,
+                    'payment_method' => trim((string) ($_POST['payment_method'] ?? '')) ?: null,
+                    'reference_no' => trim((string) ($_POST['reference_no'] ?? '')) ?: null,
+                    'notes' => trim((string) ($_POST['notes'] ?? '')) ?: null,
                     'force' => !empty($_POST['force']),
                 ];
                 $file = $_FILES['attachment'] ?? null;
+                $editId = (int) ($_POST['id'] ?? 0);
+
+                if ($editId > 0) {
+                    $payload['type'] = $type;
+                    $budget->updateTransaction($editId, $payload, $file);
+                    flash('success', 'แก้ไขรายการสำเร็จ');
+                    redirect('index.php?page=transactions&action=view&id=' . $editId);
+                }
+
                 if ($type === 'income') {
                     $budget->addIncome($payload, $file);
                 } else {
@@ -169,6 +184,22 @@ try {
                 redirect('index.php?page=transactions');
             }
 
+            if ($action === 'edit') {
+                $edit = $budget->getTransaction((int) ($_GET['id'] ?? 0));
+                if (!$edit) {
+                    flash('danger', 'ไม่พบรายการ');
+                    redirect('index.php?page=transactions');
+                }
+                $editMonth = $budget->getMonth((int) $edit['month_id']);
+                if (!$editMonth || $editMonth['status'] === 'closed') {
+                    flash('warning', 'ไม่สามารถแก้ไขรายการในเดือนที่ปิดแล้ว');
+                    redirect('index.php?page=transactions&action=view&id=' . (int) $edit['id']);
+                }
+                $month = $editMonth;
+                require base_path('views/transactions.php');
+                break;
+            }
+
             if ($action === 'view') {
                 $txn = $budget->getTransaction((int) ($_GET['id'] ?? 0));
                 if (!$txn) {
@@ -176,6 +207,7 @@ try {
                     redirect('index.php?page=transactions');
                 }
                 $attachments = $budget->attachmentsFor((int) $txn['id']);
+                $txnMonth = $budget->getMonth((int) $txn['month_id']);
                 require base_path('views/transaction_view.php');
                 break;
             }

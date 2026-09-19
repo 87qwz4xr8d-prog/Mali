@@ -205,6 +205,13 @@ a:hover { color: var(--mali-accent-2); }
   background: #e4eee8;
 }
 
+.chart-wrap {
+  position: relative;
+  height: 240px;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
 .badge-soft {
   background: #e8f6ee;
   color: var(--mali-accent-2);

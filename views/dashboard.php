@@ -68,6 +68,30 @@ ob_start();
 <div class="row g-3 mb-3">
     <div class="col-lg-5">
         <div class="panel h-100">
+            <h5 class="mb-3"><i class="fa-solid fa-chart-pie me-2 text-success"></i>สัดส่วนรายจ่ายตามหมวด</h5>
+            <?php if (empty($expenseBreakdown)): ?>
+                <p class="text-muted mb-0">ยังไม่มีรายจ่ายในเดือนนี้</p>
+            <?php else: ?>
+                <div class="chart-wrap">
+                    <canvas id="expensePieChart" height="220"></canvas>
+                </div>
+                <ul class="list-unstyled small mt-3 mb-0">
+                    <?php
+                    $expenseTotal = array_sum(array_column($expenseBreakdown, 'total'));
+                    foreach ($expenseBreakdown as $row):
+                        $share = $expenseTotal > 0 ? round(($row['total'] / $expenseTotal) * 100, 1) : 0;
+                    ?>
+                        <li class="d-flex justify-content-between py-1 border-bottom border-light">
+                            <span><?= e($row['label']) ?></span>
+                            <span><?= money($row['total']) ?> <span class="text-muted">(<?= $share ?>%)</span></span>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="col-lg-7">
+        <div class="panel h-100">
             <h5 class="mb-3"><i class="fa-solid fa-user me-2 text-success"></i>งบส่วนตัว</h5>
             <?php
             $planned = max(0.01, $stats['personal_planned']);
@@ -81,6 +105,21 @@ ob_start();
                 <div class="progress-bar bg-success" style="width: <?= $pct ?>%"></div>
             </div>
             <p class="small text-muted mb-0">ให้คุณแม่และงวดสินเชื่อถูกกันงบไว้ตอนเปิดเดือนแล้ว — บันทึกรายวันเน้นซองส่วนตัว</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-lg-5">
+        <div class="panel h-100">
+            <h5 class="mb-3"><i class="fa-solid fa-building-columns me-2 text-success"></i>สัดส่วนชำระสินเชื่อ</h5>
+            <?php if (empty($loanBreakdown)): ?>
+                <p class="text-muted mb-0">ยังไม่มีรายการชำระสินเชื่อในเดือนนี้</p>
+            <?php else: ?>
+                <div class="chart-wrap">
+                    <canvas id="loanPieChart" height="220"></canvas>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     <div class="col-lg-7">
@@ -144,7 +183,12 @@ ob_start();
                             <?php endif; ?>
                         </td>
                         <td><?= e(category_label($txn['category'])) ?></td>
-                        <td><?= e($txn['description']) ?></td>
+                        <td>
+                            <?= e($txn['description']) ?>
+                            <?php if (!empty($txn['payee'])): ?>
+                                <div class="small text-muted"><?= e($txn['payee']) ?></div>
+                            <?php endif; ?>
+                        </td>
                         <td class="text-end <?= $txn['type'] === 'income' ? 'text-success' : '' ?>">
                             <?= $txn['type'] === 'income' ? '+' : '-' ?><?= money($txn['amount']) ?>
                         </td>
@@ -155,6 +199,64 @@ ob_start();
         </div>
     <?php endif; ?>
 </div>
+
+<?php if (!empty($expenseBreakdown) || !empty($loanBreakdown)): ?>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+(() => {
+  const palette = ['#1f7a4d', '#3cb371', '#0e4d33', '#c47a12', '#5f7268', '#2a9d8f', '#e76f51', '#264653'];
+  const makePie = (canvasId, labels, values) => {
+    const el = document.getElementById(canvasId);
+    if (!el) return;
+    new Chart(el, {
+      type: 'pie',
+      data: {
+        labels,
+        datasets: [{
+          data: values,
+          backgroundColor: labels.map((_, i) => palette[i % palette.length]),
+          borderWidth: 1,
+          borderColor: '#fff',
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Sarabun' } } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                const val = ctx.parsed;
+                const pct = total ? ((val / total) * 100).toFixed(1) : 0;
+                return ` ${ctx.label}: ${Number(val).toLocaleString('th-TH', { minimumFractionDigits: 2 })} (${pct}%)`;
+              },
+            },
+          },
+        },
+      },
+    });
+  };
+
+  <?php if (!empty($expenseBreakdown)): ?>
+  makePie(
+    'expensePieChart',
+    <?= json_encode(array_column($expenseBreakdown, 'label'), JSON_UNESCAPED_UNICODE) ?>,
+    <?= json_encode(array_map('floatval', array_column($expenseBreakdown, 'total'))) ?>
+  );
+  <?php endif; ?>
+
+  <?php if (!empty($loanBreakdown)): ?>
+  makePie(
+    'loanPieChart',
+    <?= json_encode(array_column($loanBreakdown, 'label'), JSON_UNESCAPED_UNICODE) ?>,
+    <?= json_encode(array_map('floatval', array_column($loanBreakdown, 'total'))) ?>
+  );
+  <?php endif; ?>
+})();
+</script>
+<?php endif; ?>
 <?php
 $content = ob_get_clean();
 $title = 'แดชบอร์ด';

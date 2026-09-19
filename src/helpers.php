@@ -111,3 +111,27 @@ function category_label(string $category): string
         default => $category,
     };
 }
+
+function payment_method_label(?string $method): string
+{
+    return match ((string) $method) {
+        'cash' => 'เงินสด',
+        'transfer' => 'โอนเงิน',
+        'promptpay' => 'พร้อมเพย์',
+        'card' => 'บัตรเครดิต/เดบิต',
+        'other' => 'อื่นๆ',
+        default => $method ?: '—',
+    };
+}
+
+/** @return array<string, string> */
+function payment_methods(): array
+{
+    return [
+        'cash' => 'เงินสด',
+        'transfer' => 'โอนเงิน',
+        'promptpay' => 'พร้อมเพย์',
+        'card' => 'บัตรเครดิต/เดบิต',
+        'other' => 'อื่นๆ',
+    ];
+}
