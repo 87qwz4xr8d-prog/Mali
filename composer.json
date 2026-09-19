@@ -1,0 +1,14 @@
+{
+  "name": "mali/expense-control",
+  "description": "Mali salary expense control",
+  "require": {
+    "php": ">=8.2",
+    "mpdf/mpdf": "^8.2",
+    "phpoffice/phpspreadsheet": "^2.2",
+    "phpoffice/phppresentation": "^1.1"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  }
+}

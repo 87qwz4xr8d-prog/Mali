@@ -298,6 +298,66 @@ try {
             require base_path('views/months.php');
             break;
 
+        case 'reports':
+            Auth::requireLogin();
+            if (!class_exists(\Mpdf\Mpdf::class)) {
+                throw new RuntimeException('ยังไม่ได้ติดตั้งไลบรารีรายงาน — รันคำสั่ง composer install ที่โฟลเดอร์โปรเจกต์');
+            }
+            $reports = new ReportService($budget);
+            $exporter = new ReportExporter();
+            $months = $budget->allMonths();
+            $monthId = isset($_GET['month_id']) && $_GET['month_id'] !== ''
+                ? (int) $_GET['month_id']
+                : ($budget->currentMonth()['id'] ?? null);
+            $monthId = $monthId ? (int) $monthId : null;
+            $action = $_GET['action'] ?? 'view';
+
+            $report = null;
+            if ($monthId || $budget->currentMonth()) {
+                $report = $reports->buildMonthlyReport($monthId);
+                $month = $report['month'];
+            } else {
+                $month = null;
+            }
+
+            if ($action === 'pdf' && $report) {
+                $binary = $exporter->toPdf($report);
+                $name = $reports->filename($report, 'pdf');
+                header('Content-Type: application/pdf');
+                header('Content-Disposition: attachment; filename="' . $name . '"');
+                header('Content-Length: ' . strlen($binary));
+                echo $binary;
+                exit;
+            }
+
+            if ($action === 'excel' && $report) {
+                $binary = $exporter->toExcel($report);
+                $name = $reports->filename($report, 'xlsx');
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment; filename="' . $name . '"');
+                header('Content-Length: ' . strlen($binary));
+                echo $binary;
+                exit;
+            }
+
+            if ($action === 'pptx' && $report) {
+                $binary = $exporter->toPowerPoint($report);
+                $name = $reports->filename($report, 'pptx');
+                header('Content-Type: application/vnd.openxmlformats-officedocument.presentationml.presentation');
+                header('Content-Disposition: attachment; filename="' . $name . '"');
+                header('Content-Length: ' . strlen($binary));
+                echo $binary;
+                exit;
+            }
+
+            if ($action === 'print' && $report) {
+                require base_path('views/report_print.php');
+                break;
+            }
+
+            require base_path('views/reports.php');
+            break;
+
         case 'settings':
             Auth::requireLogin();
             if (($_GET['action'] ?? '') === 'save' && $_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -327,6 +387,7 @@ try {
             'loans' => 'loans',
             'settings' => 'settings',
             'months' => 'months',
+            'reports' => 'reports',
             default => 'dashboard',
         };
         redirect('index.php?page=' . $fallback);

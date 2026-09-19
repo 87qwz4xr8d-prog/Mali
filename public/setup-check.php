@@ -23,6 +23,19 @@ foreach (['pdo', 'pdo_mysql', 'mbstring', 'fileinfo'] as $ext) {
     ];
 }
 
+$checks[] = [
+    'label' => 'ส่วนขยาย zip',
+    'ok' => extension_loaded('zip'),
+    'detail' => extension_loaded('zip') ? 'พร้อมใช้งาน (จำเป็นสำหรับ Excel/PowerPoint)' : 'ยังไม่มี — ต้องเปิดใน php.ini',
+];
+
+$autoload = dirname(__DIR__) . '/vendor/autoload.php';
+$checks[] = [
+    'label' => 'ไลบรารีรายงาน (vendor)',
+    'ok' => is_file($autoload),
+    'detail' => is_file($autoload) ? 'พบ vendor/autoload.php' : 'ไม่พบ — รัน composer install หรือใช้ชุด ZIP ที่มี vendor',
+];
+
 $uploadDir = __DIR__ . '/uploads/receipts';
 $writable = is_dir($uploadDir) && is_writable($uploadDir);
 $checks[] = [

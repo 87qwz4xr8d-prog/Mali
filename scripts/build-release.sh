@@ -18,17 +18,25 @@ copy_tree() {
   cp -a "${src}/." "${dest}/"
 }
 
+if [[ ! -d "${ROOT}/vendor" ]]; then
+  echo "กำลังติดตั้ง dependencies (composer install)..."
+  (cd "${ROOT}" && composer install --no-dev --prefer-dist --no-interaction)
+fi
+
 # คัดลอกโฟลเดอร์หลัก
 copy_tree "${ROOT}/config" "${STAGE}/config"
 copy_tree "${ROOT}/public" "${STAGE}/public"
 copy_tree "${ROOT}/sql" "${STAGE}/sql"
 copy_tree "${ROOT}/src" "${STAGE}/src"
 copy_tree "${ROOT}/views" "${STAGE}/views"
+copy_tree "${ROOT}/vendor" "${STAGE}/vendor"
 
 # ไฟล์ราก
 cp -a "${ROOT}/INSTALL.txt" "${STAGE}/"
 cp -a "${ROOT}/README.md" "${STAGE}/"
 cp -a "${ROOT}/index.php" "${STAGE}/"
+cp -a "${ROOT}/composer.json" "${STAGE}/"
+cp -a "${ROOT}/composer.lock" "${STAGE}/"
 
 # ล้างไฟล์อัปโหลดทดสอบ เหลือแค่ .gitkeep
 rm -rf "${STAGE}/public/uploads/receipts"
@@ -41,7 +49,7 @@ cp "${ROOT}/config/database.example.php" "${STAGE}/config/database.php"
 cd "${OUT_DIR}"
 rm -f "${ZIP_NAME}"
 if command -v zip >/dev/null 2>&1; then
-  zip -r "${ZIP_NAME}" Mali -x "*.DS_Store" -x "*__MACOSX*"
+  zip -qr "${ZIP_NAME}" Mali -x "*.DS_Store" -x "*__MACOSX*"
 else
   tar -czf "${ZIP_NAME%.zip}.tar.gz" Mali
   ZIP_NAME="${ZIP_NAME%.zip}.tar.gz"

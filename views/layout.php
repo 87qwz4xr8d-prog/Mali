@@ -45,6 +45,9 @@ $appName = (new BudgetService())->getSetting('app_name', 'Mali');
             <a class="nav-link <?= ($active ?? '') === 'months' ? 'active' : '' ?>" href="index.php?page=months">
                 <i class="fa-solid fa-calendar-days"></i> ประวัติเดือน
             </a>
+            <a class="nav-link <?= ($active ?? '') === 'reports' ? 'active' : '' ?>" href="index.php?page=reports">
+                <i class="fa-solid fa-chart-pie"></i> รายงาน
+            </a>
             <a class="nav-link <?= ($active ?? '') === 'settings' ? 'active' : '' ?>" href="index.php?page=settings">
                 <i class="fa-solid fa-gear"></i> ตั้งค่า
             </a>
