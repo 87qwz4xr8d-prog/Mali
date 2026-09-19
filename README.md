@@ -1,10 +1,10 @@
 # Mali — โปรแกรมควบคุมรายจ่ายจากเงินเดือน
 
-เว็บแอป PHP 8.2+ สำหรับจัดสรรงบเงินเดือนแบบทีละขั้นตอน จัดการสินเชื่อส่วนบุคคล บัญชีรายรับ-รายจ่าย และแนบหลักฐานเอกสาร
+เว็บแอป PHP 8.1+ สำหรับจัดสรรงบเงินเดือนแบบทีละขั้นตอน จัดการสินเชื่อส่วนบุคคล บัญชีรายรับ-รายจ่าย และแนบหลักฐานเอกสาร
 
 ## ความต้องการของระบบ
 
-- PHP 8.2+ (แนะนำ 8.2 หรือ 8.3) พร้อมส่วนขยาย `pdo_mysql`, `mbstring`, `fileinfo`, `gd`, `zip`
+- PHP 8.1+ (แนะนำ 8.1–8.3) พร้อมส่วนขยาย `pdo_mysql`, `mbstring`, `fileinfo`, `gd`, `zip`
 - MySQL 8+ / MariaDB
 - Apache (XAMPP / Laragon / phpMyAdmin) หรือ PHP built-in server สำหรับทดสอบ
 - โฟลเดอร์ `vendor/` (มากับชุด ZIP หรือรัน `composer install`)
@@ -113,8 +113,9 @@ views/                หน้าจอ UI (ภาษาไทย)
 
 ## เทคโนโลยี
 
-- PHP 8.2+
+- PHP 8.1+
 - MySQL (phpMyAdmin)
 - Bootstrap 5
 - SweetAlert2
 - Font Awesome 6
+- mPDF / PhpSpreadsheet / PhpPresentation (รายงาน)

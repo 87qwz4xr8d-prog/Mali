@@ -10,8 +10,8 @@ declare(strict_types=1);
 $checks = [];
 
 $checks[] = [
-    'label' => 'เวอร์ชัน PHP ≥ 8.2',
-    'ok' => version_compare(PHP_VERSION, '8.2.0', '>='),
+    'label' => 'เวอร์ชัน PHP ≥ 8.1',
+    'ok' => version_compare(PHP_VERSION, '8.1.0', '>='),
     'detail' => 'ปัจจุบัน: ' . PHP_VERSION,
 ];
 
