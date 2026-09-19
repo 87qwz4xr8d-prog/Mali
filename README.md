@@ -8,6 +8,21 @@
 - MySQL 8+ / MariaDB
 - Apache (XAMPP / Laragon / phpMyAdmin) หรือ PHP built-in server สำหรับทดสอบ
 
+## ชุดติดตั้งบน Server
+
+สร้างไฟล์ ZIP พร้อมอัปโหลด:
+
+```bash
+bash scripts/build-release.sh
+# ได้ไฟล์ dist/Mali-v1.0.0-install.zip
+```
+
+อ่านขั้นตอนละเอียดใน [`INSTALL.txt`](INSTALL.txt)
+
+- XAMPP / เครื่องตัวเอง: import [`sql/schema.sql`](sql/schema.sql)
+- Shared hosting (cPanel): สร้างฐานก่อน แล้ว import [`sql/schema-tables-only.sql`](sql/schema-tables-only.sql)
+- ตรวจระบบหลังติดตั้ง: `public/setup-check.php` (ลบทิ้งหลังใช้)
+
 ## การติดตั้ง (XAMPP / phpMyAdmin)
 
 1. คัดลอกโปรเจกต์ไปที่โฟลเดอร์เว็บ เช่น `C:\xampp\htdocs\mali`
