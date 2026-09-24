@@ -1,6 +1,6 @@
 export async function register() {
-  if (process.env.NEXT_RUNTIME === "nodejs") {
-    const { getDb } = await import("./lib/db/connection");
-    getDb();
-  }
+  if (process.env.NEXT_RUNTIME !== "nodejs") return;
+  if (process.env.NEXT_PHASE === "phase-production-build") return;
+  const { getDb } = await import("./lib/db/connection");
+  getDb();
 }
