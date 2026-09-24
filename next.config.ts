@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: [],
+  output: "standalone",
+  serverExternalPackages: ["bcryptjs"],
   allowedDevOrigins: ["127.0.0.1", "localhost"],
   agentRules: false,
 };

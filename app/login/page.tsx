@@ -28,7 +28,7 @@ export default async function LoginPage() {
           <p className="lg:hidden text-xs uppercase tracking-[0.2em] text-muted">{APP_NAME}</p>
           <h2 className="text-2xl font-semibold">{APP_NAME_TH}</h2>
           <p className="text-sm text-muted mt-1 mb-6">เข้าสู่ระบบด้วยบัญชีช่างหรือผู้ดูแล</p>
-          <LoginForm />
+          <LoginForm showSeedHint={process.env.MALI_SHOW_SEED_LOGINS === "1"} />
         </div>
       </section>
     </div>

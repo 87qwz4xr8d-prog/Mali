@@ -4,7 +4,7 @@ import { loginAction } from "@/lib/actions";
 import { Alert, inputClass } from "@/components/ui";
 import { useActionState } from "react";
 
-export function LoginForm() {
+export function LoginForm({ showSeedHint = false }: { showSeedHint?: boolean }) {
   const [state, action, pending] = useActionState(loginAction, {});
   return (
     <form action={action} className="space-y-4">
@@ -30,11 +30,13 @@ export function LoginForm() {
       >
         {pending ? "กำลังเข้าสู่ระบบ…" : "เข้าสู่ระบบ"}
       </button>
-      <p className="text-xs text-muted leading-5">
-        บัญชีทดลอง: <code>admin</code> / <code>Mali@2569</code>
-        <br />
-        ช่าง: <code>tech</code> · วิศวกร: <code>engineer</code> · หัวหน้า: <code>manager</code>
-      </p>
+      {showSeedHint ? (
+        <p className="text-xs text-muted leading-5">
+          บัญชีทดลองติดตั้งครั้งแรก: <code>admin</code> / <code>Mali@2569</code>
+          <br />
+          ช่าง: <code>tech</code> · วิศวกร: <code>engineer</code> · หัวหน้า: <code>manager</code>
+        </p>
+      ) : null}
     </form>
   );
 }
