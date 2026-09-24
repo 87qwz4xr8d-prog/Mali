@@ -3,10 +3,11 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { SESSION_COOKIE, SESSION_DAYS } from "./constants";
 import { findUserById } from "./db/queries";
+import { sessionSecret } from "./runtime-config";
 import type { PublicUser } from "./types";
 
 function secret() {
-  return process.env.MALI_SESSION_SECRET || "mali-dev-secret-change-me";
+  return sessionSecret();
 }
 
 function sign(payload: string) {
@@ -60,6 +61,7 @@ export async function setSessionCookie(userId: number) {
     sameSite: "lax",
     path: "/",
     maxAge: SESSION_DAYS * 86400,
+    secure: process.env.MALI_HTTPS === "1",
   });
 }
 

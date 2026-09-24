@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   description: "ระบบบำรุงรักษารถกระเช้าไฟฟ้า บจก.ยุธาภัคร์",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({
   children,
 }: {

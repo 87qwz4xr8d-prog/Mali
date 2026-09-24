@@ -2,7 +2,16 @@ import { hashSync } from "bcryptjs";
 import type { DatabaseSync } from "node:sqlite";
 import { buddhistYear } from "../format";
 
-const PASSWORD = "Mali@2569";
+/** First-install seed password for demo accounts (tech, engineer, manager, …). */
+export const DEFAULT_SEED_PASSWORD = "Mali@2569";
+
+function seedPassword() {
+  return process.env.MALI_SEED_PASSWORD || DEFAULT_SEED_PASSWORD;
+}
+
+function adminPassword() {
+  return process.env.MALI_ADMIN_PASSWORD || seedPassword();
+}
 
 function run(db: DatabaseSync, sql: string, params: unknown[] = []) {
   return db.prepare(sql).run(...params);
@@ -15,11 +24,17 @@ function get<T>(db: DatabaseSync, sql: string, params: unknown[] = []) {
 export function seedIfEmpty(db: DatabaseSync) {
   const row = get<{ c: number }>(db, "SELECT COUNT(*) AS c FROM users");
   if (row && row.c > 0) return;
+  if (process.env.NODE_ENV === "production" && !process.env.MALI_ADMIN_PASSWORD) {
+    throw new Error(
+      "ฐานข้อมูลว่าง: ตั้ง MALI_ADMIN_PASSWORD ก่อนบูตครั้งแรกในโปรดักชัน (รหัสผ่านผู้ดูแล — ไม่ใช้รหัสทดลอง)",
+    );
+  }
   seed(db);
 }
 
 export function seed(db: DatabaseSync) {
-  const hash = hashSync(PASSWORD, 10);
+  const demoHash = hashSync(seedPassword(), 10);
+  const adminHash = hashSync(adminPassword(), 10);
   const now = new Date().toISOString();
   const year = buddhistYear();
 
@@ -152,7 +167,7 @@ export function seed(db: DatabaseSync) {
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)`,
       [
         u.username,
-        hash,
+        u.username === "admin" ? adminHash : demoHash,
         u.name_th,
         u.name_en,
         u.email,
