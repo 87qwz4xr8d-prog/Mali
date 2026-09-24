@@ -1,10 +1,36 @@
 # Mali — ระบบซ่อมบำรุงรถกระเช้าไฟฟ้า
 
+มี 2 ชุดใน repo นี้:
+
+| โฟลเดอร์ | สแต็ก | ใช้เมื่อ |
+|---------|--------|---------|
+| รากโปรเจกต์ (Next.js) | Next.js + SQLite | UI สมัยใหม่ / โหนด |
+| **`liftcare/`** | **PHP + mysqli + Bootstrap 5 + DataTables + SweetAlert 2** | **XAMPP / phpMyAdmin ตามที่ขอ** |
+
+---
+
+## LiftCare (PHP) — แนะนำสำหรับ XAMPP
+
+ดูคู่มือเต็มใน [`liftcare/README.md`](liftcare/README.md)
+
+สรุปติดตั้ง:
+
+1. Import `liftcare/sql/schema.sql` ผ่าน phpMyAdmin
+2. คัดลอก `liftcare/config/database.example.php` → `database.php`
+3. เปิด `http://localhost/liftcare/public/`
+4. เข้าสู่ระบบ `admin` / `admin123`
+
+โครงสร้างหน้าจอ: **Header · Sidebar · Content · Footer**
+
+---
+
+## Mali (Next.js)
+
 Visual Maintenance สำหรับอู่ **บจก.ยุธาภัคร์**: ใบแจ้งซ่อม → ใบงานซ่อม (MC) → แผน PM → เครื่องจักร → อะไหล่ → ข้อมูลหลัก → รายงาน
 
 Thai-first UI, SQLite, Next.js. ไม่ได้คัดลอกหน้าตาของระบบเก่า
 
-## รันบนเครื่อง
+## รันบนเครื่อง (Next.js)
 
 ต้องการ Node.js 22+ (ใช้ `node:sqlite` ในตัว)
 
@@ -25,7 +51,7 @@ npm start
 
 ฐานข้อมูล SQLite สร้างที่ `data/mali.db` อัตโนมัติ พร้อมข้อมูลตัวอย่างรถกระเช้า Genie / Sinoboom / JLG
 
-## บัญชีทดลอง (รหัสผ่านเดียวกัน `Mali@2569`)
+## บัญชีทดลอง Next.js (รหัสผ่านเดียวกัน `Mali@2569`)
 
 | ผู้ใช้ | สิทธิ์ | ใช้ทำอะไร |
 |---|---|---|
@@ -36,7 +62,7 @@ npm start
 | `requestor` | Requestor | สร้างใบแจ้งซ่อม |
 | `store` | STORE | รับ/แก้สต็อกอะไหล่ |
 
-## โมดูล
+## โมดูล (Next.js)
 
 1. **แดชบอร์ด** — งานค้าง, PM เลยกำหนด, อะไหล่ต่ำกว่าขั้นต่ำ, รถเบรคดาวน์
 2. **ใบแจ้งซ่อม** — สร้าง/แก้ไข/ดู + ใบตรวจก่อนแจ้ง + ลายเซ็นผู้แจ้ง
