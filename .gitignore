@@ -1,6 +1,17 @@
-/config/database.php
-/public/uploads/*
-!/public/uploads/.gitkeep
+# Next.js
+node_modules/
+.next/
+out/
+data/*.db
+data/*.db-*
+.env
+.env.local
+
+# LiftCare PHP
+liftcare/config/database.php
+liftcare/public/uploads/*
+!liftcare/public/uploads/.gitkeep
+
 .DS_Store
 *.log
 /vendor/
