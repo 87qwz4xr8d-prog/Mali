@@ -1,9 +1,12 @@
 import { APP_NAME, APP_NAME_TH } from "@/lib/constants";
 import { getSessionUser } from "@/lib/auth";
+import { getDb } from "@/lib/db/connection";
 import { redirect } from "next/navigation";
 import { LoginForm } from "./login-form";
 
 export default async function LoginPage() {
+  getDb();
+  const user = await getSessionUser();
   const user = await getSessionUser();
   if (user) redirect("/");
 

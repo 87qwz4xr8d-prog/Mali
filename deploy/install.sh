@@ -203,6 +203,12 @@ if [[ "$ready" -ne 1 ]]; then
   exit 1
 fi
 
+if [[ ! -f "$MALI_DATA_DIR/mali.db" ]]; then
+  echo "หน้า login ขึ้นแล้ว แต่ยังไม่พบ $MALI_DATA_DIR/mali.db — ดูล็อก: docker compose logs --tail=80" >&2
+  docker compose -f "$REPO_ROOT/docker-compose.yml" logs --tail=80 || true
+  exit 1
+fi
+
 cat <<EOF
 
 มาลีทำงานแล้ว

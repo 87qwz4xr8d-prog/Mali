@@ -20,6 +20,13 @@ const g = globalThis as typeof globalThis & GlobalDb;
 export function getDb() {
   if (!g.maliDb) {
     requireProductionSecret();
+    if (process.env.NEXT_PHASE === "phase-production-build") {
+      const db = new DatabaseSync(":memory:");
+      db.exec("PRAGMA foreign_keys = ON");
+      db.exec(SCHEMA_SQL);
+      g.maliDb = db;
+      return g.maliDb;
+    }
     const dataDir = getDataDir();
     mkdirSync(path.join(dataDir, "uploads"), { recursive: true });
     const db = new DatabaseSync(getDbPath());
