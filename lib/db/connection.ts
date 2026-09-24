@@ -22,13 +22,17 @@ export function getDb() {
   return g.maliDb;
 }
 
+function asPlain<T>(row: T): T {
+  return JSON.parse(JSON.stringify(row)) as T;
+}
+
 export function all<T>(sql: string, params: unknown[] = []): T[] {
-  return getDb().prepare(sql).all(...params) as T[];
+  return (getDb().prepare(sql).all(...params) as T[]).map((row) => asPlain(row));
 }
 
 export function get<T>(sql: string, params: unknown[] = []): T | undefined {
   const row = getDb().prepare(sql).get(...params);
-  return row as T | undefined;
+  return row == null ? undefined : asPlain(row as T);
 }
 
 export function run(sql: string, params: unknown[] = []) {
