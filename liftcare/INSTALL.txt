@@ -1,0 +1,22 @@
+LiftCare — คู่มือติดตั้งเร็ว (XAMPP + phpMyAdmin)
+================================================
+
+1. คัดลอกโปรเจกต์ไปที่ htdocs/liftcare
+2. เปิด phpMyAdmin → Import ไฟล์ sql/schema.sql
+3. คัดลอก config/database.example.php เป็น config/database.php
+   แล้วใส่ user/password ของ MySQL (ค่าตัวอย่าง: liftcare / liftcare)
+4. เปิดเบราว์เซอร์: http://localhost/liftcare/public/
+5. เข้าสู่ระบบด้วย admin / admin123
+
+โครงสร้างหน้าจอ
+---------------
+- Header  : ชื่อหน้า + ผู้ใช้ปัจจุบัน
+- Sidebar : เมนูหลักตลอดซ้าย
+- Content : ตาราง DataTables / ฟอร์ม CRUD
+- Footer  : เครดิตระบบ + โหลด Bootstrap / DataTables / SweetAlert2
+
+หมายเหตุ
+--------
+- ต้องมี PHP extension mysqli
+- ถ้านำเข้า schema แล้วล็อกอินไม่ได้ ให้ตรวจสอบ password_hash ของ users
+  หรือสร้างผู้ใช้ใหม่จากเมนูผู้ใช้งานหลังเข้าด้วยบัญชี admin
