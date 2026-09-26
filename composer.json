@@ -9,7 +9,7 @@
     },
     "scripts": {
         "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
-        "serve": "@php -S localhost:8080 -t public public/router.php"
+        "serve": "@php -S 127.0.0.1:8080 -t public public/router.php"
     },
     "extra": {
         "google/apiclient-services": [
