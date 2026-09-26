@@ -1,90 +1,164 @@
 # ปฏิทินกลางบริษัท
 
-พนักงานแต่ละแผนกเข้าสู่ระบบแล้วบันทึกงานของตนเองบนปฏิทินกลาง มุมมองเดือนและสัปดาห์ กรองตามแผนกได้ ผู้ดูแลดูได้ทุกแผนก และจัดการผู้ใช้กับแผนก งานที่สร้าง แก้ไข หรือลบจะซิงก์ไปยัง Google Calendar ของบริษัทหนึ่งใบ ถ้ายังไม่ได้ตั้งค่าคีย์ ระบบยังใช้งานในเครื่องได้ และจะแจ้งผ่าน SweetAlert ว่ายังไม่ซิงก์
+พนักงานแต่ละแผนกเข้าสู่ระบบแล้วบันทึกงานของตนเองบนปฏิทินกลาง มีมุมมองเดือนและสัปดาห์ กรองตามแผนกได้ ผู้ดูแลดูได้ทุกแผนก และจัดการผู้ใช้กับแผนก
 
-สิทธิ์ของงาน: ทุกคนที่ล็อกอินเห็นงานของบริษัท แต่สร้าง แก้ไข และลบได้เฉพาะงานของตนเอง รวมถึงผู้ดูแล
+งานที่สร้าง แก้ไข หรือลบจะซิงก์ไปยัง Google Calendar ของบริษัทหนึ่งใบได้ ถ้ายังไม่ตั้งค่าคีย์ ระบบยังใช้งานได้ และจะขึ้น SweetAlert ว่ายังไม่ซิงก์
 
-## ความต้องการของระบบ
+ทุกคนที่ล็อกอินเห็นงานของบริษัท แต่สร้าง แก้ไข และลบได้เฉพาะงานของตนเอง รวมถึงผู้ดูแล
 
-- PHP 8.1 ขึ้นไป พร้อมส่วนขยาย `mysqli`, `json`, `mbstring`, `curl`, `openssl`
-- MySQL 8 หรือ MariaDB 10.5 ขึ้นไป และ phpMyAdmin สำหรับนำเข้าไฟล์ SQL
-- Composer เฉพาะตอนจะซิงก์ Google Calendar
-- เบราว์เซอร์รุ่นปัจจุบัน
+ทำตามลำดับด้านล่างจากข้อ 1 ถึงข้อ 6 จะได้ปฏิทินที่ใช้งานในเครื่อง ข้อ 7 เป็นการซิงก์ Google Calendar ทำทีหลังได้
 
-เอกสารรากของเว็บคือโฟลเดอร์ `public/`
+---
 
-## นำเข้าฐานข้อมูลด้วย phpMyAdmin
+## สิ่งที่ต้องมี
 
-1. เปิด phpMyAdmin
-2. ไปที่แท็บ **Import**
-3. เลือกไฟล์ `sql/company_calendar.sql`
-4. กด **Go**
+- Windows 10 หรือ 11 (ขั้นตอนหลักใช้ XAMPP) หรือ macOS / Linux ที่มี PHP 8.1 ขึ้นไป
+- เบราว์เซอร์รุ่นปัจจุบัน เช่น Chrome หรือ Edge
+- อินเทอร์เน็ตตอนดาวน์โหลดโปรแกรม และตอนติดตั้งไลบรารี Google
+- บัญชี Google ของบริษัท เฉพาะตอนจะซิงก์ปฏิทิน
 
-ไฟล์นี้สร้างฐานข้อมูล `company_calendar` ตารางแผนก ผู้ใช้ และงานตัวอย่าง แล้วนำเข้าข้อมูลตั้งต้น การนำเข้าซ้ำจะลบตารางเดิมในฐานข้อมูลนี้แล้วสร้างใหม่
+โปรแกรมนี้ใช้ PHP, MySQL และ phpMyAdmin XAMPP รวมทั้งสามอย่างไว้ให้แล้ว
 
-ถ้าบัญชี MySQL ไม่มีสิทธิ์ `CREATE DATABASE` ให้สร้างฐานข้อมูลชื่อ `company_calendar` (charset `utf8mb4_unicode_ci`) ใน phpMyAdmin ก่อน แล้วค่อยนำเข้าไฟล์เดิม ถ้าคำสั่ง `CREATE DATABASE` ฟ้องสิทธิ์ ให้ลบสองบรรทัด `CREATE DATABASE` กับ `USE` ออก เลือกฐานข้อมูลนั้น แล้วจึง Import
+---
 
-## ตั้งค่าการเชื่อมต่อฐานข้อมูล
+## 1. ติดตั้ง XAMPP
 
-```bash
-cp config/config.example.php config/config.php
+1. เปิด https://www.apachefriends.org/download.html
+2. ดาวน์โหลด XAMPP รุ่นที่ระบุ PHP 8.1 หรือใหม่กว่า เช่น PHP 8.2
+3. ติดตั้งที่ `C:\xampp` ระหว่างติดตั้งให้เลือก Apache, MySQL และ PHP
+4. เปิด **XAMPP Control Panel**
+5. กด **Start** ที่แถว Apache และแถว MySQL จนพื้นหลังเป็นสีเขียว
+6. ถ้า Windows ถามไฟร์วอลล์ ให้กด Allow
+
+ตรวจว่า PHP พร้อมใช้ เปิด Command Prompt แล้วรัน:
+
+```bat
+C:\xampp\php\php.exe -v
 ```
 
-แก้ค่าใน `config/config.php` ให้ตรงกับ MySQL ของเครื่อง:
+ต้องขึ้น `PHP 8.1` หรือสูงกว่า ถ้าพอร์ต 80 หรือ 3306 ถูกโปรแกรมอื่นใช้อยู่ XAMPP จะขึ้นสีแดง ให้ปิดโปรแกรมที่ใช้พอร์ตนั้นแล้วกด Start ใหม่
 
-| ค่า | ความหมาย |
-|---|---|
-| `db.host` | โฮสต์ เช่น `127.0.0.1` |
-| `db.port` | พอร์ต เช่น `3306` |
-| `db.name` | `company_calendar` |
-| `db.user` | ผู้ใช้ MySQL |
-| `db.pass` | รหัสผ่าน MySQL |
+เปิดเบราว์เซอร์ไปที่ http://localhost/phpmyadmin ต้องเห็นหน้า phpMyAdmin จึงไปข้อถัดไป
 
-`config/config.example.php` เป็นแค่ตัวอย่าง (ผู้ใช้ `root` และรหัสว่างแบบเครื่องพัฒนา XAMPP) ไฟล์ `config/config.php` ถูก gitignore ห้าม commit รหัสผ่านจริง
+---
 
-ถ้าไม่สร้าง `config/config.php` ระบบจะใช้ค่าจากไฟล์ตัวอย่าง
+## 2. ดาวน์โหลดไฟล์โปรแกรม
 
-## ตั้งค่า Google Calendar
+เลือกอย่างใดอย่างหนึ่ง
 
-ใช้ service account ซิงก์ไปปฏิทินบริษัทใบเดียว ไม่ต้องให้พนักงานแต่ละคนล็อกอิน Google
+### วิธีที่ง่าย: ดาวน์โหลด ZIP
 
-1. เปิด [Google Cloud Console](https://console.cloud.google.com/) แล้วสร้างหรือเลือกโปรเจกต์ของบริษัท
-2. ไปที่ **APIs & Services → Library** แล้วเปิดใช้ **Google Calendar API**
-3. ไปที่ **APIs & Services → Credentials → Create credentials → Service account**
-4. ตั้งชื่อ service account แล้วสร้าง
-5. เปิด service account นั้น → **Keys → Add key → Create new key → JSON** แล้วดาวน์โหลดไฟล์
-6. ย้ายไฟล์ JSON ไปที่ `config/google-service-account.json` ไฟล์นี้ถูก gitignore ห้าม commit
-7. เปิด Google Calendar ใบที่เป็นปฏิทินกลางของบริษัท
-8. **Settings and sharing → Share with specific people** เพิ่มอีเมล `client_email` จากไฟล์ JSON สิทธิ์ **Make changes to events**
-9. ที่หน้าตั้งค่าปฏิทินเดียวกัน เปิด **Integrate calendar** แล้วคัดลอก **Calendar ID**
-10. ใน `config/config.php` ตั้ง `google.calendar_id` เป็น Calendar ID นั้น และให้ `google.credentials_path` ชี้ไปที่ไฟล์ JSON (ค่าเริ่มต้นชี้ที่ `config/google-service-account.json` แล้ว)
-11. รัน `composer install` ในโฟลเดอร์โปรเจกต์ เพื่อติดตั้ง Google API PHP client
+1. เปิด https://github.com/87qwz4xr8d-prog/Mali/archive/refs/heads/cursor/company-calendar-015d.zip
+2. แตกไฟล์ ZIP
+3. ย้ายโฟลเดอร์ที่แตกออกมาไปไว้ที่ `C:\xampp\htdocs\company-calendar`
 
-อย่าใส่ `primary` เป็นรหัสปฏิทินของ service account เพราะบัญชีบริการไม่มีปฏิทินส่วนตัว ต้องใช้ Calendar ID ของปฏิทินที่แชร์ให้มัน
+### วิธีใช้ Git
 
-เมื่อบันทึก แก้ไข หรือลบงาน ระบบจะส่งการเปลี่ยนแปลงไปปฏิทินนั้น รายละเอียดบน Google จะมีแผนกและชื่อผู้บันทึก
-
-ถ้ายังไม่มีไฟล์คีย์ หรือยังว่าง `google.calendar_id` ระบบบันทึกใน MySQL ตามปกติ และขึ้น SweetAlert ว่ายังไม่ได้ตั้งค่า Google Calendar ถ้ามีไฟล์คีย์แล้วแต่ยังไม่รัน `composer install` ข้อความจะบอกให้ติดตั้งไลบรารีก่อน ถ้าเรียก Google แล้วล้มเหลว งานในระบบยังอยู่ และ SweetAlert จะบอกสาเหตุโดยไม่แสดงคีย์
-
-## วิธีรัน
-
-ในโฟลเดอร์โปรเจกต์:
-
-```bash
-composer install
-cp config/config.example.php config/config.php
-php -S localhost:8080 -t public public/router.php
+```bat
+cd C:\xampp\htdocs
+git clone https://github.com/87qwz4xr8d-prog/Mali.git company-calendar
+cd company-calendar
+git checkout cursor/company-calendar-015d
 ```
 
-จากนั้นเปิด http://localhost:8080
+เมื่อวางถูกที่ โฟลเดอร์ `C:\xampp\htdocs\company-calendar` ต้องมีไฟล์เหล่านี้คู่กัน ไม่ใช่ซ้อนอยู่ในโฟลเดอร์ซ้อนอีกชั้น:
 
-`composer install` จำเป็นเมื่อจะซิงก์ Google Calendar ถ้ายังไม่ซิงก์ ข้ามคำสั่งนี้ได้ ปฏิทินในเครื่องยังทำงาน
+- `public`
+- `src`
+- `sql`
+- `config`
+- `composer.json`
+- `README.md`
 
-บน Apache ให้ชี้ DocumentRoot ไปที่โฟลเดอร์ `public/` ไฟล์ `public/.htaccess` ส่งเส้นทางที่ไม่มีไฟล์จริงเข้า `index.php`
+ใน `sql` ต้องมีไฟล์ `company_calendar.sql`
 
-## บัญชีทดลอง
+---
 
-รหัสผ่านนี้ใช้กับข้อมูลที่มากับไฟล์ SQL ควรเปลี่ยนหลังทดลองใช้งาน
+## 3. นำเข้าฐานข้อมูลใน phpMyAdmin
+
+1. เปิด http://localhost/phpmyadmin
+2. เข้าสู่ระบบ เครื่อง XAMPP ใหม่ๆ ผู้ใช้คือ `root` และรหัสผ่านเว้นว่าง
+3. แท็บด้านบนเลือก **Import**
+4. กด **Choose File** แล้วเลือก `C:\xampp\htdocs\company-calendar\sql\company_calendar.sql`
+5. เลื่อนลงไปกด **Import** หรือ **Go**
+6. ต้องขึ้นข้อความสีเขียวว่านำเข้าสำเร็จ
+
+ตรวจผลทางซ้ายมือ ต้องมีฐานข้อมูลชื่อ `company_calendar` และข้างในมี 3 ตาราง:
+
+- `departments` มี 5 แผนก
+- `users` มี 6 คน
+- `events` มีงานตัวอย่าง
+
+การนำเข้าซ้ำจะลบตารางเดิมในฐานข้อมูลนี้แล้วสร้างใหม่ งานที่พนักงานบันทึกหลังติดตั้งจะหาย ถ้ากด Import ไฟล์นี้อีกครั้ง
+
+ถ้าขึ้นว่าไม่มีสิทธิ์ `CREATE DATABASE` ให้ทำเองก่อน:
+
+1. ใน phpMyAdmin กด **New**
+2. ชื่อฐานข้อมูล `company_calendar`
+3. Collation เลือก `utf8mb4_unicode_ci` แล้วกดสร้าง
+4. คลิกชื่อฐานข้อมูลนั้น
+5. เปิดไฟล์ `sql\company_calendar.sql` ด้วย Notepad ลบสองบรรทัด `CREATE DATABASE ...` และ `USE ...` ออก บันทึกเป็นไฟล์ใหม่
+6. Import ไฟล์ที่แก้แล้ว โดยเลือกฐานข้อมูล `company_calendar` ไว้ก่อน
+
+---
+
+## 4. ตั้งค่าการเชื่อมต่อฐานข้อมูล
+
+1. ไปที่ `C:\xampp\htdocs\company-calendar\config`
+2. คัดลอกไฟล์ `config.example.php` แล้วเปลี่ยนชื่อสำเนาเป็น `config.php`
+3. เปิด `config.php` ด้วย Notepad
+
+สำหรับ XAMPP ที่ยังไม่เคยตั้งรหัสผ่าน root ให้เหลือส่วนฐานข้อมูลแบบนี้:
+
+```php
+'db' => [
+    'host' => '127.0.0.1',
+    'port' => 3306,
+    'name' => 'company_calendar',
+    'user' => 'root',
+    'pass' => '',
+    'charset' => 'utf8mb4',
+],
+```
+
+ถ้า MySQL ของคุณมีรหัสผ่าน ให้ใส่รหัสนั้นใน `'pass'`. ชื่อฐานข้อมูลต้องเป็น `company_calendar` ให้ตรงกับไฟล์ SQL
+
+ส่วน Google ให้เว้น `calendar_id` เป็นค่าว่างไว้ก่อนได้:
+
+```php
+'google' => [
+    'calendar_id' => '',
+    'credentials_path' => __DIR__ . '/google-service-account.json',
+    'timezone' => 'Asia/Bangkok',
+],
+```
+
+บันทึกไฟล์ ห้ามเปลี่ยนชื่อกลับไปเป็น `config.example.php` ไฟล์ `config.php` เป็นค่าของเครื่องคุณ ไม่ต้องส่งขึ้น Git
+
+---
+
+## 5. เปิดเว็บ
+
+เปิด Command Prompt แล้วรันสองบรรทัดนี้ทุกครั้งที่จะใช้งาน:
+
+```bat
+cd C:\xampp\htdocs\company-calendar
+C:\xampp\php\php.exe -S localhost:8080 -t public public/router.php
+```
+
+หน้าต่างนี้ต้องเปิดค้างไว้ ถ้าปิด เว็บจะดับ ต้องไม่ขึ้นข้อความ error สีแดง
+
+เปิดเบราว์เซอร์ไปที่ http://localhost:8080
+
+ต้องเห็นหน้าเข้าสู่ระบบหัวข้อ **ปฏิทินกลางบริษัท** อย่าเปิดผ่าน `http://localhost/company-calendar/...` เพราะที่อยู่ไฟล์รูปและหน้าภายในจะชี้ผิด
+
+ให้ MySQL ใน XAMPP ทำงานอยู่ตลอดที่เปิดเว็บ Apache ของ XAMPP ไม่จำเป็นสำหรับคำสั่งนี้ เพราะ PHP ที่รันด้านบนแจกหน้าเว็บเองที่พอร์ต 8080
+
+---
+
+## 6. ทดลองเข้าสู่ระบบ
+
+ใช้บัญชีจากไฟล์ SQL นี้ได้ทันที ควรเปลี่ยนรหัสผ่านหลังทดลองใช้งานจริง
 
 | ชื่อผู้ใช้ | รหัสผ่าน | บทบาท | แผนก | ชื่อ |
 |---|---|---|---|---|
@@ -95,4 +169,167 @@ php -S localhost:8080 -t public public/router.php
 | `anuwat` | `Staff@2569` | พนักงาน | ฝ่ายขาย | อนุวัฒน์ ขายดี |
 | `manee` | `Staff@2569` | พนักงาน | ฝ่ายปฏิบัติการ | มานี ทำงาน |
 
-ผู้ดูแลเปิดเมนู **ผู้ใช้** และ **แผนก** ได้ พนักงานสองเมนูนี้ใช้ไม่ได้
+ลำดับตรวจว่าติดตั้งสำเร็จ:
+
+1. เข้าด้วย `somchai` / `Staff@2569`
+2. ต้องขึ้น SweetAlert ว่ายังไม่ได้ตั้งค่า Google Calendar กดตกลง แล้วเห็นปฏิทินเดือนภาษาไทย
+3. เมนูพนักงานมีแค่ **ปฏิทิน** ไม่มีเมนูผู้ใช้หรือแผนก
+4. ออกจากระบบ แล้วเข้าด้วย `admin` / `Admin@2569`
+5. ต้องเห็นเมนู **ผู้ใช้** และ **แผนก**
+
+ผู้ดูแลเพิ่มพนักงานคนจริงได้ที่เมนูผู้ใช้ รหัสผ่านอย่างน้อย 8 ตัวอักษร แต่ละคนอยู่ได้หนึ่งแผนก
+
+---
+
+## 7. ตั้งค่า Google Calendar
+
+ข้ามข้อนี้ได้ ปฏิทินในระบบยังบันทึกงานลง MySQL ตามปกติ ทุกครั้งที่บันทึก แก้ไข หรือลบ จะขึ้น SweetAlert ว่ายังไม่ซิงก์
+
+เมื่อพร้อม ให้ใช้ service account หนึ่งตัวซิงก์ไปปฏิทินบริษัทใบเดียว พนักงานไม่ต้องล็อกอิน Google เอง
+
+### 7.1 เปิด Calendar API
+
+1. เปิด https://console.cloud.google.com/ ด้วยบัญชี Google ของบริษัท
+2. แถบบน กดเลือกโปรเจกต์ แล้วกด **New Project**
+3. ตั้งชื่อ เช่น `company-calendar` แล้วกดสร้าง สลับมาใช้โปรเจกต์นี้
+4. เมนู **APIs & Services → Library**
+5. ค้นหา **Google Calendar API** แล้วกด **Enable**
+
+### 7.2 สร้าง service account และดาวน์โหลดคีย์
+
+1. เมนู **APIs & Services → Credentials**
+2. กด **Create credentials → Service account**
+3. ตั้งชื่อ เช่น `company-calendar` แล้วกด **Done** ไม่ต้องใส่บทบาทเพิ่ม
+4. ในรายการ Credentials กดที่อีเมลของ service account ที่เพิ่งสร้าง
+5. แท็บ **Keys → Add key → Create new key → JSON → Create**
+6. เครื่องจะดาวน์โหลดไฟล์ `.json` หนึ่งไฟล์
+7. ย้ายไฟล์นั้นไปที่ `C:\xampp\htdocs\company-calendar\config\google-service-account.json`
+8. เปิดไฟล์ JSON ด้วย Notepad หาบรรทัด `"client_email"` แล้วคัดลอกอีเมล ทั้งบรรทัดจะหน้าตาประมาณ `company-calendar@ชื่อโปรเจกต์.iam.gserviceaccount.com`
+
+ห้ามส่งไฟล์ JSON นี้ให้คนอื่น หรืออัปโหลดขึ้น Git เป็นกุญแจของปฏิทินบริษัท
+
+### 7.3 แชร์ปฏิทินบริษัทให้ service account
+
+1. เปิด https://calendar.google.com
+2. ถ้ายังไม่มีปฏิทินกลาง ให้สร้างปฏิทินใหม่ชื่อ **ปฏิทินกลางบริษัท** ที่เมนูซ้าย **Other calendars → Create new calendar**
+3. ชี้ที่ปฏิทินนั้น กดจุดสามจุด แล้วเลือก **Settings and sharing**
+4. หัวข้อ **Share with specific people or groups** กด **Add people and groups**
+5. วางอีเมล `client_email` จากข้อ 7.2
+6. สิทธิ์เลือก **Make changes to events** แล้วกดส่ง
+7. ที่หน้าตั้งค่าเดียวกัน เลื่อนไปหัวข้อ **Integrate calendar**
+8. คัดลอก **Calendar ID** มักลงท้ายด้วย `@group.calendar.google.com`
+
+อย่าใส่คำว่า `primary` service account ไม่มีปฏิทินส่วนตัว ต้องใช้ Calendar ID ของใบที่แชร์ให้มัน
+
+### 7.4 ใส่รหัสปฏิทินใน config.php
+
+เปิด `config\config.php` แล้วใส่ Calendar ID ที่คัดลอกมา:
+
+```php
+'google' => [
+    'calendar_id' => 'ใส่ Calendar ID ที่นี่',
+    'credentials_path' => __DIR__ . '/google-service-account.json',
+    'timezone' => 'Asia/Bangkok',
+],
+```
+
+บันทึกไฟล์ พาธคีย์ต้องชี้ไปที่ไฟล์ JSON จริง ถ้าคุณตั้งชื่อไฟล์อย่างอื่น ให้แก้ `credentials_path` ให้ตรง
+
+### 7.5 ติดตั้งไลบรารี Google
+
+1. ติดตั้ง Composer จาก https://getcomposer.org/download/
+2. ตอนติดตั้ง ให้ชี้ไปที่ `C:\xampp\php\php.exe` เมื่อโปรแกรมถามหา PHP
+3. เปิด Command Prompt:
+
+```bat
+cd C:\xampp\htdocs\company-calendar
+composer install
+```
+
+ต้องสร้างโฟลเดอร์ `vendor` สำเร็จ แล้วปิดหน้าต่าง PHP ที่เปิดค้างอยู่ แล้วรันคำสั่งเปิดเว็บในข้อ 5 ใหม่
+
+### 7.6 ตรวจว่าซิงก์ได้
+
+1. เปิด http://localhost:8080 แล้วเข้าสู่ระบบ
+2. ครั้งนี้ไม่ควรขึ้น SweetAlert ว่ายังไม่ได้ตั้งค่า ตอนเปิดหน้าปฏิทิน
+3. กด **เพิ่มงาน** ใส่หัวข้อและเวลา แล้วบันทึก
+4. SweetAlert ต้องบอกว่าบันทึกและซิงก์ไป Google Calendar แล้ว
+5. เปิด Google Calendar ใบเดิม ต้องเห็นงานนั้นในช่วงเวลาเดียวกัน เขตเวลาประเทศไทย
+
+ถ้าบันทึกในระบบได้แต่ SweetAlert บอกว่าซิงก์ไม่สำเร็จ งานยังอยู่ใน MySQL ให้ตรวจสามจุดนี้: ไฟล์ JSON อยู่ที่พาธใน config, Calendar ID ไม่ใช่ `primary`, และแชร์ปฏิทินให้ `client_email` ด้วยสิทธิ์ Make changes to events แล้ว
+
+---
+
+## ทางเลือก: เปิดผ่าน Apache ของ XAMPP
+
+คำสั่งในข้อ 5 ใช้งานได้เลยและแนะนำให้ใช้แบบนั้น ถ้าต้องการเปิดที่ http://calendar.local โดยไม่ต้องเปิดหน้าต่างคำสั่งค้างไว้ ให้ทำเพิ่มดังนี้
+
+1. เปิด `C:\xampp\apache\conf\extra\httpd-vhosts.conf` แล้วเติมท้ายไฟล์:
+
+```apache
+<VirtualHost *:80>
+    DocumentRoot "C:/xampp/htdocs/company-calendar/public"
+    ServerName calendar.local
+    <Directory "C:/xampp/htdocs/company-calendar/public">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+```
+
+2. เปิด `C:\Windows\System32\drivers\etc\hosts` ด้วย Notepad แบบ Run as administrator แล้วเติมบรรทัด:
+
+```text
+127.0.0.1 calendar.local
+```
+
+3. ใน XAMPP Control Panel กด **Stop** แล้ว **Start** ที่ Apache
+4. เปิด http://calendar.local
+
+DocumentRoot ต้องชี้ที่โฟลเดอร์ `public` เท่านั้น ไฟล์ `public\.htaccess` จะส่งหน้าที่ไม่มีไฟล์จริงเข้า `index.php`
+
+---
+
+## ติดตั้งบน macOS หรือ Linux
+
+ต้องมี PHP 8.1 ขึ้นไป พร้อมส่วนขยาย `mysqli`, `json`, `mbstring`, `curl`, `openssl` และมี MySQL หรือ MariaDB กับ phpMyAdmin
+
+```bash
+git clone https://github.com/87qwz4xr8d-prog/Mali.git company-calendar
+cd company-calendar
+git checkout cursor/company-calendar-015d
+cp config/config.example.php config/config.php
+```
+
+นำเข้า `sql/company_calendar.sql` ใน phpMyAdmin แล้วแก้ `config/config.php` ให้ตรงกับผู้ใช้ MySQL ของเครื่อง จากนั้น:
+
+```bash
+php -S localhost:8080 -t public public/router.php
+```
+
+เปิด http://localhost:8080 ขั้นตอน Google Calendar ใช้ข้อ 7 เหมือนกัน และรัน `composer install` ในโฟลเดอร์โปรเจกต์ก่อนซิงก์
+
+---
+
+## ปัญหาที่พบบ่อย
+
+| อาการ | สาเหตุที่พบบ่อย | วิธีแก้ |
+|---|---|---|
+| หน้าขาว หรือขึ้นว่าเชื่อมต่อฐานข้อมูลไม่สำเร็จ | MySQL ยังไม่ Start หรือ `config.php` ไม่ตรง | Start MySQL ใน XAMPP แล้วตรวจ host, user, pass, ชื่อฐานข้อมูล |
+| ขึ้นว่ายังไม่พบตาราง | ยังไม่ Import SQL หรือ Import ไม่สำเร็จ | ทำข้อ 3 ใหม่ แล้วดูว่ามีฐานข้อมูล `company_calendar` |
+| เข้าสู่ระบบแล้วหน้าไม่มีรูปแบบ หรือกดเมนูไม่เจอ | เปิดคนละที่อยู่กับพอร์ต 8080 | ใช้ http://localhost:8080 หลังรันคำสั่งในข้อ 5 |
+| `'php' is not recognized` | Windows ยังไม่รู้จักคำสั่ง php | ใช้ `C:\xampp\php\php.exe` ตามคำสั่งในข้อ 5 |
+| พอร์ต 8080 ถูกใช้อยู่ | โปรแกรมอื่นจองพอร์ตนี้ | เปลี่ยนเลขในคำสั่งเป็น `8081` แล้วเปิด http://localhost:8081 |
+| ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง | พิมพ์ผิด หรือยังไม่ Import ข้อมูลตัวอย่าง | ใช้รหัสในตารางข้อ 6 ตัวพิมพ์เล็กใหญ่มีผล |
+| บัญชีนี้ถูกปิดใช้งาน | ผู้ดูแลปิดบัญชีนั้น | ให้ผู้ดูแลเปิดสถานะกลับเป็นใช้งาน |
+| ขึ้น SweetAlert ว่ายังไม่ซิงก์ Google | ยังไม่ได้ทำข้อ 7 | ใช้งานต่อได้ งานถูกบันทึกใน MySQL แล้ว |
+| ซิงก์ Google ไม่สำเร็จ | คีย์ รหัสปฏิทิน หรือสิทธิ์แชร์ไม่ครบ | ตรวจข้อ 7.6 งานในระบบยังไม่หาย |
+
+---
+
+## สิทธิ์หลังติดตั้ง
+
+- พนักงานดูงานทุกแผนก กรองแผนกได้ และเพิ่ม แก้ไข ลบได้เฉพาะงานของตนเอง
+- ผู้ดูแลทำอย่างเดียวกับพนักงานในงานของตนเอง และจัดการผู้ใช้กับแผนกเพิ่มได้
+- ลบแผนกได้เมื่อไม่มีผู้ใช้และไม่มีงานผูกอยู่
+- ลบผู้ใช้ได้เมื่อคนนั้นไม่มีงานค้าง ถ้ามีงานแล้วให้ปิดใช้งานแทน
