@@ -1,55 +1,98 @@
-# Mali — ระบบซ่อมบำรุงรถกระเช้าไฟฟ้า
+# ปฏิทินกลางบริษัท
 
-Visual Maintenance สำหรับอู่ **บจก.ยุธาภัคร์**: ใบแจ้งซ่อม → ใบงานซ่อม (MC) → แผน PM → เครื่องจักร → อะไหล่ → ข้อมูลหลัก → รายงาน
+พนักงานแต่ละแผนกเข้าสู่ระบบแล้วบันทึกงานของตนเองบนปฏิทินกลาง มุมมองเดือนและสัปดาห์ กรองตามแผนกได้ ผู้ดูแลดูได้ทุกแผนก และจัดการผู้ใช้กับแผนก งานที่สร้าง แก้ไข หรือลบจะซิงก์ไปยัง Google Calendar ของบริษัทหนึ่งใบ ถ้ายังไม่ได้ตั้งค่าคีย์ ระบบยังใช้งานในเครื่องได้ และจะแจ้งผ่าน SweetAlert ว่ายังไม่ซิงก์
 
-Thai-first UI, SQLite, Next.js. ไม่ได้คัดลอกหน้าตาของระบบเก่า
+สิทธิ์ของงาน: ทุกคนที่ล็อกอินเห็นงานของบริษัท แต่สร้าง แก้ไข และลบได้เฉพาะงานของตนเอง รวมถึงผู้ดูแล
 
-## รันบนเครื่อง
+## ความต้องการของระบบ
 
-ต้องการ Node.js 22+ (ใช้ `node:sqlite` ในตัว)
+- PHP 8.1 ขึ้นไป พร้อมส่วนขยาย `mysqli`, `json`, `mbstring`, `curl`, `openssl`
+- MySQL 8 หรือ MariaDB 10.5 ขึ้นไป และ phpMyAdmin สำหรับนำเข้าไฟล์ SQL
+- Composer เฉพาะตอนจะซิงก์ Google Calendar
+- เบราว์เซอร์รุ่นปัจจุบัน
+
+เอกสารรากของเว็บคือโฟลเดอร์ `public/`
+
+## นำเข้าฐานข้อมูลด้วย phpMyAdmin
+
+1. เปิด phpMyAdmin
+2. ไปที่แท็บ **Import**
+3. เลือกไฟล์ `sql/company_calendar.sql`
+4. กด **Go**
+
+ไฟล์นี้สร้างฐานข้อมูล `company_calendar` ตารางแผนก ผู้ใช้ และงานตัวอย่าง แล้วนำเข้าข้อมูลตั้งต้น การนำเข้าซ้ำจะลบตารางเดิมในฐานข้อมูลนี้แล้วสร้างใหม่
+
+ถ้าบัญชี MySQL ไม่มีสิทธิ์ `CREATE DATABASE` ให้สร้างฐานข้อมูลชื่อ `company_calendar` (charset `utf8mb4_unicode_ci`) ใน phpMyAdmin ก่อน แล้วค่อยนำเข้าไฟล์เดิม ถ้าคำสั่ง `CREATE DATABASE` ฟ้องสิทธิ์ ให้ลบสองบรรทัด `CREATE DATABASE` กับ `USE` ออก เลือกฐานข้อมูลนั้น แล้วจึง Import
+
+## ตั้งค่าการเชื่อมต่อฐานข้อมูล
 
 ```bash
-npm install
-cp .env.example .env.local   # ตั้ง MALI_SESSION_SECRET ก่อนขึ้นโปรดักชัน
-npm run dev
+cp config/config.example.php config/config.php
 ```
 
-เปิด [http://localhost:3000](http://localhost:3000)
+แก้ค่าใน `config/config.php` ให้ตรงกับ MySQL ของเครื่อง:
 
-โปรดักชัน:
+| ค่า | ความหมาย |
+|---|---|
+| `db.host` | โฮสต์ เช่น `127.0.0.1` |
+| `db.port` | พอร์ต เช่น `3306` |
+| `db.name` | `company_calendar` |
+| `db.user` | ผู้ใช้ MySQL |
+| `db.pass` | รหัสผ่าน MySQL |
+
+`config/config.example.php` เป็นแค่ตัวอย่าง (ผู้ใช้ `root` และรหัสว่างแบบเครื่องพัฒนา XAMPP) ไฟล์ `config/config.php` ถูก gitignore ห้าม commit รหัสผ่านจริง
+
+ถ้าไม่สร้าง `config/config.php` ระบบจะใช้ค่าจากไฟล์ตัวอย่าง
+
+## ตั้งค่า Google Calendar
+
+ใช้ service account ซิงก์ไปปฏิทินบริษัทใบเดียว ไม่ต้องให้พนักงานแต่ละคนล็อกอิน Google
+
+1. เปิด [Google Cloud Console](https://console.cloud.google.com/) แล้วสร้างหรือเลือกโปรเจกต์ของบริษัท
+2. ไปที่ **APIs & Services → Library** แล้วเปิดใช้ **Google Calendar API**
+3. ไปที่ **APIs & Services → Credentials → Create credentials → Service account**
+4. ตั้งชื่อ service account แล้วสร้าง
+5. เปิด service account นั้น → **Keys → Add key → Create new key → JSON** แล้วดาวน์โหลดไฟล์
+6. ย้ายไฟล์ JSON ไปที่ `config/google-service-account.json` ไฟล์นี้ถูก gitignore ห้าม commit
+7. เปิด Google Calendar ใบที่เป็นปฏิทินกลางของบริษัท
+8. **Settings and sharing → Share with specific people** เพิ่มอีเมล `client_email` จากไฟล์ JSON สิทธิ์ **Make changes to events**
+9. ที่หน้าตั้งค่าปฏิทินเดียวกัน เปิด **Integrate calendar** แล้วคัดลอก **Calendar ID**
+10. ใน `config/config.php` ตั้ง `google.calendar_id` เป็น Calendar ID นั้น และให้ `google.credentials_path` ชี้ไปที่ไฟล์ JSON (ค่าเริ่มต้นชี้ที่ `config/google-service-account.json` แล้ว)
+11. รัน `composer install` ในโฟลเดอร์โปรเจกต์ เพื่อติดตั้ง Google API PHP client
+
+อย่าใส่ `primary` เป็นรหัสปฏิทินของ service account เพราะบัญชีบริการไม่มีปฏิทินส่วนตัว ต้องใช้ Calendar ID ของปฏิทินที่แชร์ให้มัน
+
+เมื่อบันทึก แก้ไข หรือลบงาน ระบบจะส่งการเปลี่ยนแปลงไปปฏิทินนั้น รายละเอียดบน Google จะมีแผนกและชื่อผู้บันทึก
+
+ถ้ายังไม่มีไฟล์คีย์ หรือยังว่าง `google.calendar_id` ระบบบันทึกใน MySQL ตามปกติ และขึ้น SweetAlert ว่ายังไม่ได้ตั้งค่า Google Calendar ถ้ามีไฟล์คีย์แล้วแต่ยังไม่รัน `composer install` ข้อความจะบอกให้ติดตั้งไลบรารีก่อน ถ้าเรียก Google แล้วล้มเหลว งานในระบบยังอยู่ และ SweetAlert จะบอกสาเหตุโดยไม่แสดงคีย์
+
+## วิธีรัน
+
+ในโฟลเดอร์โปรเจกต์:
 
 ```bash
-npm run build
-npm start
+composer install
+cp config/config.example.php config/config.php
+php -S localhost:8080 -t public public/router.php
 ```
 
-ฐานข้อมูล SQLite สร้างที่ `data/mali.db` อัตโนมัติ พร้อมข้อมูลตัวอย่างรถกระเช้า Genie / Sinoboom / JLG
+จากนั้นเปิด http://localhost:8080
 
-## บัญชีทดลอง (รหัสผ่านเดียวกัน `Mali@2569`)
+`composer install` จำเป็นเมื่อจะซิงก์ Google Calendar ถ้ายังไม่ซิงก์ ข้ามคำสั่งนี้ได้ ปฏิทินในเครื่องยังทำงาน
 
-| ผู้ใช้ | สิทธิ์ | ใช้ทำอะไร |
-|---|---|---|
-| `admin` | Admin · อรรควุฒิ ศรีชู | ทุกอย่าง รวมสิทธิ์ผู้ใช้ |
-| `engineer` | Engineer Review | เปิดใบงานซ่อม, ข้อมูลหลัก |
-| `manager` | Manager Approve | อนุมัติปิดงาน |
-| `tech` | Technician | บันทึกการซ่อม เบิกอะไหล่ |
-| `requestor` | Requestor | สร้างใบแจ้งซ่อม |
-| `store` | STORE | รับ/แก้สต็อกอะไหล่ |
+บน Apache ให้ชี้ DocumentRoot ไปที่โฟลเดอร์ `public/` ไฟล์ `public/.htaccess` ส่งเส้นทางที่ไม่มีไฟล์จริงเข้า `index.php`
 
-## โมดูล
+## บัญชีทดลอง
 
-1. **แดชบอร์ด** — งานค้าง, PM เลยกำหนด, อะไหล่ต่ำกว่าขั้นต่ำ, รถเบรคดาวน์
-2. **ใบแจ้งซ่อม** — สร้าง/แก้ไข/ดู + ใบตรวจก่อนแจ้ง + ลายเซ็นผู้แจ้ง
-3. **ใบงานซ่อม** — เปิดได้จากใบแจ้งเท่านั้น, มอบหมายทีม/ช่าง, วิธีแก้ไข, เบิกอะไหล่, ตรวจหลังซ่อม, ปิดจบ/Renew
-4. **แผน PM** — รอบรายเดือนต่อคัน, กดสร้างงาน PM
-5. **เครื่องจักร** — รหัส YB/YS/YP, ยี่ห้อ รุ่น ซีเรียล หน้างาน ประวัติ
-6. **อะไหล่** — รหัส YTP + พาสโค้ด OEM, min/reorder/max, รับเข้าคลัง
-7. **ข้อมูลหลัก** — หน่วยงาน, ทีม, ผู้ใช้/ช่าง, ร้านค้า, ประเภทงาน BD/PM/CM/SV/Drive
-8. **รายงาน** — BD เปิดอยู่, ความครบกำหนด PM, อะไหล่ในใบงาน
-9. **สถานะรถ** — พร้อมใช้ / รอตรวจ / เบรคดาวน์ / อยู่หน้างาน + งานเช่าหน้างาน
+รหัสผ่านนี้ใช้กับข้อมูลที่มากับไฟล์ SQL ควรเปลี่ยนหลังทดลองใช้งาน
 
-ประเภทงานและสถานะงานตรงกับ Visual Maintenance Online (รอมอบหมายทีมซ่อม → … → ปิดจบงาน)
+| ชื่อผู้ใช้ | รหัสผ่าน | บทบาท | แผนก | ชื่อ |
+|---|---|---|---|---|
+| `admin` | `Admin@2569` | ผู้ดูแล | ฝ่ายเทคโนโลยีสารสนเทศ | กานดา ตั้งตรง |
+| `somchai` | `Staff@2569` | พนักงาน | ฝ่ายเทคโนโลยีสารสนเทศ | สมชาย ใจดี |
+| `wanida` | `Staff@2569` | พนักงาน | ฝ่ายบุคคล | วนิดา ศรีสุข |
+| `pranee` | `Staff@2569` | พนักงาน | ฝ่ายการเงิน | ปราณี มั่นคง |
+| `anuwat` | `Staff@2569` | พนักงาน | ฝ่ายขาย | อนุวัฒน์ ขายดี |
+| `manee` | `Staff@2569` | พนักงาน | ฝ่ายปฏิบัติการ | มานี ทำงาน |
 
-## สิทธิ์
-
-Requestor, Technician, Engineer Review, Manager Approve, Admin, STORE ตามตารางสิทธิ์ของระบบเดิม
+ผู้ดูแลเปิดเมนู **ผู้ใช้** และ **แผนก** ได้ พนักงานสองเมนูนี้ใช้ไม่ได้
