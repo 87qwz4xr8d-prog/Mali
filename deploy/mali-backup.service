@@ -1,0 +1,21 @@
+[Unit]
+Description=Mali CMMS automatic backup
+Documentation=file:///opt/mali/deploy/README.md
+After=network-online.target mali.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+Environment=MALI_DATA_DIR=/var/lib/mali
+Environment=MALI_BACKUP_DIR=/var/backups/mali
+Environment=MALI_BACKUP_KEEP=14
+EnvironmentFile=-/etc/mali.env
+EnvironmentFile=-/etc/mali-backup.env
+ExecStart=/opt/mali/deploy/backup.sh --mode auto
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+
+[Install]
+WantedBy=multi-user.target

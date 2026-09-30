@@ -19,6 +19,7 @@ const ICONS: Record<string, string> = {
   database: "☰",
   chart: "▤",
   activity: "●",
+  save: "⇩",
 };
 
 export function AppShell({ user, children }: { user: PublicUser; children: React.ReactNode }) {

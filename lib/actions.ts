@@ -36,8 +36,10 @@ import {
   canManageMaster,
   canManageParts,
   canManageUsers,
+  canManageBackup,
 } from "./permissions";
 import type { ActionState, InternalStatus, JobType, OperationalStatus } from "./types";
+import { createBackup, deleteBackup, pruneBackups } from "./backup";
 
 function fail(error: string): ActionState {
   return { error };
@@ -821,4 +823,39 @@ export async function upsertPmAction(formData: FormData): Promise<void> {
   );
   revalidatePath(`/pm/${id}`);
   redirect(`/pm/${id}`);
+}
+
+export async function createBackupAction(): Promise<void> {
+  const user = await requireUser();
+  if (!canManageBackup(user.role)) boom("เฉพาะผู้ดูแลระบบเท่านั้น");
+  let meta;
+  try {
+    meta = createBackup("manual");
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "สำรองไม่สำเร็จ";
+    redirect(`/backup?err=${encodeURIComponent(message)}`);
+  }
+  revalidatePath("/backup");
+  redirect(`/backup?msg=${encodeURIComponent(`สำรองแล้ว: ${meta.stamp}`)}`);
+}
+
+export async function deleteBackupAction(formData: FormData): Promise<void> {
+  const user = await requireUser();
+  if (!canManageBackup(user.role)) boom("เฉพาะผู้ดูแลระบบเท่านั้น");
+  const stamp = String(formData.get("stamp") || "");
+  deleteBackup(stamp);
+  revalidatePath("/backup");
+  redirect(`/backup?msg=${encodeURIComponent(`ลบชุด ${stamp} แล้ว`)}`);
+}
+
+export async function pruneBackupsAction(): Promise<void> {
+  const user = await requireUser();
+  if (!canManageBackup(user.role)) boom("เฉพาะผู้ดูแลระบบเท่านั้น");
+  const removed = pruneBackups();
+  revalidatePath("/backup");
+  redirect(
+    `/backup?msg=${encodeURIComponent(
+      removed.length ? `ลบชุดเก่า ${removed.length} ชุด` : "ไม่มีชุดเกินกำหนดเก็บ",
+    )}`,
+  );
 }
