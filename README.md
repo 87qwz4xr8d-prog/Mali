@@ -25,6 +25,21 @@ npm start
 
 ฐานข้อมูล SQLite สร้างที่ `data/mali.db` อัตโนมัติ พร้อมข้อมูลตัวอย่างรถกระเช้า Genie / Sinoboom / JLG
 
+## สำรองข้อมูลอัตโนมัติ (PC เซิร์ฟเวอร์)
+
+ติดตั้ง Auto Backup ให้สำรอง SQLite ทุกวัน และตัดชุดเก่าเอง:
+
+```bash
+# Linux
+sudo ./deploy/install-auto-backup.sh
+
+# Windows (Administrator)
+powershell -ExecutionPolicy Bypass -File .\deploy\install-auto-backup.ps1
+```
+
+รันมือ / กู้คืน / ตัวแปร env ดูที่ `deploy/README.md`  
+ในแอป: เมนู **สำรองข้อมูล** (ผู้ใช้ Admin)
+
 ## บัญชีทดลอง (รหัสผ่านเดียวกัน `Mali@2569`)
 
 | ผู้ใช้ | สิทธิ์ | ใช้ทำอะไร |
@@ -47,6 +62,7 @@ npm start
 7. **ข้อมูลหลัก** — หน่วยงาน, ทีม, ผู้ใช้/ช่าง, ร้านค้า, ประเภทงาน BD/PM/CM/SV/Drive
 8. **รายงาน** — BD เปิดอยู่, ความครบกำหนด PM, อะไหล่ในใบงาน
 9. **สถานะรถ** — พร้อมใช้ / รอตรวจ / เบรคดาวน์ / อยู่หน้างาน + งานเช่าหน้างาน
+10. **สำรองข้อมูล** — Auto Backup บนเซิร์ฟเวอร์, สำรองมือ, ดาวน์โหลด DB (Admin)
 
 ประเภทงานและสถานะงานตรงกับ Visual Maintenance Online (รอมอบหมายทีมซ่อม → … → ปิดจบงาน)
 

@@ -1,0 +1,12 @@
+[Unit]
+Description=Mali CMMS daily automatic backup timer
+Documentation=file:///opt/mali/deploy/README.md
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+Persistent=true
+RandomizedDelaySec=10m
+Unit=mali-backup.service
+
+[Install]
+WantedBy=timers.target

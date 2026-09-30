@@ -57,6 +57,10 @@ export function canViewReports(role: Role) {
   return role !== "Requestor";
 }
 
+export function canManageBackup(role: Role) {
+  return role === "Admin";
+}
+
 export function navForRole(role: Role) {
   const all = [
     { href: "/", label: "แดชบอร์ด", icon: "layout" },
@@ -68,6 +72,7 @@ export function navForRole(role: Role) {
     { href: "/master", label: "ข้อมูลหลัก", icon: "database" },
     { href: "/reports", label: "รายงาน", icon: "chart" },
     { href: "/ops", label: "สถานะรถ", icon: "activity" },
+    { href: "/backup", label: "สำรองข้อมูล", icon: "save" },
   ];
   if (role === "Requestor") {
     return all.filter((i) => ["/", "/job-requests", "/assets"].includes(i.href));
@@ -83,7 +88,10 @@ export function navForRole(role: Role) {
     return all.filter((i) => ["/", "/parts", "/work-orders", "/reports"].includes(i.href));
   }
   if (role === "Manager Approve") {
-    return all.filter((i) => i.href !== "/master");
+    return all.filter((i) => i.href !== "/master" && i.href !== "/backup");
+  }
+  if (role === "Engineer Review") {
+    return all.filter((i) => i.href !== "/backup");
   }
   return all;
 }

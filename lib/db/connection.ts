@@ -3,8 +3,9 @@ import { mkdirSync } from "node:fs";
 import path from "node:path";
 import { SCHEMA_SQL } from "./schema";
 import { seedIfEmpty } from "./seed";
+import { getDataDir, getDbPath } from "./paths";
 
-const DB_PATH = path.join(process.cwd(), "data", "mali.db");
+export { getBackupRoot, getDataDir, getDbPath, getUploadsDir } from "./paths";
 
 type GlobalDb = { maliDb?: DatabaseSync };
 
@@ -12,9 +13,11 @@ const g = globalThis as typeof globalThis & GlobalDb;
 
 export function getDb() {
   if (!g.maliDb) {
-    mkdirSync(path.dirname(DB_PATH), { recursive: true });
-    const db = new DatabaseSync(DB_PATH);
+    const dataDir = getDataDir();
+    mkdirSync(path.join(dataDir, "uploads"), { recursive: true });
+    const db = new DatabaseSync(getDbPath());
     db.exec("PRAGMA foreign_keys = ON");
+    db.exec("PRAGMA journal_mode = WAL");
     db.exec(SCHEMA_SQL);
     seedIfEmpty(db);
     g.maliDb = db;
