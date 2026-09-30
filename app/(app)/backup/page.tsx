@@ -28,11 +28,6 @@ export default async function BackupPage({
       <PageHeader
         title="สำรองข้อมูลอัตโนมัติ"
         description="สำรอง SQLite และไฟล์อัปโหลดบน PC เซิร์ฟเวอร์ — รันมือจากหน้านี้ หรือตั้ง Auto ตามเวลาด้วย systemd / Task Scheduler"
-        actions={
-          <form action={createBackupAction}>
-            <Button type="submit">สำรองตอนนี้</Button>
-          </form>
-        }
       />
 
       {sp.msg ? (
@@ -43,6 +38,16 @@ export default async function BackupPage({
           {sp.err}
         </p>
       ) : null}
+
+      <Card className="p-4 mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="font-semibold">สำรองมือตอนนี้</p>
+          <p className="text-sm text-muted">สร้างชุดสำรอง SQLite + uploads ทันทีโดยไม่ต้องหยุดบริการ</p>
+        </div>
+        <form action={createBackupAction}>
+          <Button type="submit">สำรองตอนนี้</Button>
+        </form>
+      </Card>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mb-6">
         <Card className="p-4">
