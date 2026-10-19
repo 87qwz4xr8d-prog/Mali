@@ -50,6 +50,24 @@ npm start
 
 ประเภทงานและสถานะงานตรงกับ Visual Maintenance Online (รอมอบหมายทีมซ่อม → … → ปิดจบงาน)
 
+## แบบฟอร์ม ISO 9001 — แผนกไอที
+
+ชุดเอกสารควบคุมสำหรับระบบบริหารคุณภาพแผนกเทคโนโลยีสารสนเทศ อยู่ที่ [`docs/iso9001-it/`](docs/iso9001-it/)
+
+| รหัส | แบบฟอร์ม |
+|------|----------|
+| FORM-IT-SR-001 | ขอรับบริการ IT |
+| FORM-IT-CR-001 | ขอเปลี่ยนแปลงระบบ (Change Request) |
+| FORM-IT-INC-001 | บันทึกเหตุขัดข้อง / อุบัติการณ์ |
+| FORM-IT-AR-001 | ขอ / เปลี่ยนแปลง / เพิกถอนสิทธิ์ผู้ใช้ |
+| FORM-IT-AST-001 | เบิก–คืนทรัพย์สิน IT |
+| FORM-IT-NCR-001 | NCR และ CAPA |
+| FORM-IT-AUD-001 | รายการตรวจสอบภายในแผนก IT |
+| FORM-IT-BKP-001 | สำรองและทดสอบกู้คืนข้อมูล |
+| DOC-IT-ML-001 | บัญชีรายการเอกสารควบคุม |
+
+ดาวน์โหลดชุดเต็ม: [Mali-ISO9001-IT-Forms.zip](docs/iso9001-it/Mali-ISO9001-IT-Forms.zip) (มีทั้ง `.md` และ `.docx`)
+
 ## สิทธิ์
 
 Requestor, Technician, Engineer Review, Manager Approve, Admin, STORE ตามตารางสิทธิ์ของระบบเดิม
