@@ -1,21 +1,31 @@
 # Mali
 
-เอกสารและนโยบายองค์กร
+เอกสารและนโยบายองค์กร — จัดรูปแบบควบคุมเอกสารตาม **ISO 9001:2015 ข้อ 7.5**
 
-## นโยบายความมั่นคงปลอดภัยสารสนเทศ
+## เอกสารคุณภาพ / IT Security
 
-| เอกสาร | Markdown | Word (.docx) |
-|--------|----------|--------------|
-| นโยบายหลัก (POL-ITSEC-001) | [IT-Security-Policy.md](docs/policies/IT-Security-Policy.md) | [IT-Security-Policy.docx](docs/policies/IT-Security-Policy.docx) |
-| นโยบายคุ้มครองข้อมูลส่วนบุคคล (POL-PDPA-001) | [Personal-Data-Protection-Policy.md](docs/policies/Personal-Data-Protection-Policy.md) | [Personal-Data-Protection-Policy.docx](docs/policies/Personal-Data-Protection-Policy.docx) |
-| มาตรฐานรหัสผ่านและการพิสูจน์ตัวตน (STD-ITSEC-001) | [Password-Authentication-Standard.md](docs/policies/Password-Authentication-Standard.md) | [Password-Authentication-Standard.docx](docs/policies/Password-Authentication-Standard.docx) |
-| มาตรฐานการจัดประเภทข้อมูล (STD-ITSEC-002) | [Data-Classification-Standard.md](docs/policies/Data-Classification-Standard.md) | [Data-Classification-Standard.docx](docs/policies/Data-Classification-Standard.docx) |
-| ขั้นตอนการจัดการเหตุการณ์ด้านความปลอดภัย (PROC-IR-001) | [Incident-Response-Procedure.md](docs/policies/Incident-Response-Procedure.md) | [Incident-Response-Procedure.docx](docs/policies/Incident-Response-Procedure.docx) |
-| ขั้นตอนการขอ/เปลี่ยนแปลง/เพิกถอนสิทธิ์ผู้ใช้ (PROC-IAM-001) | [User-Access-Management-Procedure.md](docs/policies/User-Access-Management-Procedure.md) | [User-Access-Management-Procedure.docx](docs/policies/User-Access-Management-Procedure.docx) |
-| แผนความต่อเนื่องทางธุรกิจและกู้คืนจากภัยพิบัติ (PROC-BCP-001) | [Business-Continuity-Disaster-Recovery-Plan.md](docs/policies/Business-Continuity-Disaster-Recovery-Plan.md) | [Business-Continuity-Disaster-Recovery-Plan.docx](docs/policies/Business-Continuity-Disaster-Recovery-Plan.docx) |
-| แบบฟอร์มขอยกเว้นนโยบายความปลอดภัย (FORM-EXC-001) | [Security-Policy-Exception-Form.md](docs/policies/Security-Policy-Exception-Form.md) | [Security-Policy-Exception-Form.docx](docs/policies/Security-Policy-Exception-Form.docx) |
-| คู่มือสรุปสำหรับผู้ใช้งาน | [IT-Security-User-Guide.md](docs/policies/IT-Security-User-Guide.md) | [IT-Security-User-Guide.docx](docs/policies/IT-Security-User-Guide.docx) |
-| ชุดดาวน์โหลดทั้งหมด | — | [Mali-IT-Security-Policy.zip](docs/policies/Mali-IT-Security-Policy.zip) |
+| รหัส | เอกสาร | Markdown | Word (.docx) |
+|------|--------|----------|--------------|
+| POL-ITSEC-001 | นโยบายหลักด้าน IT Security | [md](docs/policies/IT-Security-Policy.md) | [docx](docs/policies/IT-Security-Policy.docx) |
+| POL-PDPA-001 | นโยบายคุ้มครองข้อมูลส่วนบุคคล | [md](docs/policies/Personal-Data-Protection-Policy.md) | [docx](docs/policies/Personal-Data-Protection-Policy.docx) |
+| STD-ITSEC-001 | มาตรฐานรหัสผ่านและการพิสูจน์ตัวตน | [md](docs/policies/Password-Authentication-Standard.md) | [docx](docs/policies/Password-Authentication-Standard.docx) |
+| STD-ITSEC-002 | มาตรฐานการจัดประเภทข้อมูล | [md](docs/policies/Data-Classification-Standard.md) | [docx](docs/policies/Data-Classification-Standard.docx) |
+| STD-QMS-001 | มาตรฐานการควบคุมเอกสาร (ISO 9001) | [md](docs/policies/Document-Control-Standard.md) | [docx](docs/policies/Document-Control-Standard.docx) |
+| PROC-IR-001 | ขั้นตอนจัดการเหตุการณ์ด้านความปลอดภัย | [md](docs/policies/Incident-Response-Procedure.md) | [docx](docs/policies/Incident-Response-Procedure.docx) |
+| PROC-IAM-001 | ขั้นตอนขอ/เปลี่ยนแปลง/เพิกถอนสิทธิ์ผู้ใช้ | [md](docs/policies/User-Access-Management-Procedure.md) | [docx](docs/policies/User-Access-Management-Procedure.docx) |
+| PROC-BCP-001 | แผนความต่อเนื่องทางธุรกิจและกู้คืนจากภัยพิบัติ | [md](docs/policies/Business-Continuity-Disaster-Recovery-Plan.md) | [docx](docs/policies/Business-Continuity-Disaster-Recovery-Plan.docx) |
+| FORM-EXC-001 | แบบฟอร์มขอยกเว้นนโยบายความปลอดภัย | [md](docs/policies/Security-Policy-Exception-Form.md) | [docx](docs/policies/Security-Policy-Exception-Form.docx) |
+| FORM-QMS-001 | ทะเบียนแม่เอกสาร (Document Master List) | [md](docs/policies/Document-Master-List.md) | [docx](docs/policies/Document-Master-List.docx) |
+| FORM-QMS-002 | แบบฟอร์มขอเปลี่ยนแปลงเอกสาร | [md](docs/policies/Document-Change-Request-Form.md) | [docx](docs/policies/Document-Change-Request-Form.docx) |
+| GUIDE-ITSEC-001 | คู่มือสรุปสำหรับผู้ใช้งาน | [md](docs/policies/IT-Security-User-Guide.md) | [docx](docs/policies/IT-Security-User-Guide.docx) |
 
-กรุณากรอกวันที่อนุมัติ ชื่อผู้อนุมัติ และช่องทางติดต่อในเอกสารก่อนประกาศใช้จริง  
-ไฟล์ `.docx` ใช้เปิดแก้ไขต่อใน Microsoft Word / Google Docs / LibreOffice ได้ทันที
+## ชุดติดตั้ง / ดาวน์โหลด
+
+| ไฟล์ | คำอธิบาย |
+|------|----------|
+| [Mali-IT-Security-Policy.zip](docs/policies/Mali-IT-Security-Policy.zip) | รวมเอกสารทั้งหมด (.md + .docx) |
+| [Mali-IT-Security-Policy-Server-Install-v1.0.0.tar.gz](dist/Mali-IT-Security-Policy-Server-Install-v1.0.0.tar.gz) | ชุดติดตั้งลง Server (Linux) |
+| [คู่มือติดตั้ง Server](server-install/INSTALL.md) | วิธีติดตั้งพอร์ทัลเอกสารบน Server |
+
+ก่อนประกาศใช้จริง กรอกวันที่อนุมัติ Prepared/Reviewed/Approved และขึ้นทะเบียนใน FORM-QMS-001  
+เอกสารทุกฉบับเป็น **Controlled Document** ตาม STD-QMS-001

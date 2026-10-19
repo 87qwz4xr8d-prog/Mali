@@ -1,0 +1,11 @@
+body { font-family: "Sarabun","IBM Plex Sans Thai",sans-serif; line-height: 1.7; color: #1c2428; background: #f7f4ef; margin: 0; }
+.wrap { width: min(920px, calc(100% - 2rem)); margin: 0 auto; padding: 1.5rem 0 3rem; }
+.topbar { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; padding-bottom: .85rem; border-bottom: 1px solid #d9d2c5; }
+.topbar a { color: #8a5a00; }
+h1,h2,h3,h4 { font-family: "IBM Plex Sans Thai","Sarabun",sans-serif; line-height: 1.3; }
+table { border-collapse: collapse; width: 100%; margin: 1rem 0; background: #fff; }
+th,td { border: 1px solid #d9d2c5; padding: .55rem .65rem; vertical-align: top; }
+th { background: #efe8da; }
+pre,code { background: #efece6; }
+pre { padding: .85rem; overflow: auto; }
+blockquote { border-left: 3px solid #d4a017; margin-left: 0; padding-left: .9rem; color: #405058; }

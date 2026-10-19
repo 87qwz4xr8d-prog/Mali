@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="th" xml:lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>IT-Security-User-Guide</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../assets/doc.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body><div class="wrap"><div class="topbar"><a href="../index.html">← กลับพอร์ทัล Mali</a><span>Controlled Document</span></div>
+<header id="title-block-header">
+<h1 class="title">IT-Security-User-Guide</h1>
+</header>
+<h1 id="คมอสรปสำหรบผใชงาน">คู่มือสรุปสำหรับผู้ใช้งาน</h1>
+<h2 id="it-security-quick-reference">IT Security — Quick Reference</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Document No.</th>
+<th>GUIDE-ITSEC-001</th>
+<th>Rev.</th>
+<th>00</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>สถานะ</td>
+<td>Controlled Document (ISO 9001 / STD-QMS-001)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>เอกสารนี้อ่านคู่กับ - <a
+href="./IT-Security-Policy.md">นโยบายการรักษาความปลอดภัยระบบเทคโนโลยีสารสนเทศ</a>
+(POL-ITSEC-001) - <a
+href="./Personal-Data-Protection-Policy.md">นโยบายคุ้มครองข้อมูลส่วนบุคคล</a>
+(POL-PDPA-001) - <a
+href="./Password-Authentication-Standard.md">มาตรฐานรหัสผ่านและการพิสูจน์ตัวตน</a>
+(STD-ITSEC-001) - <a
+href="./Data-Classification-Standard.md">มาตรฐานการจัดประเภทข้อมูล</a>
+(STD-ITSEC-002) - <a
+href="./Document-Control-Standard.md">มาตรฐานการควบคุมเอกสาร</a>
+(STD-QMS-001) - <a
+href="./Incident-Response-Procedure.md">ขั้นตอนการจัดการเหตุการณ์ด้านความปลอดภัย</a>
+(PROC-IR-001) - <a
+href="./User-Access-Management-Procedure.md">ขั้นตอนการขอ/เปลี่ยนแปลง/เพิกถอนสิทธิ์ผู้ใช้</a>
+(PROC-IAM-001) - <a
+href="./Business-Continuity-Disaster-Recovery-Plan.md">แผนความต่อเนื่องทางธุรกิจและกู้คืนจากภัยพิบัติ</a>
+(PROC-BCP-001) - <a
+href="./Security-Policy-Exception-Form.md">แบบฟอร์มขอยกเว้น</a>
+(FORM-EXC-001) - <a href="./Document-Master-List.md">ทะเบียนแม่เอกสาร</a>
+(FORM-QMS-001) - <a
+href="./Document-Change-Request-Form.md">แบบฟอร์มขอเปลี่ยนแปลงเอกสาร</a>
+(FORM-QMS-002)</p>
+<hr />
+<h2 id="สงทตองทำเสมอ">สิ่งที่ต้องทำเสมอ</h2>
+<ol type="1">
+<li><strong>ล็อกหน้าจอ</strong> เมื่อเดินออกจากเครื่อง</li>
+<li><strong>ใช้ MFA</strong> ทุกครั้งที่ระบบรองรับ โดยเฉพาะอีเมล VPN
+และระบบสำคัญ</li>
+<li><strong>เก็บรหัสผ่านเป็นความลับ</strong> — ห้ามแชร์ ห้ามติดบนจอ</li>
+<li><strong>สงสัยลิงก์/ไฟล์แนบ</strong> จากอีเมลหรือแชทที่ไม่คุ้นเคย — อย่าคลิก
+และแจ้งฝ่าย IT</li>
+<li><strong>ใช้เฉพาะซอฟต์แวร์และคลาวด์ที่องค์กรอนุมัติ</strong>
+สำหรับงานและข้อมูลองค์กร</li>
+<li><strong>อย่าส่งข้อมูลลับหรือข้อมูลส่วนบุคคล</strong> เข้าเครื่องมือ AI / แชทภายนอก
+ที่ไม่ได้รับอนุญาต</li>
+<li><strong>แจ้งทันที</strong> เมื่ออุปกรณ์หาย สงสัยบัญชีถูกละเมิด
+หรือพบเหตุผิดปกติ</li>
+</ol>
+<hr />
+<h2 id="รหสผานและ-mfa-สรปจาก-std-itsec-001">รหัสผ่านและ MFA (สรุปจาก
+STD-ITSEC-001)</h2>
+<table>
+<thead>
+<tr class="header">
+<th>หัวข้อ</th>
+<th>เกณฑ์ขั้นต่ำ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ความยาวรหัสผ่านทั่วไป</td>
+<td>อย่างน้อย 12 ตัวอักษร</td>
+</tr>
+<tr class="even">
+<td>บัญชีสิทธิพิเศษ</td>
+<td>อย่างน้อย 16 ตัวอักษร</td>
+</tr>
+<tr class="odd">
+<td>MFA</td>
+<td>บังคับกับอีเมล VPN คลาวด์ และระบบสำคัญ</td>
+</tr>
+<tr class="even">
+<td>ห้าม</td>
+<td>แชร์รหัสผ่าน ใช้รหัสง่าย ๆ หรือใช้ซ้ำกับบัญชีส่วนตัว</td>
+</tr>
+<tr class="odd">
+<td>เมื่อสงสัยว่ารั่ว</td>
+<td>เปลี่ยนทันทีแล้วแจ้งฝ่าย IT</td>
+</tr>
+</tbody>
+</table>
+<p>รายละเอียดเต็มดูที่ <a
+href="./Password-Authentication-Standard.md">Password-Authentication-Standard.md</a></p>
+<hr />
+<h2 id="สทธการเขาถง">สิทธิ์การเข้าถึง</h2>
+<ul>
+<li>ขอสิทธิ์เท่าที่งานจำเป็น เท่านั้น ผ่านช่องทางที่องค์กรกำหนด</li>
+<li>เมื่อย้ายหน่วยงานหรือลาออก สิทธิ์จะถูกเพิกถอน — ห้ามใช้บัญชีของผู้อื่น</li>
+<li>บัญชีแอดมินใช้เฉพาะงานดูแลระบบ ห้ามใช้ทำงานประจำวัน</li>
+<li>สิทธิ์ชั่วคราว/ผู้รับเหมาต้องมีวันหมดอายุทุกครั้ง</li>
+</ul>
+<p>รายละเอียดเต็มดูที่ <a
+href="./User-Access-Management-Procedure.md">User-Access-Management-Procedure.md</a></p>
+<hr />
+<h2 id="ขอมลและการจดประเภท">ข้อมูลและการจัดประเภท</h2>
+<table>
+<thead>
+<tr class="header">
+<th>ระดับ</th>
+<th>ทำได้</th>
+<th>ห้าม</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>สาธารณะ</td>
+<td>เผยแพร่ได้หลังตรวจสอบ</td>
+<td>เผยแพร่ข้อมูลผิด/ทำให้เข้าใจผิด</td>
+</tr>
+<tr class="even">
+<td>ภายใน</td>
+<td>ใช้ในองค์กร</td>
+<td>ส่งออกภายนอกโดยไม่จำเป็น</td>
+</tr>
+<tr class="odd">
+<td>ลับ</td>
+<td>ส่งผ่านช่องทางที่อนุมัติเท่านั้น</td>
+<td>แชร์กว้าง หรือเก็บในเครื่องส่วนตัว</td>
+</tr>
+<tr class="even">
+<td>ลับที่สุด</td>
+<td>เข้าถึงเฉพาะผู้ได้รับอนุญาต</td>
+<td>คัดลอก/ส่งต่อโดยไม่มีอำนาจ</td>
+</tr>
+</tbody>
+</table>
+<p><strong>จำง่าย:</strong> ข้อมูลส่วนบุคคลทั่วไป = อย่างน้อย <strong>ลับ</strong>
+| ข้อมูลอ่อนไหว/คีย์เข้ารหัส = <strong>ลับที่สุด</strong> | ไม่แน่ใจ = จัดเป็น
+<strong>ลับ</strong> ก่อน<br />
+รายละเอียดเต็มดูที่ <a
+href="./Data-Classification-Standard.md">Data-Classification-Standard.md</a></p>
+<hr />
+<h2 id="ชองทางแจงเหต">ช่องทางแจ้งเหตุ</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ประเภท</th>
+<th>ติดต่อ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>เหตุด่วน (แรนซัมแวร์, บัญชีถูกล็อกหลายครั้ง, ข้อมูลรั่ว)</td>
+<td>[ระบุ: IT Security / Hotline]</td>
+</tr>
+<tr class="even">
+<td>ทั่วไป (สงสัยฟิชชิง, ขอคำปรึกษา)</td>
+<td>[ระบุ: Helpdesk / อีเมล]</td>
+</tr>
+<tr class="odd">
+<td>เหตุละเมิดข้อมูลส่วนบุคคล (PDPA)</td>
+<td>[ระบุ: DPO / ฝ่ายกฎหมาย]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>เมื่อแจ้ง ให้ระบุ:</strong> เวลาที่พบ, ระบบ/บัญชีที่เกี่ยวข้อง, สิ่งที่เกิดขึ้น,
+ผลกระทบเบื้องต้น (ถ้าทราบ)</p>
+<p>รายละเอียดขั้นตอนเต็มดูที่ <a
+href="./Incident-Response-Procedure.md">Incident-Response-Procedure.md</a><br />
+รายละเอียดสิทธิเจ้าของข้อมูลและแนวทาง PDPA ดูที่ <a
+href="./Personal-Data-Protection-Policy.md">Personal-Data-Protection-Policy.md</a></p>
+<p><strong>จำไว้:</strong> อย่าปกปิดเหตุ อย่าลบหลักฐานเอง และรอคำสั่งทีม IR
+ก่อนดำเนินการเพิ่มเติม</p>
+<hr />
+<h2
+id="เมอเกดภยธรรมชาตหรอสถานททำงานใชไมได">เมื่อเกิดภัยธรรมชาติหรือสถานที่ทำงานใช้ไม่ได้</h2>
+<ol type="1">
+<li><strong>ชีวิตมาก่อน</strong> — อพยพตามจุดรวมพล ห้ามกลับเข้าพื้นที่เสี่ยงเอง</li>
+<li>ติดตามประกาศจากหัวหน้างาน / ทีมวิกฤต เท่านั้น</li>
+<li>เตรียมทำงานระยะไกลผ่านช่องทางที่องค์กรอนุมัติ (VPN/MFA)</li>
+<li>อย่านำข้อมูลระดับลับขึ้นไปไปไว้คลาวด์ส่วนตัวโดยไม่ได้รับอนุญาต</li>
+</ol>
+<p>รายละเอียดเต็มดูที่ <a
+href="./Business-Continuity-Disaster-Recovery-Plan.md">Business-Continuity-Disaster-Recovery-Plan.md</a></p>
+<hr />
+<h2 id="การขอยกเวนนโยบายความปลอดภย">การขอยกเว้นนโยบายความปลอดภัย</h2>
+<p>หากไม่สามารถปฏิบัติตามนโยบายได้ชั่วคราว ให้ใช้แบบฟอร์ม <a
+href="./Security-Policy-Exception-Form.md">Security-Policy-Exception-Form.md</a>
+(FORM-EXC-001)<br />
+ต้องระบุเหตุผล ระยะเวลา มาตรการชดเชย และรออนุมัติก่อนดำเนินการ
+(ยกเว้นกรณีฉุกเฉินตามที่กำหนด)</p>
+<hr />
+<h2 id="การฝาฝน">การฝ่าฝืน</h2>
+<p>การไม่ปฏิบัติตามนโยบายอาจมีบทลงโทษทางวินัย
+และอาจมีความรับผิดตามกฎหมายหากก่อความเสียหายหรือละเมิดข้อมูลส่วนบุคคล</p>
+<hr />
+<p><em>อัปเดตล่าสุดให้สอดคล้องกับ POL-ITSEC-001 เวอร์ชัน 1.0</em></p>
+</div></body>
+</html>

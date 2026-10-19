@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="th" xml:lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Business-Continuity-Disaster-Recovery-Plan</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../assets/doc.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body><div class="wrap"><div class="topbar"><a href="../index.html">← กลับพอร์ทัล Mali</a><span>Controlled Document</span></div>
+<header id="title-block-header">
+<h1 class="title">Business-Continuity-Disaster-Recovery-Plan</h1>
+</header>
+<h1
+id="แผนความตอเนองทางธรกจและกคนจากภยพบต">แผนความต่อเนื่องทางธุรกิจและกู้คืนจากภัยพิบัติ</h1>
+<h2 id="business-continuity-and-disaster-recovery-plan-bcpdrp">Business
+Continuity and Disaster Recovery Plan (BCP/DRP)</h2>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>รายการ</th>
+<th>รายละเอียด</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>รหัสเอกสาร</strong></td>
+<td>PROC-BCP-001</td>
+</tr>
+<tr class="even">
+<td><strong>เวอร์ชัน</strong></td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td><strong>วันที่มีผลบังคับใช้</strong></td>
+<td>[ระบุวันที่]</td>
+</tr>
+<tr class="even">
+<td><strong>เอกสารแม่</strong></td>
+<td>POL-ITSEC-001 นโยบายการรักษาความปลอดภัยระบบเทคโนโลยีสารสนเทศ</td>
+</tr>
+<tr class="odd">
+<td><strong>เอกสารที่เกี่ยวข้อง</strong></td>
+<td>PROC-IR-001, STD-ITSEC-002, PROC-IAM-001</td>
+</tr>
+<tr class="even">
+<td><strong>ผู้อนุมัติ</strong></td>
+<td>[ผู้บริหารสูงสุด / คณะกรรมการบริหารความต่อเนื่อง]</td>
+</tr>
+<tr class="odd">
+<td><strong>ผู้รับผิดชอบ</strong></td>
+<td>Business Continuity Coordinator / ฝ่ายเทคโนโลยีสารสนเทศ</td>
+</tr>
+<tr class="even">
+<td><strong>รอบทบทวน</strong></td>
+<td>อย่างน้อยปีละ 1 ครั้ง หรือหลังการซ้อม/เกิดเหตุจริง</td>
+</tr>
+<tr class="odd">
+<td><strong>การจัดประเภทเอกสาร</strong></td>
+<td>ภายในองค์กร (Internal)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>แผนนี้ครอบคลุมการรับมือ<strong>ภัยธรรมชาติ</strong> (น้ำท่วม พายุ แผ่นดินไหว
+อัคคีภัยจากธรรมชาติ ฯลฯ) และภัยพิบัติอื่นที่กระทบการดำเนินงาน เช่น ไฟไหม้ ไฟฟ้าดับระยะยาว
+ระบบศูนย์ข้อมูลล่ม และภัยไซเบอร์รุนแรง</p>
+</blockquote>
+<hr />
+<h2 id="วตถประสงค">1. วัตถุประสงค์</h2>
+<ol type="1">
+<li>ให้กระบวนการธุรกิจที่สำคัญดำเนินต่อไปได้ในระดับที่ยอมรับได้เมื่อเกิดเหตุขัดข้องหรือภัยพิบัติ</li>
+<li>กำหนดแนวทางอพยพ ป้องกันชีวิต และสื่อสารฉุกเฉินเมื่อเกิดภัยธรรมชาติ</li>
+<li>กู้คืนระบบสารสนเทศ ข้อมูล และสถานที่ปฏิบัติงานภายในเป้าหมายเวลาที่กำหนด
+(RTO/RPO)</li>
+<li>ลดผลกระทบต่อลูกค้า พนักงาน คู่ค้า และชื่อเสียงขององค์กร</li>
+<li>สนับสนุนการปฏิบัติตาม POL-ITSEC-001 และข้อกำหนดทางกฎหมาย/สัญญาที่เกี่ยวข้อง</li>
+</ol>
+<hr />
+<h2 id="ขอบเขต">2. ขอบเขต</h2>
+<h3 id="อยในขอบเขต">2.1 อยู่ในขอบเขต</h3>
+<ul>
+<li>กระบวนการธุรกิจสำคัญ (Critical Business Processes)</li>
+<li>ระบบสารสนเทศ เครือข่าย ศูนย์ข้อมูล คลาวด์ และข้อมูลสำรอง</li>
+<li>สถานที่ทำงานหลัก สถานที่สำรอง และช่องทางทำงานระยะไกล</li>
+<li>พนักงาน ผู้รับจ้าง และผู้ให้บริการภายนอกที่เกี่ยวข้องกับบริการสำคัญ</li>
+<li>สถานการณ์ภัยธรรมชาติและภัยพิบัติที่ทำให้สถานที่ ระบบ หรือบุคลากรไม่พร้อมใช้งาน</li>
+</ul>
+<h3 id="นอกขอบเขตโดยตรง">2.2 นอกขอบเขตโดยตรง</h3>
+<ul>
+<li>แผนป้องกันอัคคีภัย/ความปลอดภัยชีวิตฉบับปฏิบัติการละเอียดของอาคาร
+(อ้างอิงแผนความปลอดภัยสถานที่)</li>
+<li>รายละเอียดเทคนิค runbook รายระบบทั้งหมด (ให้จัดทำเป็นภาคผนวกหรือเอกสาร DR
+runbook ย่อย)</li>
+</ul>
+<hr />
+<h2 id="นยามศพท">3. นิยามศัพท์</h2>
+<table>
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>คำศัพท์</th>
+<th>ความหมาย</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>BCP</strong></td>
+<td>แผนความต่อเนื่องทางธุรกิจ สำหรับรักษากระบวนการสำคัญให้เดินหน้าได้</td>
+</tr>
+<tr class="even">
+<td><strong>DRP / DR</strong></td>
+<td>แผนกู้คืนจากภัยพิบัติ สำหรับกู้ระบบ IT สถานที่ และข้อมูล</td>
+</tr>
+<tr class="odd">
+<td><strong>BIA</strong></td>
+<td>การวิเคราะห์ผลกระทบทางธุรกิจ เพื่อจัดลำดับความสำคัญของกระบวนการ/ระบบ</td>
+</tr>
+<tr class="even">
+<td><strong>RTO</strong></td>
+<td>ระยะเวลานานสุดที่ยอมให้ระบบหรือกระบวนการหยุดได้</td>
+</tr>
+<tr class="odd">
+<td><strong>RPO</strong></td>
+<td>ปริมาณข้อมูลสูงสุดที่ยอมให้สูญหายได้ นับย้อนจากเวลาเกิดเหตุ</td>
+</tr>
+<tr class="even">
+<td><strong>MTPD</strong></td>
+<td>ระยะเวลานานสุดที่กระบวนการหยุดแล้วองค์กรยังทนได้</td>
+</tr>
+<tr class="odd">
+<td><strong>Crisis Management Team (CMT)</strong></td>
+<td>คณะจัดการวิกฤตระดับองค์กร</td>
+</tr>
+<tr class="even">
+<td><strong>Alternate Site</strong></td>
+<td>สถานที่ปฏิบัติงานสำรอง</td>
+</tr>
+<tr class="odd">
+<td><strong>Warm/Cold/Hot Site</strong></td>
+<td>ระดับความพร้อมของสถานที่หรือระบบสำรอง</td>
+</tr>
+<tr class="even">
+<td><strong>Declaration</strong></td>
+<td>การประกาศเปิดใช้แผน BCP/DR อย่างเป็นทางการ</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="นโยบายและหลกการ">4. นโยบายและหลักการ</h2>
+<ol type="1">
+<li><strong>ชีวิตและความปลอดภัยมาก่อน</strong> —
+อพยพและคุ้มครองบุคคลก่อนกู้ทรัพย์สินหรือระบบ</li>
+<li><strong>ธุรกิจสำคัญมาก่อน</strong> — กู้คืนตามลำดับจาก BIA
+ไม่กู้ทุกอย่างพร้อมกันโดยไร้ลำดับ</li>
+<li><strong>สำรองแยกสถานที่</strong> —
+ข้อมูลสำรองและระบบสำคัญต้องไม่เสี่ยงจุดเดียวกับระบบหลัก</li>
+<li><strong>สื่อสารชัดเจน</strong> — มีผู้พูดแทนองค์กรคนเดียวในแต่ละช่วงวิกฤต</li>
+<li><strong>ซ้อมแล้วจึงเชื่อได้</strong> — แผนที่ไม่ได้ทดสอบถือว่ายังไม่พร้อมใช้</li>
+<li><strong>เชื่อมกับแผน IR</strong> — หากเหตุเป็นภัยไซเบอร์ ให้ใช้ร่วมกับ
+PROC-IR-001</li>
+</ol>
+<hr />
+<h2 id="โครงสรางการบรหารและบทบาท">5. โครงสร้างการบริหารและบทบาท</h2>
+<table>
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>บทบาท</th>
+<th>หน้าที่หลัก</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>ผู้บริหารสูงสุด / Sponsor</strong></td>
+<td>อนุมัติแผน จัดสรรทรัพยากร และตัดสินใจระดับวิกฤต</td>
+</tr>
+<tr class="even">
+<td><strong>Crisis Management Team (CMT)</strong></td>
+<td>ประกาศใช้แผน สั่งการภาพรวม ประสานหน่วยงานภายนอก</td>
+</tr>
+<tr class="odd">
+<td><strong>Business Continuity Coordinator</strong></td>
+<td>ดูแลเอกสาร BCP ติดตามการซ้อม และสถานะความพร้อม</td>
+</tr>
+<tr class="even">
+<td><strong>IT DR Lead</strong></td>
+<td>นำการกู้ระบบ ประเมิน RTO/RPO และสั่งเปิดระบบสำรอง</td>
+</tr>
+<tr class="odd">
+<td><strong>Facility / Safety Lead</strong></td>
+<td>ประเมินความปลอดภัยอาคาร อพยพ และสภาพแวดล้อมหลังภัยธรรมชาติ</td>
+</tr>
+<tr class="even">
+<td><strong>HR / People Lead</strong></td>
+<td>ตรวจสอบความปลอดภัยของพนักงาน จัดกำลังคนสำรอง และสวัสดิการฉุกเฉิน</td>
+</tr>
+<tr class="odd">
+<td><strong>Communications Lead</strong></td>
+<td>สื่อสารภายใน ลูกค้า สื่อมวลชน และโซเชียลมีเดีย</td>
+</tr>
+<tr class="even">
+<td><strong>Business Process Owners</strong></td>
+<td>ยืนยันผลกระทบทางธุรกิจ และลำดับการกู้คืนของกระบวนการตนเอง</td>
+</tr>
+<tr class="odd">
+<td><strong>Vendor Managers</strong></td>
+<td>ประสานผู้ให้บริการคลาวด์ ศูนย์ข้อมูล เครือข่าย และสถานที่สำรอง</td>
+</tr>
+</tbody>
+</table>
+<h3 id="รายชอตดตอฉกเฉน-กรอกกอนประกาศใช">5.1 รายชื่อติดต่อฉุกเฉิน
+(กรอกก่อนประกาศใช้)</h3>
+<table>
+<thead>
+<tr class="header">
+<th>บทบาท</th>
+<th>ชื่อ</th>
+<th>โทรศัพท์</th>
+<th>อีเมลสำรอง</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CMT Leader</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>BC Coordinator</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>IT DR Lead</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Facility/Safety</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>HR</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Communications</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>DPO / Legal</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>ผู้ให้บริการศูนย์ข้อมูล/คลาวด์</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>สถานที่ปฏิบัติงานสำรอง</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>สำเนารายชื่อติดต่อฉุกเฉินควรเก็บทั้งออนไลน์และออฟไลน์ (กระดาษ/USB เข้ารหัส)
+เพราะอาจเข้าอีเมลองค์กรไม่ได้ตอนเกิดเหตุ</p>
+</blockquote>
+<hr />
+<h2 id="การวเคราะหผลกระทบทางธรกจ-bia-กรอบการจดลำดบ">6.
+การวิเคราะห์ผลกระทบทางธุรกิจ (BIA) — กรอบการจัดลำดับ</h2>
+<h3 id="ระดบความสำคญของกระบวนการ">6.1 ระดับความสำคัญของกระบวนการ</h3>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 40%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ระดับ</th>
+<th>ความหมาย</th>
+<th>แนวทาง</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Critical (C1)</strong></td>
+<td>หยุดทันทีส่งผลรุนแรงต่อชีวิต กฎหมาย รายได้หลัก หรือบริการลูกค้าสำคัญ</td>
+<td>กู้เป็นลำดับแรก ต้องมี workaround ชัดเจน</td>
+</tr>
+<tr class="even">
+<td><strong>Major (C2)</strong></td>
+<td>หยุดได้ไม่นาน แต่หากเกิน RTO จะกระทบสูง</td>
+<td>กู้ลำดับสอง</td>
+</tr>
+<tr class="odd">
+<td><strong>Important (C3)</strong></td>
+<td>กระทบปานกลาง สามารถล่าช้าได้ในช่วงสั้น</td>
+<td>กู้หลังระบบหลักเสถียร</td>
+</tr>
+<tr class="even">
+<td><strong>Supporting (C4)</strong></td>
+<td>สนับสนุนทั่วไป</td>
+<td>กู้เมื่อทรัพยากรเหลือ</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ตารางเปาหมายการกคน-ตวอยาง-ปรบตามองคกร">6.2 ตารางเป้าหมายการกู้คืน
+(ตัวอย่าง — ปรับตามองค์กร)</h3>
+<table>
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 12%" />
+<col style="width: 9%" />
+<col style="width: 9%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>กระบวนการ / ระบบ</th>
+<th>ระดับ</th>
+<th>RTO</th>
+<th>RPO</th>
+<th>Dependency หลัก</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>การสื่อสารฉุกเฉิน / ช่องทางติดต่อพนักงาน</td>
+<td>C1</td>
+<td>1 ชม.</td>
+<td>0–15 นาที</td>
+<td>อีเมลสำรอง, โทรศัพท์, chat on-call</td>
+</tr>
+<tr class="even">
+<td>ระบบยืนยันตัวตนกลาง (IdP/SSO)</td>
+<td>C1</td>
+<td>2 ชม.</td>
+<td>15 นาที</td>
+<td>DNS, MFA, directory</td>
+</tr>
+<tr class="odd">
+<td>ระบบธุรกิจหลัก [ระบุชื่อ]</td>
+<td>C1</td>
+<td>4 ชม.</td>
+<td>1 ชม.</td>
+<td>DB, App, Network</td>
+</tr>
+<tr class="even">
+<td>อีเมลองค์กร</td>
+<td>C1/C2</td>
+<td>4 ชม.</td>
+<td>1 ชม.</td>
+<td>IdP, DNS</td>
+</tr>
+<tr class="odd">
+<td>ไฟล์แชร์ / เอกสารสำคัญ</td>
+<td>C2</td>
+<td>8 ชม.</td>
+<td>4 ชม.</td>
+<td>Backup, Storage</td>
+</tr>
+<tr class="even">
+<td>ระบบ HR / เงินเดือน</td>
+<td>C2/C3</td>
+<td>24–72 ชม.</td>
+<td>24 ชม.</td>
+<td>ตามรอบจ่าย</td>
+</tr>
+<tr class="odd">
+<td>ระบบพัฒนา/ทดสอบ</td>
+<td>C4</td>
+<td>1 สัปดาห์</td>
+<td>24–48 ชม.</td>
+<td>ไม่บล็อกบริการลูกค้า</td>
+</tr>
+</tbody>
+</table>
+<h3 id="เกณฑประเมนผลกระทบ">6.3 เกณฑ์ประเมินผลกระทบ</h3>
+<p>พิจารณาอย่างน้อย: ความปลอดภัยของบุคคล รายได้ กฎหมาย/สัญญา ชื่อเสียง
+การดำเนินงานของลูกค้า และผลกระทบลูกโซ่ต่อระบบอื่น</p>
+<hr />
+<h2 id="การประเมนความเสยงและสถานการณภย-threat-scenarios">7.
+การประเมินความเสี่ยงและสถานการณ์ภัย (Threat Scenarios)</h2>
+<h3 id="ภยธรรมชาตทตองเตรยมรบมอ">7.1 ภัยธรรมชาติที่ต้องเตรียมรับมือ</h3>
+<table>
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 48%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>สถานการณ์</th>
+<th>ผลกระทบที่เป็นไปได้</th>
+<th>แนวทางหลัก</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>น้ำท่วม / ฝนหนักต่อเนื่อง</strong></td>
+<td>เข้าไม่ถึงสำนักงาน ไฟฟ้า/เครือข่ายเสียหาย อุปกรณ์เสีย</td>
+<td>ทำงานระยะไกล อพยพข้อมูล/อุปกรณ์สำคัญ เปิดสถานที่สำรอง</td>
+</tr>
+<tr class="even">
+<td><strong>พายุ / ลมแรง</strong></td>
+<td>ไฟฟ้าดับ หลังคา/หน้าต่างเสียหาย สัญญาณสื่อสารขาด</td>
+<td>ปิดระบบอย่างปลอดภัยก่อนเหตุ (ถ้ารู้ล่วงหน้า) ใช้ generator/cloud</td>
+</tr>
+<tr class="odd">
+<td><strong>แผ่นดินไหว</strong></td>
+<td>โครงสร้างอาคารเสี่ยง อพยพฉุกเฉิน</td>
+<td>ชีวิตมาก่อน ห้ามกลับเข้าอาคารจนกว่าเจ้าหน้าที่ประกาศปลอดภัย</td>
+</tr>
+<tr class="even">
+<td><strong>อัคคีภัย / ควันไฟจากเหตุธรรมชาติหรืออาคาร</strong></td>
+<td>สูญเสียสถานที่และอุปกรณ์</td>
+<td>อพยพ ใช้สำรองนอกสถานที่</td>
+</tr>
+<tr class="odd">
+<td><strong>อากาศร้อนจัด / มลพิษรุนแรง</strong></td>
+<td>บุคลากรทำงานไม่ได้เต็มที่ ระบบระบายความร้อนศูนย์ข้อมูลเสี่ยง</td>
+<td>ปรับรูปแบบทำงาน WFH สับเปลี่ยนกำลังคน</td>
+</tr>
+<tr class="even">
+<td><strong>โรคระบาดรุนแรง</strong></td>
+<td>ขาดแคลนกำลังคนพร้อมกัน</td>
+<td>ทีมสำรอง แบ่งแยกทีม (team split) ทำงานระยะไกล</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ภยพบตอนทเกยวของ">7.2 ภัยพิบัติอื่นที่เกี่ยวข้อง</h3>
+<ul>
+<li>ไฟฟ้าดับระยะยาว / ระบบปรับอากาศศูนย์ข้อมูลล่ม</li>
+<li>สายสื่อสารหลักขาด</li>
+<li>ศูนย์ข้อมูลหรือผู้ให้บริการคลาวด์ระดับภูมิภาคล่ม</li>
+<li>แรนซัมแวร์หรือภัยไซเบอร์ที่ทำให้บริการหลักหยุด (ประสาน PROC-IR-001)</li>
+<li>ผู้ให้บริการสำคัญล้มเหลวพร้อมกัน</li>
+</ul>
+<h3 id="กลยทธลดความเสยงลวงหนา">7.3 กลยุทธ์ลดความเสี่ยงล่วงหน้า</h3>
+<ol type="1">
+<li>สำรองข้อมูลนอกสถานที่หรือคนละภูมิภาคกับระบบหลัก</li>
+<li>มีช่องทางอินเทอร์เน็ต/สื่อสารสำรอง</li>
+<li>จัดทีม关键สำคัญอย่างน้อย 2 คนที่ทำแทนกันได้</li>
+<li>เอกสารแผนและรายชื่อติดต่อเข้าถึงได้แม้ SSO หลักล่ม</li>
+<li>ประกันภัยและสัญญา vendor ที่กำหนด RTO/การชดเชยตามความเหมาะสม</li>
+</ol>
+<hr />
+<h2 id="เกณฑประกาศใชแผน-declaration-criteria">8. เกณฑ์ประกาศใช้แผน
+(Declaration Criteria)</h2>
+<p>CMT ควรพิจารณาประกาศใช้ BCP/DR เมื่อเข้าเงื่อนไขอย่างน้อยหนึ่งข้อ</p>
+<ol type="1">
+<li>สถานที่หลักใช้ไม่ได้เกิน <strong>4 ชั่วโมง</strong> หรือมีแนวโน้มใช้ไม่ได้เกิน RTO
+ของกระบวนการ C1</li>
+<li>ระบบ C1 หยุดและคาดว่ากู้ที่ระบบหลักไม่ทัน RTO</li>
+<li>มีคำเตือนภัยธรรมชาติระดับที่ทางการแนะนำให้อพยพหรือหยุดปฏิบัติงาน</li>
+<li>บุคลากรสำคัญจำนวนมากไม่สามารถทำงาน ณ สถานที่หลักได้พร้อมกัน</li>
+<li>ผู้บริหารสั่งเปิดแผนจากสถานการณ์วิกฤตอื่น</li>
+</ol>
+<p><strong>ผู้มีอำนาจประกาศ:</strong> CMT Leader หรือผู้ได้รับมอบหมาย<br />
+<strong>ผู้มีอำนาจยกเลิกแผนกลับสู่ภาวะปกติ:</strong> CMT Leader หลังได้รับยืนยันจาก
+Facility และ IT DR Lead</p>
+<hr />
+<h2 id="ขนตอนตอบสนองเมอเกดภยธรรมชาตภยพบต">9.
+ขั้นตอนตอบสนองเมื่อเกิดภัยธรรมชาติ/ภัยพิบัติ</h2>
+<pre class="text"><code>1. Protect Life → 2. Assess Impact → 3. Declare BCP/DR (ถ้าเข้าเกณฑ์)
+ → 4. Activate Teams &amp; Comms → 5. Continuity Workarounds
+ → 6. IT Disaster Recovery → 7. Resume Critical Business
+ → 8. Stabilize &amp; Return → 9. Review Lessons Learned</code></pre>
+<h3 id="ระยะท-01-ชวโมง-ชวต-ความปลอดภย-และการประเมนฉบพลน">9.1 ระยะที่ 0–1
+ชั่วโมง: ชีวิต ความปลอดภัย และการประเมินฉับพลัน</h3>
+<ol type="1">
+<li>อพยพหรือเคลื่อนย้ายตามแผนความปลอดภัยสถานที่</li>
+<li>ตรวจนับพนักงานในความดูแล (accountability) ผ่านหัวหน้าหน่วยงาน</li>
+<li>ห้ามกลับเข้าพื้นที่เสี่ยงจนกว่า Facility/Safety หรือเจ้าหน้าที่รัฐอนุญาต</li>
+<li>ประเมินเบื้องต้นว่าสถานที่ ไฟฟ้า เครือข่าย ระบบ และกำลังคนพร้อมหรือไม่</li>
+<li>เปิดช่องทางสื่อสารฉุกเฉินของ CMT</li>
+</ol>
+<h3 id="ระยะประเมนและประกาศใชแผน">9.2 ระยะประเมินและประกาศใช้แผน</h3>
+<ol type="1">
+<li>CMT ประชุมสั้น (bridge call) เพื่อสรุปสถานการณ์</li>
+<li>ตัดสินใจว่าจะทำงานระยะไกล เปิดสถานที่สำรอง หรือปิดบริการบางส่วน</li>
+<li>ประกาศใช้แผนให้ผู้เกี่ยวข้องทราบ พร้อมรหัสเหตุ เช่น
+<code>BCP-YYYYMMDD-XXX</code></li>
+<li>แจ้ง Business Process Owners และ IT DR Lead เริ่มตามลำดับความสำคัญ</li>
+</ol>
+<h3 id="ระยะความตอเนองทางธรกจ-business-continuity">9.3
+ระยะความต่อเนื่องทางธุรกิจ (Business Continuity)</h3>
+<ol type="1">
+<li>เปิด workaround ของกระบวนการ C1 เช่น ใช้ฟอร์มสำรอง คิวงานแมนนวล
+ช่องทางติดต่อลูกค้าสำรอง</li>
+<li>จัดกำลังคนและอุปกรณ์สำหรับทีมสำคัญ</li>
+<li>บันทึกธุรกรรมที่ทำระหว่างภาวะฉุกเฉินเพื่อกลับไปปรับปรุงในระบบหลักภายหลัง</li>
+<li>ติดตามสถานะบริการลูกค้าและข้อผูกพันตามสัญญา</li>
+</ol>
+<h3 id="ระยะกคนระบบ-it-disaster-recovery">9.4 ระยะกู้คืนระบบ IT (Disaster
+Recovery)</h3>
+<ol type="1">
+<li>IT DR Lead ประเมินว่าระบบหลักกู้ได้หรือต้อง failover ไปสภาพแวดล้อมสำรอง</li>
+<li>กู้ตามลำดับ dependency เช่น Network/DNS → Identity → Database →
+Application → Integration</li>
+<li>ตรวจสอบความถูกต้องของข้อมูลเทียบกับ RPO</li>
+<li>ทดสอบ smoke test ก่อนเปิดให้ผู้ใช้จริง</li>
+<li>เฝ้าระวังเข้มข้นอย่างน้อย 24–72 ชั่วโมงหลังเปิดบริการ</li>
+</ol>
+<h3 id="ระยะกลบสภาวะปกต-return-to-normal">9.5 ระยะกลับสู่ภาวะปกติ (Return to
+Normal)</h3>
+<ol type="1">
+<li>ประเมินความพร้อมของสถานที่และระบบหลัก</li>
+<li>วางแผน failback หากทำงานบนระบบสำรอง</li>
+<li>สื่อสารกำหนดการกลับสำนักงาน/ระบบหลักล่วงหน้า</li>
+<li>ปิดสถานะ BCP อย่างเป็นทางการ</li>
+<li>จัดทำรายงานหลังเหตุและแผนปรับปรุง</li>
+</ol>
+<hr />
+<h2 id="กลยทธสถานทและกำลงคน">10. กลยุทธ์สถานที่และกำลังคน</h2>
+<h3 id="ทางเลอกสถานทปฏบตงาน">10.1 ทางเลือกสถานที่ปฏิบัติงาน</h3>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 25%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ทางเลือก</th>
+<th>ใช้เมื่อ</th>
+<th>ข้อควรเตรียม</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ทำงานระยะไกล (WFH)</td>
+<td>สำนักงานใช้ไม่ได้แต่คนและบ้าน/เครือข่ายพร้อม</td>
+<td>VPN/Zero Trust, โน้ตบุ๊ก, MFA, นโยบายข้อมูล</td>
+</tr>
+<tr class="even">
+<td>สถานที่สำรองขององค์กร</td>
+<td>ต้องทำงานใกล้เคียงกันหรือใช้เอกสาร/อุปกรณ์เฉพาะ</td>
+<td>ที่นั่ง เครือข่าย อุปกรณ์ผ่านเข้าอาคาร</td>
+</tr>
+<tr class="odd">
+<td>Coworking / สถานที่ผู้ให้บริการ</td>
+<td>สำรองระยะสั้น</td>
+<td>สัญญาหรือการจองฉุกเฉิน รายชื่อผู้มีสิทธิ์เข้า</td>
+</tr>
+<tr class="even">
+<td>สำนักงานสาขาอื่น</td>
+<td>มีสาขาในพื้นที่ปลอดภัยกว่า</td>
+<td>สิทธิ์เข้าอาคาร เครือข่ายแขกแบบควบคุม</td>
+</tr>
+</tbody>
+</table>
+<h3 id="team-split-cross-training">10.2 Team Split / Cross-training</h3>
+<ol type="1">
+<li>กระบวนการ C1 ต้องมีผู้ทำแทนได้อย่างน้อย 1 คน</li>
+<li>หลีกเลี่ยงการรวมทีมสำคัญทั้งหมดไว้สถานที่เดียวในช่วงเตือนภัย</li>
+<li>รักษาช่องทางติดต่อส่วนตัวสำรองของสมาชิกทีมวิกฤต</li>
+</ol>
+<hr />
+<h2 id="กลยทธเทคโนโลยและการสำรองขอมล">11.
+กลยุทธ์เทคโนโลยีและการสำรองข้อมูล</h2>
+<h3 id="หลกการ-dr-ดาน-it">11.1 หลักการ DR ด้าน IT</h3>
+<ol type="1">
+<li>สำรองข้อมูลตามรอบที่สอดคล้อง RPO ของแต่ละระบบ</li>
+<li>เก็บสำเนาสำคัญอย่างน้อยหนึ่งชุดแยกสถานที่/ภูมิภาคจากระบบหลัก</li>
+<li>ทดสอบการกู้คืนจริงเป็นระยะ ไม่ทดสอบแค่สถานะ job สำรองสำเร็จ</li>
+<li>เอกสาร runbook การกู้แต่ละระบบ C1/C2</li>
+<li>เข้ารหัสข้อมูลสำรองและควบคุมสิทธิ์การเข้าถึง</li>
+</ol>
+<h3 id="ลำดบการกระบบแนะนำ">11.2 ลำดับการกู้ระบบแนะนำ</h3>
+<ol type="1">
+<li>สื่อสารและช่องทางสั่งการของทีมวิกฤต</li>
+<li>DNS / Network / Internet egress สำรอง</li>
+<li>Identity Provider / Directory / MFA</li>
+<li>ระบบสำรองข้อมูลและที่เก็บข้อมูลหลัก</li>
+<li>ฐานข้อมูลระบบธุรกิจสำคัญ</li>
+<li>แอปพลิเคชันและบริการลูกค้า</li>
+<li>ระบบสนับสนุน (monitoring, ticketing, HR)</li>
+</ol>
+<h3 id="เปาหมายโครงสรางพนฐานสำรอง">11.3 เป้าหมายโครงสร้างพื้นฐานสำรอง</h3>
+<table>
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>องค์ประกอบ</th>
+<th>แนวทางแนะนำ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Compute/App</td>
+<td>Hot/Warm standby หรือ IaC พร้อมสร้างในอีก region</td>
+</tr>
+<tr class="even">
+<td>Database</td>
+<td>Replication ตาม RPO พร้อมขั้นตอน promote</td>
+</tr>
+<tr class="odd">
+<td>Backup</td>
+<td>รายวัน + incremental ตามความเสี่ยง และมี offline/immutable
+ตามความเหมาะสม</td>
+</tr>
+<tr class="even">
+<td>Endpoint</td>
+<td>โน้ตบุ๊กมาตรฐานที่เข้า VPN ได้ ภาพรวม inventory ชัดเจน</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="การสอสารในภาวะวกฤต">12. การสื่อสารในภาวะวิกฤต</h2>
+<h3 id="กลมเปาหมาย">12.1 กลุ่มเป้าหมาย</h3>
+<ul>
+<li>พนักงานและครอบครัว (กรณีภัยธรรมชาติรุนแรง)</li>
+<li>ผู้บริหารและคณะกรรมการ</li>
+<li>ลูกค้า คู่ค้า ซัพพลายเออร์</li>
+<li>ผู้ให้บริการ IT / สถานที่</li>
+<li>สื่อมวลชนและสาธารณะ (เมื่อจำเป็น)</li>
+<li>หน่วยงานรัฐที่เกี่ยวข้อง</li>
+</ul>
+<h3 id="กฎการสอสาร">12.2 กฎการสื่อสาร</h3>
+<ol type="1">
+<li>ข้อมูลสถานการณ์อย่างเป็นทางการออกผ่าน Communications Lead เท่านั้น</li>
+<li>หลีกเลี่ยงการคาดเดา timeline หากยังไม่ยืนยัน</li>
+<li>อัปเดตสถานะตามรอบ เช่น ทุก 1–2 ชั่วโมงในช่วงแรกของเหตุ P1</li>
+<li>ใช้หลายช่องทาง: SMS/โทรศัพท์, chat ฉุกเฉิน, อีเมลสำรอง, เว็บสถานะบริการ</li>
+<li>บันทึกข้อความที่เผยแพร่ทุกครั้ง</li>
+</ol>
+<h3 id="ขอความตนแบบสน-ๆ">12.3 ข้อความต้นแบบสั้น ๆ</h3>
+<p><strong>ถึงพนักงาน</strong> &gt; ขณะนี้องค์กรเปิดใช้แผนความต่อเนื่องเนื่องจาก
+[เหตุการณ์] กรุณาไม่เดินทางเข้าพื้นที่สำนักงานจนกว่าจะมีประกาศเพิ่มเติม
+ทีมวิกฤตจะอัปเดตอีกครั้งภายใน [เวลา] หากต้องการความช่วยด่วนติดต่อ [ช่องทาง]</p>
+<p><strong>ถึงลูกค้า</strong> &gt; ขณะนี้บริการ [ชื่อบริการ]ได้รับผลกระทบจาก
+[เหตุการณ์] ทีมงานกำลังดำเนินการเพื่อกู้คืน โดยจะแจ้งความคืบหน้าผ่าน [ช่องทาง]
+เป็นระยะ</p>
+<hr />
+<h2 id="การประสานงานกบภยไซเบอรและเหต-it">13.
+การประสานงานกับภัยไซเบอร์และเหตุ IT</h2>
+<p>หากเหตุที่ทำให้ต้องใช้ BCP มีสาเหตุหรือองค์ประกอบทางไซเบอร์</p>
+<ol type="1">
+<li>เปิดเคสร่วมตาม PROC-IR-001</li>
+<li>อย่ากู้ระบบจากสำรองที่อาจติดมัลแวร์โดยไม่ตรวจสอบ</li>
+<li>ให้ Incident Commander กับ IT DR Lead ประสานลำดับการกักกันและกู้คืน</li>
+<li>หากมีข้อมูลส่วนบุคคลรั่วไหลระหว่างเหตุ ประสาน DPO ตามขั้นตอน PDPA</li>
+</ol>
+<hr />
+<h2 id="แผนการซอมและทดสอบ">14. แผนการซ้อมและทดสอบ</h2>
+<table>
+<colgroup>
+<col style="width: 43%" />
+<col style="width: 35%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ประเภทการทดสอบ</th>
+<th>ความถี่แนะนำ</th>
+<th>ขอบเขต</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tabletop (ซ้อมบนโต๊ะ)</td>
+<td>อย่างน้อยปีละ 1 ครั้ง</td>
+<td>สถานการณ์น้ำท่วม/ไฟไหม้/ศูนย์ข้อมูลล่ม</td>
+</tr>
+<tr class="even">
+<td>Call-tree / Notification test</td>
+<td>ปีละ 2 ครั้ง</td>
+<td>ทดสอบการติดต่อ CMT และหัวหน้าหน่วยงาน</td>
+</tr>
+<tr class="odd">
+<td>Backup restore test</td>
+<td>อย่างน้อยรายไตรมาสสำหรับระบบ C1</td>
+<td>กู้ไฟล์/DB บางส่วนหรือเต็มตามแผน</td>
+</tr>
+<tr class="even">
+<td>Technical DR failover</td>
+<td>อย่างน้อยปีละ 1 ครั้ง</td>
+<td>Failover ระบบสำคัญไปสภาพแวดล้อมสำรอง</td>
+</tr>
+<tr class="odd">
+<td>Work-from-alternate test</td>
+<td>ปีละ 1 ครั้ง</td>
+<td>ให้ทีมสำคัญทำงานนอกสถานที่หลักครึ่งวัน/เต็มวัน</td>
+</tr>
+</tbody>
+</table>
+<p>หลังซ้อมทุกครั้งต้องมีบันทึกผล ช่องว่าง และแผนปรับปรุงภายใน 30 วัน</p>
+<hr />
+<h2 id="ทรพยากรทตองเตรยมลวงหนา">15. ทรัพยากรที่ต้องเตรียมล่วงหน้า</h2>
+<ol type="1">
+<li>รายชื่อติดต่อฉุกเฉินล่าสุด (ออนไลน์และออฟไลน์)</li>
+<li>โน้ตบุ๊ก/อุปกรณ์ของทีมสำคัญพร้อม VPN และ MFA</li>
+<li>สิทธิ์เข้าสถานที่สำรองและที่จอดรถ/บัตรผ่าน</li>
+<li>Runbook กู้ระบบ C1 และรหัสเปิดใช้แผน</li>
+<li>ช่องทางประชุมฉุกเฉินสำรองที่ไม่อิงระบบเดียวกับอีเมลหลัก</li>
+<li>งบประมาณหรืออำนาจจัดซื้อฉุกเฉินตามระเบียบองค์กร</li>
+</ol>
+<hr />
+<h2 id="ตวชวดความพรอม-readiness-kpis">16. ตัวชี้วัดความพร้อม (Readiness
+KPIs)</h2>
+<table>
+<thead>
+<tr class="header">
+<th>ตัวชี้วัด</th>
+<th>เป้าหมายแนะนำ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>% ระบบ C1 ที่มี RTO/RPO กำหนดชัด</td>
+<td>100%</td>
+</tr>
+<tr class="even">
+<td>% ระบบ C1 ที่ทดสอบ restore ในรอบ 12 เดือน</td>
+<td>100%</td>
+</tr>
+<tr class="odd">
+<td>เวลาติดต่อ CMT ได้ครบในการซ้อม call-tree</td>
+<td>ภายใน 30–60 นาที</td>
+</tr>
+<tr class="even">
+<td>จำนวนช่องว่างจากการซ้อมที่ค้างเกิน 90 วัน</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>ความสำเร็จของ failover ทดสอบระบบสำคัญ</td>
+<td>ผ่านตามเกณฑ์ที่กำหนด</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="การบำรงรกษาแผน">17. การบำรุงรักษาแผน</h2>
+<ol type="1">
+<li>ทบทวนแผนอย่างน้อยปีละ 1 ครั้ง</li>
+<li>อัปเดตทันทีเมื่อเปลี่ยนระบบสำคัญ สถานที่ ผู้ให้บริการ หรือโครงสร้างทีม</li>
+<li>ตรวจรายชื่อติดต่อทุกไตรมาส</li>
+<li>เวอร์ชันที่อนุมัติแล้วเท่านั้นถือเป็นเอกสารใช้งาน</li>
+<li>เก็บสำเนาแผนในที่ที่เข้าถึงได้ตอนระบบหลักล่ม</li>
+</ol>
+<hr />
+<h2 id="การบงคบใช">18. การบังคับใช้</h2>
+<p>ผู้ที่เกี่ยวข้องต้องปฏิบัติตามแผนนี้เมื่อได้รับการประกาศใช้ การเพิกเฉยคำสั่งอพยพ
+การเปิดเผยข้อมูลวิกฤตโดยไม่ได้รับมอบหมาย หรือการไม่ดูแลระบบสำรองตามหน้าที่
+อาจนำไปสู่มาตรการทางวินัยตามระเบียบองค์กร</p>
+<hr />
+<h2 id="เอกสารอางอง">19. เอกสารอ้างอิง</h2>
+<ul>
+<li>POL-ITSEC-001 นโยบายการรักษาความปลอดภัยระบบเทคโนโลยีสารสนเทศ</li>
+<li>PROC-IR-001 ขั้นตอนการจัดการเหตุการณ์ด้านความปลอดภัย</li>
+<li>STD-ITSEC-002 มาตรฐานการจัดประเภทข้อมูล</li>
+<li>ISO 22301 Business continuity management systems</li>
+<li>ISO/IEC 27031 ICT readiness for business continuity</li>
+<li>NIST SP 800-34 Contingency Planning Guide</li>
+</ul>
+<hr />
+<h2 id="ประวตการปรบปรงเอกสาร">20. ประวัติการปรับปรุงเอกสาร</h2>
+<table>
+<thead>
+<tr class="header">
+<th>เวอร์ชัน</th>
+<th>วันที่</th>
+<th>ผู้จัดทำ/แก้ไข</th>
+<th>สรุปการเปลี่ยนแปลง</th>
+<th>ผู้อนุมัติ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1.0</td>
+<td>[ระบุวันที่]</td>
+<td>[ชื่อผู้จัดทำ]</td>
+<td>จัดทำเอกสารฉบับแรก</td>
+<td>[ชื่อผู้อนุมัติ]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ภาคผนวก-ก-playbook-ภยธรรมชาตอยางยอ">21. ภาคผนวก ก — Playbook
+ภัยธรรมชาติอย่างย่อ</h2>
+<h3 id="ก.1-นำทวม-เตอนภยลวงหนาได">ก.1 น้ำท่วม / เตือนภัยล่วงหน้าได้</h3>
+<ol type="1">
+<li>ติดตามประกาศทางการและประเมินความเสี่ยงสถานที่</li>
+<li>สั่งให้พนักงานย้ายโน้ตบุ๊กและเอกสารสำคัญออกจากพื้นที่เสี่ยง</li>
+<li>ยืนยันสถานะสำรองข้อมูลล่าสุดและไฟฟ้า/generator</li>
+<li>เตรียมประกาศ WFH หรือสถานที่สำรอง</li>
+<li>หากน้ำเริ่มกระทบอาคาร ให้ตัดไฟฟ้าอย่างปลอดภัยโดยผู้มีหน้าที่ และเปิด BCP</li>
+</ol>
+<h3 id="ก.2-แผนดนไหว-เหตไมมคำเตอน">ก.2 แผ่นดินไหว / เหตุไม่มีคำเตือน</h3>
+<ol type="1">
+<li>ป้องกันตัว อพยพตามจุดรวมพล</li>
+<li>ตรวจนับคน ห้ามกลับเข้าอาคารเอง</li>
+<li>CMT ประเมินความเสียหายและระบบสื่อสาร</li>
+<li>เปิดช่องทาง WFH/สถานที่สำรองถ้าสำนักงานใช้ไม่ได้</li>
+<li>IT ตรวจศูนย์ข้อมูล/คลาวด์ และกู้ตามลำดับ C1</li>
+</ol>
+<h3 id="ก.3-พายไฟฟาดบระยะยาว">ก.3 พายุไฟฟ้าดับระยะยาว</h3>
+<ol type="1">
+<li>ประเมินอายุการสำรองไฟของเครื่องสำคัญ</li>
+<li>ปิดระบบอย่างมีลำดับหากไฟฟ้าสำรองใกล้หมด</li>
+<li>สื่อสารกำหนด downtime ให้ผู้ใช้และลูกค้า</li>
+<li>เมื่อไฟฟ้ากลับมา ตรวจความพร้อมก่อนเปิดบริการทีละชั้น</li>
+</ol>
+<hr />
+<h2 id="ภาคผนวก-ข-รายการตรวจสอบของ-cmt-เมอเกดเหต">22. ภาคผนวก ข —
+รายการตรวจสอบของ CMT เมื่อเกิดเหตุ</h2>
+<ul>
+<li><label><input
+type="checkbox" />ยืนยันความปลอดภัยของชีวิตและจุดรวมพล</label></li>
+<li><label><input type="checkbox" />เปิดช่องทางสื่อสาร CMT
+และบันทึกเวลาเริ่มเหตุ</label></li>
+<li><label><input type="checkbox" />ประเมินสถานที่ ระบบ ข้อมูล
+และกำลังคน</label></li>
+<li><label><input type="checkbox" />ตัดสินใจประกาศ/ไม่ประกาศใช้
+BCP/DR</label></li>
+<li><label><input type="checkbox" />แจ้ง Process Owners และ IT DR
+Lead</label></li>
+<li><label><input
+type="checkbox" />สื่อสารพนักงานและผู้มีส่วนได้ส่วนเสียตามลำดับ</label></li>
+<li>[ ]ติดตาม RTO/RPO ของระบบ C1</li>
+<li><label><input type="checkbox" />บันทึกการตัดสินใจสำคัญทั้งหมด</label></li>
+<li><label><input
+type="checkbox" />วางแผนกลับสู่ภาวะปกติและกำหนดเวลาทบทวนหลังเหตุ</label></li>
+</ul>
+<hr />
+<h2 id="ภาคผนวก-ค-แบบสรปสถานะเหต-สถานะรายชวโมง">23. ภาคผนวก ค —
+แบบสรุปสถานะเหตุ (สถานะรายชั่วโมง)</h2>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 16%" />
+<col style="width: 24%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>เวลา</th>
+<th>สถานที่</th>
+<th>ระบบ C1</th>
+<th>กำลังคน</th>
+<th>การสื่อสาร</th>
+<th>การตัดสินใจถัดไป</th>
+<th>ผู้รายงาน</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ภาคผนวก-ง-ทะเบยนระบบสำคญ-วางใหกรอก">24. ภาคผนวก ง —
+ทะเบียนระบบสำคัญ (ว่างให้กรอก)</h2>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 24%" />
+<col style="width: 13%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ระบบ</th>
+<th>Owner</th>
+<th>ระดับ</th>
+<th>RTO</th>
+<th>RPO</th>
+<th>ที่จัดเก็บสำรอง</th>
+<th>Runbook</th>
+<th>ผู้กู้สำรอง</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>เอกสารนี้เป็นทรัพย์สินขององค์กร
+ห้ามทำสำเนาหรือเผยแพร่ภายนอกโดยไม่ได้รับอนุญาต</em></p>
+</div></body>
+</html>

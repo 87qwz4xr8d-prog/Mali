@@ -1,14 +1,22 @@
 # คู่มือสรุปสำหรับผู้ใช้งาน
 ## IT Security — Quick Reference
 
+| Document No. | GUIDE-ITSEC-001 | Rev. | 00 |
+|--------------|-----------------|------|----|
+| สถานะ | Controlled Document (ISO 9001 / STD-QMS-001) | | |
+
 เอกสารนี้อ่านคู่กับ
 - [นโยบายการรักษาความปลอดภัยระบบเทคโนโลยีสารสนเทศ](./IT-Security-Policy.md) (POL-ITSEC-001)
 - [นโยบายคุ้มครองข้อมูลส่วนบุคคล](./Personal-Data-Protection-Policy.md) (POL-PDPA-001)
 - [มาตรฐานรหัสผ่านและการพิสูจน์ตัวตน](./Password-Authentication-Standard.md) (STD-ITSEC-001)
 - [มาตรฐานการจัดประเภทข้อมูล](./Data-Classification-Standard.md) (STD-ITSEC-002)
+- [มาตรฐานการควบคุมเอกสาร](./Document-Control-Standard.md) (STD-QMS-001)
 - [ขั้นตอนการจัดการเหตุการณ์ด้านความปลอดภัย](./Incident-Response-Procedure.md) (PROC-IR-001)
 - [ขั้นตอนการขอ/เปลี่ยนแปลง/เพิกถอนสิทธิ์ผู้ใช้](./User-Access-Management-Procedure.md) (PROC-IAM-001)
 - [แผนความต่อเนื่องทางธุรกิจและกู้คืนจากภัยพิบัติ](./Business-Continuity-Disaster-Recovery-Plan.md) (PROC-BCP-001)
+- [แบบฟอร์มขอยกเว้น](./Security-Policy-Exception-Form.md) (FORM-EXC-001)
+- [ทะเบียนแม่เอกสาร](./Document-Master-List.md) (FORM-QMS-001)
+- [แบบฟอร์มขอเปลี่ยนแปลงเอกสาร](./Document-Change-Request-Form.md) (FORM-QMS-002)
 
 ---
 

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mali — Controlled Documents (ISO 9001)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/portal.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <p class="pill">ISO 9001 Controlled Document Portal</p>
+      <h1 class="brand">Mali <span>IT Security</span></h1>
+      <p class="tagline">พอร์ทัลเอกสารควบคุมตาม ISO 9001:2015 ข้อ 7.5 — นโยบายความมั่นคงปลอดภัยสารสนเทศและแบบฟอร์มคุณภาพ</p>
+      <div class="meta">
+        <span class="pill">Pack v<span id="pkg-version">1.0.0</span></span>
+        <span class="pill">STD-QMS-001</span>
+        <span class="pill">Internal</span>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="files/">เปิดโฟลเดอร์เอกสาร</a>
+        <a class="btn btn-ghost" href="#documents">รายการเอกสาร</a>
+      </div>
+    </header>
+    <section class="section" id="documents">
+      <h2>Document Master List</h2>
+      <p class="lead">อ่านบนเว็บ หรือดาวน์โหลดต้นฉบับ Markdown / Word</p>
+      <div class="grid" id="doc-grid"></div>
+    </section>
+    <aside class="note">
+      เอกสารทุกฉบับเป็น Controlled Document — Uncontrolled when printed
+      กรอก Prepared / Reviewed / Approved และขึ้นทะเบียนใน FORM-QMS-001 ก่อนประกาศใช้จริง
+    </aside>
+    <footer>Mali IT Security Policy Pack — ISO 9001 Document Control</footer>
+  </main>
+  <script>
+    const docs = [
+      ["POL-ITSEC-001","นโยบายการรักษาความปลอดภัยระบบเทคโนโลยีสารสนเทศ","IT-Security-Policy"],
+      ["POL-PDPA-001","นโยบายคุ้มครองข้อมูลส่วนบุคคล","Personal-Data-Protection-Policy"],
+      ["STD-ITSEC-001","มาตรฐานรหัสผ่านและการพิสูจน์ตัวตน","Password-Authentication-Standard"],
+      ["STD-ITSEC-002","มาตรฐานการจัดประเภทข้อมูล","Data-Classification-Standard"],
+      ["STD-QMS-001","มาตรฐานการควบคุมเอกสาร (ISO 9001)","Document-Control-Standard"],
+      ["PROC-IR-001","ขั้นตอนการจัดการเหตุการณ์ด้านความปลอดภัย","Incident-Response-Procedure"],
+      ["PROC-IAM-001","ขั้นตอนการขอ/เปลี่ยนแปลง/เพิกถอนสิทธิ์ผู้ใช้","User-Access-Management-Procedure"],
+      ["PROC-BCP-001","แผนความต่อเนื่องทางธุรกิจและกู้คืนจากภัยพิบัติ","Business-Continuity-Disaster-Recovery-Plan"],
+      ["FORM-EXC-001","แบบฟอร์มขอยกเว้นนโยบายความปลอดภัย","Security-Policy-Exception-Form"],
+      ["FORM-QMS-001","ทะเบียนแม่เอกสาร","Document-Master-List"],
+      ["FORM-QMS-002","แบบฟอร์มขอเปลี่ยนแปลงเอกสาร","Document-Change-Request-Form"],
+      ["GUIDE-ITSEC-001","คู่มือสรุปสำหรับผู้ใช้งาน","IT-Security-User-Guide"]
+    ];
+    const grid = document.getElementById("doc-grid");
+    docs.forEach(([code,title,base]) => {
+      const el = document.createElement("article");
+      el.className = "doc";
+      el.innerHTML = `<div class="code">${code}</div><h3>${title}</h3>
+        <div class="links">
+          <a href="policies/${base}.html">อ่านบนเว็บ</a>
+          <a href="files/${base}.docx">DOCX</a>
+          <a href="files/${base}.md">MD</a>
+        </div>`;
+      grid.appendChild(el);
+    });
+  </script>
+</body>
+</html>

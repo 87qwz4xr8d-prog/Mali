@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="th" xml:lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Incident-Response-Procedure</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../assets/doc.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body><div class="wrap"><div class="topbar"><a href="../index.html">← กลับพอร์ทัล Mali</a><span>Controlled Document</span></div>
+<header id="title-block-header">
+<h1 class="title">Incident-Response-Procedure</h1>
+</header>
+<h1
+id="ขนตอนการจดการเหตการณดานความปลอดภย">ขั้นตอนการจัดการเหตุการณ์ด้านความปลอดภัย</h1>
+<h2 id="security-incident-response-procedure">Security Incident Response
+Procedure</h2>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>รายการ</th>
+<th>รายละเอียด</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>รหัสเอกสาร</strong></td>
+<td>PROC-IR-001</td>
+</tr>
+<tr class="even">
+<td><strong>เวอร์ชัน</strong></td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td><strong>วันที่มีผลบังคับใช้</strong></td>
+<td>[ระบุวันที่]</td>
+</tr>
+<tr class="even">
+<td><strong>เอกสารแม่</strong></td>
+<td>POL-ITSEC-001 นโยบายการรักษาความปลอดภัยระบบเทคโนโลยีสารสนเทศ</td>
+</tr>
+<tr class="odd">
+<td><strong>เอกสารที่เกี่ยวข้อง</strong></td>
+<td>STD-ITSEC-001, STD-ITSEC-002, POL-PDPA-001</td>
+</tr>
+<tr class="even">
+<td><strong>ผู้อนุมัติ</strong></td>
+<td>[ผู้บริหารฝ่ายเทคโนโลยีสารสนเทศ / ISO]</td>
+</tr>
+<tr class="odd">
+<td><strong>ผู้รับผิดชอบ</strong></td>
+<td>Information Security Officer / ฝ่ายเทคโนโลยีสารสนเทศ</td>
+</tr>
+<tr class="even">
+<td><strong>รอบทบทวน</strong></td>
+<td>อย่างน้อยปีละ 1 ครั้ง หรือหลังเกิดเหตุร้ายแรง</td>
+</tr>
+<tr class="odd">
+<td><strong>การจัดประเภทเอกสาร</strong></td>
+<td>ภายในองค์กร (Internal)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="วตถประสงค">1. วัตถุประสงค์</h2>
+<p>ขั้นตอนนี้อธิบายวิธีปฏิบัติเมื่อเกิดหรือสงสัยว่าเกิดเหตุการณ์ด้านความปลอดภัยของสารสนเทศ
+เพื่อ</p>
+<ol type="1">
+<li>ตรวจจับ รายงาน และตอบสนองต่อเหตุการณ์ได้อย่างรวดเร็วและเป็นระบบ</li>
+<li>จำกัดความเสียหาย กู้คืนการดำเนินงาน และรักษาหลักฐานที่เกี่ยวข้อง</li>
+<li>สื่อสารกับผู้เกี่ยวข้องภายในและภายนอกอย่างเหมาะสม</li>
+<li>ปฏิบัติตามข้อกำหนดของ พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 และ
+พ.ร.บ.การรักษาความมั่นคงปลอดภัยไซเบอร์ พ.ศ. 2562 เมื่อเข้าเกณฑ์</li>
+<li>บันทึกบทเรียนและปรับปรุงมาตรการป้องกันอย่างต่อเนื่อง</li>
+</ol>
+<hr />
+<h2 id="ขอบเขต">2. ขอบเขต</h2>
+<p>ขั้นตอนนี้ใช้กับ</p>
+<ul>
+<li>เหตุการณ์หรือเหตุต้องสงสัยที่กระทบหรืออาจกระทบความลับ ความถูกต้องครบถ้วน
+หรือความพร้อมใช้งานของข้อมูล/ระบบองค์กร</li>
+<li>ระบบ เครือข่าย คลาวด์ อุปกรณ์ปลายทาง บัญชีผู้ใช้ ข้อมูล
+และบริการของผู้ให้บริการภายนอกที่เกี่ยวข้องกับองค์กร</li>
+<li>พนักงาน ผู้รับจ้าง พันธมิตร และบุคคลภายนอกที่ใช้งานหรือเชื่อมต่อกับระบบขององค์กร</li>
+</ul>
+<p><strong>ตัวอย่างเหตุที่อยู่ในขอบเขต</strong> - มัลแวร์ / แรนซัมแวร์ /
+การฝังโค้ดไม่พึงประสงค์ - ฟิชชิง การยึดบัญชี การเดารหัสผ่าน - การเข้าถึงโดยไม่ได้รับอนุญาต
+การใช้สิทธิ์เกินขอบเขต - การรั่วไหลหรือสูญหายของข้อมูล รวมถึงข้อมูลส่วนบุคคล -
+การโจมตีปฏิเสธการให้บริการ (DoS/DDoS) - การสูญหายหรือถูกขโมยของอุปกรณ์ที่มีข้อมูลองค์กร
+- การพบช่องโหว่วิกฤตที่กำลังถูกโจมตีหรือมีหลักฐานถูกโจมตีแล้ว</p>
+<hr />
+<h2 id="นยามศพท">3. นิยามศัพท์</h2>
+<table>
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>คำศัพท์</th>
+<th>ความหมาย</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Security Event</strong></td>
+<td>เหตุการณ์ที่สังเกตได้ในระบบ เช่น login ล้มเหลว การเปลี่ยนแปลงค่าคอนฟิก</td>
+</tr>
+<tr class="even">
+<td><strong>Security Incident</strong></td>
+<td>Event ที่ยืนยันหรือมีเหตุอันควรเชื่อว่ากระทบต่อความมั่นคงปลอดภัยสารสนเทศ</td>
+</tr>
+<tr class="odd">
+<td><strong>Personal Data Breach</strong></td>
+<td>การละเมิดมาตรการรักษาความมั่นคงปลอดภัยที่ทำให้เกิดการสูญหาย เข้าถึง ใช้ เปลี่ยนแปลง
+แก้ไข หรือเปิดเผยข้อมูลส่วนบุคคลโดยไม่ชอบด้วยกฎหมาย</td>
+</tr>
+<tr class="even">
+<td><strong>Incident Commander (IC)</strong></td>
+<td>ผู้ควบคุมการตอบสนองเหตุในแต่ละเคส</td>
+</tr>
+<tr class="odd">
+<td><strong>CSIRT / IR Team</strong></td>
+<td>ทีมตอบสนองเหตุการณ์ด้านความปลอดภัย</td>
+</tr>
+<tr class="even">
+<td><strong>IoC (Indicator of Compromise)</strong></td>
+<td>ร่องรอยบ่งชี้การถูกโจมตี เช่น hash, IP, domain, บัญชีผิดปกติ</td>
+</tr>
+<tr class="odd">
+<td><strong>Containment</strong></td>
+<td>การจำกัดขอบเขตความเสียหายไม่ให้ขยายต่อ</td>
+</tr>
+<tr class="even">
+<td><strong>Eradication</strong></td>
+<td>การกำจัดสาเหตุ ภัยคุกคาม หรือช่องทางที่ถูกใช้โจมตี</td>
+</tr>
+<tr class="odd">
+<td><strong>Recovery</strong></td>
+<td>การกู้คืนระบบและบริการให้กลับสู่ภาวะปกติอย่างปลอดภัย</td>
+</tr>
+<tr class="even">
+<td><strong>Post-Incident Review</strong></td>
+<td>การทบทวนหลังเกิดเหตุเพื่อหาสาเหตุและแนวทางปรับปรุง</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="บทบาทและหนาท">4. บทบาทและหน้าที่</h2>
+<table>
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>บทบาท</th>
+<th>หน้าที่หลัก</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>ผู้พบเหตุ / ผู้ใช้งาน</strong></td>
+<td>แจ้งเหตุทันที ไม่ปกปิด ไม่พยายามทำลายหลักฐาน</td>
+</tr>
+<tr class="even">
+<td><strong>Helpdesk / IT Support</strong></td>
+<td>รับเรื่อง คัดกรองเบื้องต้น เปิดตั๋วงาน และส่งต่อทีม IR</td>
+</tr>
+<tr class="odd">
+<td><strong>Incident Commander (IC)</strong></td>
+<td>บริหารเคสทั้งหมด จัดลำดับงาน ตัดสินใจ escalation และปิดเคส</td>
+</tr>
+<tr class="even">
+<td><strong>CSIRT / Security Team</strong></td>
+<td>วิเคราะห์ กักกัน กำจัด กู้คืน และรวบรวมหลักฐาน</td>
+</tr>
+<tr class="odd">
+<td><strong>System Owner / Data Owner</strong></td>
+<td>ให้ข้อมูลระบบ/ข้อมูลธุรกิจ อนุมัติ downtime หรือมาตรการฉุกเฉินที่เกี่ยวข้อง</td>
+</tr>
+<tr class="even">
+<td><strong>DPO / ฝ่ายกฎหมาย</strong></td>
+<td>ประเมินเหตุละเมิดข้อมูลส่วนบุคคล การแจ้งตามกฎหมาย และประเด็นสัญญา</td>
+</tr>
+<tr class="odd">
+<td><strong>ฝ่ายสื่อสารองค์กร / ผู้บริหาร</strong></td>
+<td>สื่อสารภายใน/ภายนอกตามที่ได้รับอนุมัติ</td>
+</tr>
+<tr class="even">
+<td><strong>ผู้ให้บริการภายนอก</strong></td>
+<td>ให้ความร่วมมือตามสัญญา เมื่อระบบหรือข้อมูลอยู่ในความดูแลของตน</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ระดบความรนแรง-severity">5. ระดับความรุนแรง (Severity)</h2>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 8%" />
+<col style="width: 14%" />
+<col style="width: 31%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ระดับ</th>
+<th>ชื่อ</th>
+<th>ตัวอย่าง</th>
+<th>เป้าหมายเริ่มตอบสนอง</th>
+<th>เป้าหมายกักกันเบื้องต้น</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>P1</strong></td>
+<td>Critical</td>
+<td>แรนซัมแวร์กระจายตัว, ยึดบัญชี Domain Admin, ข้อมูลลับที่สุดรั่วไหลยืนยันแล้ว,
+ระบบสำคัญหยุดทั้งองค์กร</td>
+<td><strong>15 นาที</strong></td>
+<td><strong>1 ชั่วโมง</strong></td>
+</tr>
+<tr class="even">
+<td><strong>P2</strong></td>
+<td>High</td>
+<td>ยึดบัญชีผู้ใช้สำคัญ, มัลแวร์บนเซิร์ฟเวอร์, สงสัยข้อมูลส่วนบุคคลรั่ว,
+ระบบสำคัญเสื่อมบางส่วน</td>
+<td><strong>30 นาที</strong></td>
+<td><strong>4 ชั่วโมง</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>P3</strong></td>
+<td>Medium</td>
+<td>ฟิชชิงที่มีผู้คลิก, มัลแวร์บนเครื่องเดียวที่กักกันได้, การตั้งค่าผิดพลาดที่มีความเสี่ยง</td>
+<td><strong>4 ชั่วโมง</strong></td>
+<td><strong>1 วันทำการ</strong></td>
+</tr>
+<tr class="even">
+<td><strong>P4</strong></td>
+<td>Low</td>
+<td>สแปม/ฟิชชิงที่ยังไม่สำเร็จ, นโยบายถูกละเมิดเล็กน้อย, สัญญาณเตือนที่พิสูจน์แล้วว่า false
+positive</td>
+<td><strong>1 วันทำการ</strong></td>
+<td>ตามแผนแก้ไข</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>IC สามารถปรับระดับได้เมื่อมีข้อมูลใหม่ และต้องบันทึกเหตุผลการปรับทุกครั้ง</p>
+</blockquote>
+<hr />
+<h2 id="ชองทางแจงเหต">6. ช่องทางแจ้งเหตุ</h2>
+<table>
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 39%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ประเภท</th>
+<th>ช่องทาง</th>
+<th>เวลา</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>เหตุด่วน P1–P2</td>
+<td>[ระบุ: Hotline / เบอร์ฉุกเฉิน / Chat on-call]</td>
+<td>24×7</td>
+</tr>
+<tr class="even">
+<td>เหตุทั่วไป</td>
+<td>[ระบุ: Helpdesk / security@company]</td>
+<td>เวลาทำการ หรือตามที่กำหนด</td>
+</tr>
+<tr class="odd">
+<td>เหตุข้อมูลส่วนบุคคล</td>
+<td>[ระบุ: DPO] พร้อมสำเนาถึง Security</td>
+<td>โดยเร็วที่สุด</td>
+</tr>
+<tr class="even">
+<td>นอกเวลาทำการ</td>
+<td>[ระบุ: On-call rota]</td>
+<td>ตามตารางเวร</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ขอมลทควรแจงตอนแรก">ข้อมูลที่ควรแจ้งตอนแรก</h3>
+<ol type="1">
+<li>วันเวลาที่พบเหตุ และเวลาที่สงสัยว่าเริ่มต้น</li>
+<li>ระบบ บัญชี อุปกรณ์ หรือข้อมูลที่เกี่ยวข้อง</li>
+<li>สิ่งที่เกิดขึ้น / สิ่งที่สังเกตได้</li>
+<li>ผลกระทบเบื้องต้น (หยุดบริการ ข้อมูลรั่ว สงสัยถูกยึดบัญชี ฯลฯ)</li>
+<li>การดำเนินการไปแล้ว (ถ้ามี) เช่น ปิดเครื่อง เปลี่ยนรหัสผ่าน</li>
+<li>ชื่อผู้แจ้งและช่องทางติดต่อกลับ</li>
+</ol>
+<hr />
+<h2 id="ขนตอนการดำเนนงาน-incident-lifecycle">7. ขั้นตอนการดำเนินงาน
+(Incident Lifecycle)</h2>
+<pre class="text"><code>1. Detect/Report → 2. Triage/Classify → 3. Contain
+        → 4. Investigate → 5. Eradicate → 6. Recover
+        → 7. Communicate/Notify → 8. Close &amp; Lessons Learned</code></pre>
+<h3 id="การตรวจจบและการรายงาน-detect-report">7.1 การตรวจจับและการรายงาน
+(Detect / Report)</h3>
+<ol type="1">
+<li>ผู้พบเหตุแจ้งผ่านช่องทางที่กำหนด <strong>โดยเร็ว</strong></li>
+<li>ห้ามปกปิดเหตุการณ์</li>
+<li>โดยหลักแล้ว <strong>อย่าปิดเครื่องทันที</strong> หากยังสามารถรักษาหลักฐานได้
+ยกเว้นเหตุกำลังขยายตัวรุนแรงและ IC สั่งให้ตัดการเชื่อมต่อ</li>
+<li>Helpdesk เปิด Incident Ticket ภายในเวลาเป้าหมายตามระดับความรุนแรง</li>
+</ol>
+<h3 id="การคดกรองและจดประเภท-triage-classify">7.2 การคัดกรองและจัดประเภท
+(Triage / Classify)</h3>
+<p>IC หรือเจ้าหน้าที่ที่ได้รับมอบหมายดำเนินการ</p>
+<ol type="1">
+<li>ยืนยันว่าเป็น Security Incident หรือเป็น Event/False Positive</li>
+<li>กำหนดระดับความรุนแรง P1–P4</li>
+<li>ระบุระบบ ข้อมูล และธุรกิจที่ได้รับผลกระทบ</li>
+<li>ตัดสินใจว่าต้องเรียกทีมขยาย (DPO, กฎหมาย, ผู้บริหาร, vendor) หรือไม่</li>
+<li>บันทึก timeline เริ่มต้นของเคส</li>
+</ol>
+<h3 id="การกกกน-containment">7.3 การกักกัน (Containment)</h3>
+<p>เลือกมาตรการตามความเหมาะสม โดยไม่ทำลายหลักฐานโดยไม่จำเป็น</p>
+<p><strong>มาตรการระยะสั้น</strong> - แยกเครื่องออกจากเครือข่าย / ปิดพอร์ต /
+block บัญชี - รีเซ็ตรหัสผ่านและถอน session - บล็อก IoC บนไฟร์วอลล์ DNS อีเมลเกตเวย์
+- ปิดการแชร์ไฟล์หรือ API ที่เกี่ยวข้อง</p>
+<p><strong>มาตรการระยะกลาง</strong> - จำกัดการเข้าถึงระบบสำคัญชั่วคราว -
+เปิดโหมดเฝ้าระวังเข้มข้น - เตรียมช่องทางสื่อสารสำรองหากช่องทางหลักถูกกระทบ</p>
+<h3 id="การสอบสวน-investigation">7.4 การสอบสวน (Investigation)</h3>
+<ol type="1">
+<li>รวบรวม log, alert, ไฟล์ต้องสงสัย, รายการบัญชี และบันทึกการเปลี่ยนแปลง</li>
+<li>ระบุ entry point, ขอบเขตการเคลื่อนที่ในเครือข่าย และข้อมูลที่อาจถูกเข้าถึง</li>
+<li>ประเมินว่ามีการขโมยข้อมูล การเข้ารหัสไฟล์ หรือการสร้างช่องทางลับหรือไม่</li>
+<li>รักษาห่วงโซ่การครอบครองหลักฐาน (chain of custody)
+หากมีแนวโน้มใช้ทางกฎหมาย</li>
+<li>อัปเดต timeline และสถานะให้ผู้เกี่ยวข้องทราบเป็นระยะ</li>
+</ol>
+<h3 id="การกำจดสาเหต-eradication">7.5 การกำจัดสาเหตุ (Eradication)</h3>
+<ol type="1">
+<li>ลบมัลแวร์ ปิดช่องโหว่ เพิกถอน credential ที่รั่ว</li>
+<li>แพตช์ระบบ ปรับค่าคอนฟิก และลบบัญชีไม่ชอบมาพากล</li>
+<li>ตรวจสอบว่าระบบอื่นถูกกระทบด้วยหรือไม่ก่อนประกาศว่ากำจัดแล้ว</li>
+<li>ในกรณีแรนซัมแวร์ โดยหลักให้กู้จากสำรองที่สะอาด หลีกเลี่ยงการเจรจาจ่ายค่าไถ่
+เว้นแต่ผู้บริหารและฝ่ายกฎหมายพิจารณาเป็นกรณีพิเศษ</li>
+</ol>
+<h3 id="การกคน-recovery">7.6 การกู้คืน (Recovery)</h3>
+<ol type="1">
+<li>กู้คืนจากแหล่งสำรองที่ตรวจสอบแล้วว่าปลอดภัย</li>
+<li>เฝ้าระวังเข้มข้นหลังเปิดบริการกลับ</li>
+<li>ยืนยันกับ System Owner ว่าฟังก์ชันธุรกิจกลับมาใช้งานได้</li>
+<li>ค่อย ๆ ปลดมาตรการฉุกเฉินเมื่อความเสี่ยงลดลง</li>
+<li>บันทึกเวลาที่บริการกลับสู่ภาวะปกติ</li>
+</ol>
+<h3 id="การสอสารและการแจงเตอน-communication-notify">7.7
+การสื่อสารและการแจ้งเตือน (Communication / Notify)</h3>
+<ol type="1">
+<li>สื่อสารภายในตามระดับความรุนแรง โดยใช้ช่องทางที่อนุมัติ</li>
+<li><strong>ห้าม</strong>
+พนักงานทั่วไปโพสต์หรือให้สัมภาษณ์ภายนอกเกี่ยวกับเหตุโดยไม่ได้รับมอบหมาย</li>
+<li>การแจ้งลูกค้า คู่ค้า สื่อมวลชน หรือหน่วยงานรัฐ ต้องผ่านผู้บริหาร / กฎหมาย / DPO
+ตามกรณี</li>
+<li>หากเป็น Personal Data Breach ให้ดำเนินการตามข้อ 8</li>
+</ol>
+<h3 id="การปดเคสและบทเรยน-close-lessons-learned">7.8 การปิดเคสและบทเรียน
+(Close &amp; Lessons Learned)</h3>
+<ol type="1">
+<li>ปิดเคสเมื่อภัยคุกคามถูกกำจัด บริการกลับมา และงานติดตามถูกมอบหมายแล้ว</li>
+<li>จัดทำรายงานสรุปเหตุ (Incident Report)</li>
+<li>ทำ Post-Incident Review สำหรับ P1–P2 ทุกเคส และ P3 ตามความเหมาะสม</li>
+<li>ติดตาม corrective / preventive actions จนเสร็จ</li>
+<li>อัปเดต playbook กฎตรวจจับ และการอบรมหากจำเป็น</li>
+</ol>
+<hr />
+<h2 id="กรณละเมดขอมลสวนบคคล-pdpa-breach-handling">8. กรณีละเมิดข้อมูลส่วนบุคคล
+(PDPA Breach Handling)</h2>
+<p>เมื่อสงสัยว่ามีข้อมูลส่วนบุคคลรั่วไหล สูญหาย หรือถูกเข้าถึงโดยไม่ชอบ
+ให้ดำเนินการเพิ่มเติมดังนี้</p>
+<ol type="1">
+<li>แจ้ง <strong>DPO / ฝ่ายกฎหมาย</strong> ทันทีที่ทราบ</li>
+<li>ประเมินอย่างน้อยในประเด็น
+<ul>
+<li>ประเภทและปริมาณข้อมูล</li>
+<li>จำนวนเจ้าของข้อมูลที่ได้รับผลกระทบ</li>
+<li>ความเสี่ยงต่อสิทธิและเสรีภาพของบุคคล</li>
+<li>มาตรการที่ทำไปแล้วเพื่อลดผลกระทบ</li>
+</ul></li>
+<li>หากเข้าเกณฑ์ต้องแจ้ง สำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล ให้เตรียมการแจ้ง
+<strong>โดยไม่ชักช้า และภายใน 72 ชั่วโมง</strong> นับแต่ทราบเหตุ
+ตามที่กฎหมายกำหนด</li>
+<li>พิจารณาการแจ้งเจ้าของข้อมูลเมื่อเหตุมีโอกาสสูงที่จะกระทบสิทธิและเสรีภาพ</li>
+<li>บันทึกข้อเท็จจริง การประเมิน และการตัดสินใจไว้เป็นหลักฐาน</li>
+</ol>
+<blockquote>
+<p>รายละเอียดการแจ้งและแบบฟอร์มภายในให้เป็นไปตาม POL-PDPA-001 และแนวทางของ
+DPO</p>
+</blockquote>
+<hr />
+<h2 id="playbook-ยอตามประเภทเหต">9. Playbook ย่อตามประเภทเหตุ</h2>
+<h3 id="ฟชชง-ยดบญช">9.1 ฟิชชิง / ยึดบัญชี</h3>
+<ol type="1">
+<li>ให้ผู้ใช้หยุดโต้ตอบกับข้อความนั้น และส่งตัวอย่างให้ Security</li>
+<li>บล็อก sender/URL/attachment</li>
+<li>หากมีการป้อนรหัสผ่านหรือ MFA ถูกใช้แล้ว → รีเซ็ตรหัสผ่าน ถอน session ทบทวน MFA
+ตรวจกิจกรรมต้องสงสัย</li>
+<li>ตรวจว่ามีการส่งต่อภายในหรือเข้าถึงไฟล์สำคัญหรือไม่</li>
+</ol>
+<h3 id="มลแวร-แรนซมแวร">9.2 มัลแวร์ / แรนซัมแวร์</h3>
+<ol type="1">
+<li>แยกเครื่อง/เซิร์ฟเวอร์ออกจากเครือข่ายทันทีตามคำสั่ง IC</li>
+<li>อย่ารีสตาร์ทหรือลบไฟล์เองหากยังไม่ได้ถ่ายภาพหลักฐาน</li>
+<li>ระบุขอบเขตการติดเชื้อจาก EDR/log</li>
+<li>กู้จากสำรองที่สะอาด แพตช์ช่องทางเข้า และเฝ้าระวังซ้ำ</li>
+</ol>
+<h3 id="อปกรณสญหายหรอถกขโมย">9.3 อุปกรณ์สูญหายหรือถูกขโมย</h3>
+<ol type="1">
+<li>ระงับบัญชีที่ผูกกับอุปกรณ์และถอน session</li>
+<li>ล็อกหรือลบข้อมูลระยะไกลหากทำได้</li>
+<li>ประเมินว่ามีข้อมูลระดับลับขึ้นไปอยู่ในเครื่องหรือไม่ และมีการเข้ารหัสดิสก์หรือไม่</li>
+<li>เปลี่ยนรหัสผ่านที่เกี่ยวข้องและแจ้ง DPO หากมีความเสี่ยงข้อมูลส่วนบุคคล</li>
+</ol>
+<h3 id="การโจมตบรการจนลม-dosddos">9.4 การโจมตีบริการจนล่ม (DoS/DDoS)</h3>
+<ol type="1">
+<li>ยืนยันอาการและแยกจากเหตุล่มจากการตั้งค่า/ซ่อมบำรุง</li>
+<li>เปิดมาตรการบรรเทาบนเครือข่าย/CDN/ผู้ให้บริการ</li>
+<li>สื่อสารสถานะบริการกับผู้ใช้ภายในตามความเหมาะสม</li>
+<li>เก็บ traffic sample และ timeline เพื่อวิเคราะห์ภายหลัง</li>
+</ol>
+<h3 id="การรวไหลของขอมล-สงไฟลผดคน">9.5 การรั่วไหลของข้อมูล / ส่งไฟล์ผิดคน</h3>
+<ol type="1">
+<li>ขอให้ผู้รับลบข้อมูลหากติดต่อได้ และเพิกถอนลิงก์แชร์ทันที</li>
+<li>ระบุประเภทข้อมูลและจำนวนผู้ได้รับผลกระทบ</li>
+<li>ประสาน Data Owner และ DPO</li>
+<li>ประเมินความจำเป็นในการแจ้งตามกฎหมายและสัญญา</li>
+</ol>
+<hr />
+<h2 id="การรกษาหลกฐาน">10. การรักษาหลักฐาน</h2>
+<ol type="1">
+<li>บันทึกวันเวลา (ระบุเขตเวลา) ผู้เก็บ และแหล่งที่มาของหลักฐานทุกชิ้น</li>
+<li>เก็บสำเนา log ดิบ ภาพหน่วยความจำ หรืออิมเมจดิสก์ตามความจำเป็นของเคส</li>
+<li>จำกัดสิทธิ์เข้าถึงคลังหลักฐานเฉพาะทีมที่เกี่ยวข้อง</li>
+<li>ห้ามแก้ไขไฟล์ต้นฉบับโดยไม่จำเป็น ให้ทำงานบนสำเนา</li>
+<li>หากอาจดำเนินคดี ให้ประสานฝ่ายกฎหมายก่อนเคลื่อนย้ายหรือเปิดเผยหลักฐานภายนอก</li>
+</ol>
+<hr />
+<h2 id="escalation-matrix">11. Escalation Matrix</h2>
+<table>
+<thead>
+<tr class="header">
+<th>สถานการณ์</th>
+<th>ต้องแจ้งเพิ่ม</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>P1 ทุกกรณี</td>
+<td>ผู้บริหาร IT, ISO, System Owner, On-call executive ตามตาราง</td>
+</tr>
+<tr class="even">
+<td>มีหรือสงสัยข้อมูลส่วนบุคคลรั่ว</td>
+<td>DPO / ฝ่ายกฎหมาย</td>
+</tr>
+<tr class="odd">
+<td>กระทบลูกค้าหรือบริการภายนอก</td>
+<td>ผู้บริหารธุรกิจ + ฝ่ายสื่อสาร</td>
+</tr>
+<tr class="even">
+<td>กระทบผู้ให้บริการภายนอก</td>
+<td>Vendor manager + ข้อสัญญาที่เกี่ยวข้อง</td>
+</tr>
+<tr class="odd">
+<td>มีแนวโน้มผิดกฎหมายอาญา/ไซเบอร์ร้ายแรง</td>
+<td>ฝ่ายกฎหมาย เพื่อพิจารณาแจ้งหน่วยงานรัฐ</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="แบบฟอรมและบนทกทตองม">12. แบบฟอร์มและบันทึกที่ต้องมี</h2>
+<p>ใช้หรือสร้างบันทึกอย่างน้อยดังนี้</p>
+<table>
+<thead>
+<tr class="header">
+<th>รหัส (ตัวอย่าง)</th>
+<th>ชื่อ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FORM-IR-001</td>
+<td>แบบแจ้งเหตุการณ์ด้านความปลอดภัย</td>
+</tr>
+<tr class="even">
+<td>FORM-IR-002</td>
+<td>บันทึก timeline และตัดสินใจของ IC</td>
+</tr>
+<tr class="odd">
+<td>FORM-IR-003</td>
+<td>ทะเบียนหลักฐาน (Evidence Log)</td>
+</tr>
+<tr class="even">
+<td>FORM-IR-004</td>
+<td>รายงานสรุปเหตุการณ์ (Incident Report)</td>
+</tr>
+<tr class="odd">
+<td>FORM-IR-005</td>
+<td>บันทึก Post-Incident Review และ Action Plan</td>
+</tr>
+</tbody>
+</table>
+<h3 id="หวขอขนตำในรายงานสรปเหต">หัวข้อขั้นต่ำในรายงานสรุปเหตุ</h3>
+<ol type="1">
+<li>รหัสเคส ระดับความรุนแรง ช่วงเวลาเกิดเหตุ</li>
+<li>สรุปเหตุการณ์และผลกระทบ</li>
+<li>Root cause (ถ้าทราบ)</li>
+<li>การดำเนินการหลักและเวลาสำคัญ</li>
+<li>ข้อมูล/ระบบที่เกี่ยวข้อง</li>
+<li>การแจ้งภายนอก (ถ้ามี)</li>
+<li>แนวทางป้องกันซ้ำและผู้รับผิดชอบ</li>
+</ol>
+<hr />
+<h2 id="การทดสอบและฝกซอม">13. การทดสอบและฝึกซ้อม</h2>
+<ol type="1">
+<li>ทบทวนขั้นตอนนี้อย่างน้อยปีละ 1 ครั้ง</li>
+<li>จัดซ้อมตอบสนองเหตุ (tabletop หรือ simulation) อย่างน้อยปีละ 1 ครั้ง
+สำหรับสถานการณ์ P1 เช่น แรนซัมแวร์หรือข้อมูลรั่ว</li>
+<li>ปรับปรุงช่องทางติดต่อ On-call และ playbook หลังการซ้อมทุกครั้ง</li>
+</ol>
+<hr />
+<h2 id="ตวชวด-kpi-metrics">14. ตัวชี้วัด (KPI / Metrics)</h2>
+<table>
+<thead>
+<tr class="header">
+<th>ตัวชี้วัด</th>
+<th>คำอธิบาย</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Time to Detect</td>
+<td>เวลาตั้งแต่เริ่มเหตุจนถูกตรวจพบ/รับแจ้ง</td>
+</tr>
+<tr class="even">
+<td>Time to Acknowledge</td>
+<td>เวลาตั้งแต่รับแจ้งจนมีผู้รับผิดชอบเริ่มดูแล</td>
+</tr>
+<tr class="odd">
+<td>Time to Contain</td>
+<td>เวลาจนสามารถกักกันได้สำเร็จ</td>
+</tr>
+<tr class="even">
+<td>Time to Recover</td>
+<td>เวลาจนบริการสำคัญกลับมาใช้งานได้</td>
+</tr>
+<tr class="odd">
+<td>% เคสที่มี Post-Incident Review</td>
+<td>โดยเฉพาะ P1–P2 ต้องครบ 100%</td>
+</tr>
+<tr class="even">
+<td>Repeat Incident Rate</td>
+<td>สัดส่วนเหตุซ้ำจากสาเหตุเดิมที่ยังไม่แก้</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="การบงคบใช">15. การบังคับใช้</h2>
+<ol type="1">
+<li>ผู้เกี่ยวข้องทุกคนต้องปฏิบัติตามขั้นตอนนี้</li>
+<li>การปกปิดเหตุ การทำลายหลักฐานโดยเจตนา หรือการสื่อสารภายนอกโดยไม่ได้รับอนุญาต
+ถือเป็นความผิดร้ายแรง</li>
+<li>การฝ่าฝืนอาจนำไปสู่มาตรการทางวินัยตามระเบียบองค์กรและการดำเนินการตามกฎหมาย</li>
+</ol>
+<hr />
+<h2 id="เอกสารอางอง">16. เอกสารอ้างอิง</h2>
+<ul>
+<li>POL-ITSEC-001 นโยบายการรักษาความปลอดภัยระบบเทคโนโลยีสารสนเทศ</li>
+<li>STD-ITSEC-001 มาตรฐานรหัสผ่านและการพิสูจน์ตัวตน</li>
+<li>STD-ITSEC-002 มาตรฐานการจัดประเภทข้อมูล</li>
+<li>NIST SP 800-61 Computer Security Incident Handling Guide</li>
+<li>ISO/IEC 27035 Information security incident management</li>
+<li>พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562</li>
+<li>พ.ร.บ.การรักษาความมั่นคงปลอดภัยไซเบอร์ พ.ศ. 2562</li>
+</ul>
+<hr />
+<h2 id="ประวตการปรบปรงเอกสาร">17. ประวัติการปรับปรุงเอกสาร</h2>
+<table>
+<thead>
+<tr class="header">
+<th>เวอร์ชัน</th>
+<th>วันที่</th>
+<th>ผู้จัดทำ/แก้ไข</th>
+<th>สรุปการเปลี่ยนแปลง</th>
+<th>ผู้อนุมัติ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1.0</td>
+<td>[ระบุวันที่]</td>
+<td>[ชื่อผู้จัดทำ]</td>
+<td>จัดทำเอกสารฉบับแรก</td>
+<td>[ชื่อผู้อนุมัติ]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ภาคผนวก-ก-สรปดวนสำหรบผพบเหต-one-page">18. ภาคผนวก ก —
+สรุปด่วนสำหรับผู้พบเหตุ (One-Page)</h2>
+<ol type="1">
+<li><strong>อย่าตกใจ และอย่าปกปิด</strong></li>
+<li>จดเวลา สิ่งที่เห็น ระบบ/บัญชีที่เกี่ยวข้อง</li>
+<li>แจ้ง Hotline / Helpdesk / Security ทันที</li>
+<li>อย่าคลิกลิงก์ซ้ำ อย่าส่งต่อไฟล์ต้องสงสัย และอย่าลบหลักฐานเอง</li>
+<li>หากสงสัยบัญชีถูกละเมิด ให้แจ้ง IT เพื่อรีเซ็ตและถอน session</li>
+<li>รอคำสั่งจากทีม IR ก่อนทำขั้นตอนเพิ่มเติม</li>
+</ol>
+<hr />
+<h2 id="ภาคผนวก-ข-รายการตรวจสอบของ-incident-commander">19. ภาคผนวก ข —
+รายการตรวจสอบของ Incident Commander</h2>
+<ul class="task-list">
+<li><label><input
+type="checkbox" />เปิดตั๋วงานและกำหนดรหัสเคสแล้ว</label></li>
+<li><label><input type="checkbox" />จัดระดับความรุนแรงและประกาศ IC
+แล้ว</label></li>
+<li><label><input type="checkbox" />เรียกทีมที่เกี่ยวข้องครบตาม
+escalation</label></li>
+<li><label><input
+type="checkbox" />เริ่มกักกันและปกป้องหลักฐานแล้ว</label></li>
+<li><label><input type="checkbox" />ประเมินผลกระทบต่อข้อมูลส่วนบุคคลแล้ว (ถ้ามี
+ส่งต่อ DPO)</label></li>
+<li><label><input type="checkbox" />มี timeline
+และสถานะอัปเดตเป็นระยะ</label></li>
+<li><label><input type="checkbox" />กำจัดสาเหตุและกู้คืนโดย System Owner
+ยืนยันแล้ว</label></li>
+<li><label><input
+type="checkbox" />สื่อสารภายใน/ภายนอกตามอำนาจที่ได้รับ</label></li>
+<li><label><input type="checkbox" />ปิดเคสพร้อม action items
+และเจ้าของงานชัดเจน</label></li>
+</ul>
+<hr />
+<h2 id="ภาคผนวก-ค-ตวอยางโครงสรางรหสเคส">20. ภาคผนวก ค —
+ตัวอย่างโครงสร้างรหัสเคส</h2>
+<pre class="text"><code>IR-YYYYMMDD-XXX
+ตัวอย่าง: IR-20260916-001</code></pre>
+<hr />
+<p><em>เอกสารนี้เป็นทรัพย์สินขององค์กร
+ห้ามทำสำเนาหรือเผยแพร่ภายนอกโดยไม่ได้รับอนุญาต</em></p>
+</div></body>
+</html>

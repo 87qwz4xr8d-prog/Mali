@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="th" xml:lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>User-Access-Management-Procedure</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../assets/doc.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body><div class="wrap"><div class="topbar"><a href="../index.html">← กลับพอร์ทัล Mali</a><span>Controlled Document</span></div>
+<header id="title-block-header">
+<h1 class="title">User-Access-Management-Procedure</h1>
+</header>
+<h1
+id="ขนตอนการขอเปลยนแปลงเพกถอนสทธผใช">ขั้นตอนการขอ/เปลี่ยนแปลง/เพิกถอนสิทธิ์ผู้ใช้</h1>
+<h2 id="user-access-request-change-and-revocation-procedure">User Access
+Request, Change, and Revocation Procedure</h2>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>รายการ</th>
+<th>รายละเอียด</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>รหัสเอกสาร</strong></td>
+<td>PROC-IAM-001</td>
+</tr>
+<tr class="even">
+<td><strong>เวอร์ชัน</strong></td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td><strong>วันที่มีผลบังคับใช้</strong></td>
+<td>[ระบุวันที่]</td>
+</tr>
+<tr class="even">
+<td><strong>เอกสารแม่</strong></td>
+<td>POL-ITSEC-001 นโยบายการรักษาความปลอดภัยระบบเทคโนโลยีสารสนเทศ</td>
+</tr>
+<tr class="odd">
+<td><strong>เอกสารที่เกี่ยวข้อง</strong></td>
+<td>STD-ITSEC-001, STD-ITSEC-002, PROC-IR-001</td>
+</tr>
+<tr class="even">
+<td><strong>ผู้อนุมัติ</strong></td>
+<td>[ผู้บริหารฝ่ายเทคโนโลยีสารสนเทศ / ISO]</td>
+</tr>
+<tr class="odd">
+<td><strong>ผู้รับผิดชอบ</strong></td>
+<td>ฝ่ายเทคโนโลยีสารสนเทศ / Identity &amp; Access Administrator</td>
+</tr>
+<tr class="even">
+<td><strong>รอบทบทวน</strong></td>
+<td>อย่างน้อยปีละ 1 ครั้ง หรือเมื่อมีการเปลี่ยนแปลงที่สำคัญ</td>
+</tr>
+<tr class="odd">
+<td><strong>การจัดประเภทเอกสาร</strong></td>
+<td>ภายในองค์กร (Internal)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="วตถประสงค">1. วัตถุประสงค์</h2>
+<p>ขั้นตอนนี้อธิบายวิธีปฏิบัติในการขอ เปลี่ยนแปลง ทบทวน
+และเพิกถอนสิทธิ์การเข้าถึงระบบสารสนเทศ เพื่อ</p>
+<ol type="1">
+<li>ให้สิทธิ์ตามหลัก <strong>Least Privilege</strong> และ
+<strong>Need-to-Know</strong></li>
+<li>ให้มีการอนุมัติที่ตรวจสอบได้ก่อนเปิดหรือขยายสิทธิ์</li>
+<li>เพิกถอนสิทธิ์อย่างทันเวลาเมื่อพ้นสภาพ ย้ายหน่วยงาน หรือหมดความจำเป็น</li>
+<li>ลดความเสี่ยงจากบัญชีค้างสิทธิ์ บัญชีแชร์ และสิทธิพิเศษเกินจำเป็น</li>
+<li>สนับสนุนการปฏิบัติตาม POL-ITSEC-001 และ STD-ITSEC-001</li>
+</ol>
+<hr />
+<h2 id="ขอบเขต">2. ขอบเขต</h2>
+<p>ขั้นตอนนี้ใช้กับ</p>
+<ul>
+<li>บัญชีผู้ใช้บุคคล บัญชีสิทธิพิเศษ บัญชีบริการ และสิทธิ์ตามบทบาท (role/group)</li>
+<li>ระบบขององค์กร เช่น อีเมล SSO VPN ไฟล์แชร์ แอปธุรกิจ ระบบคลาวด์ ระบบ
+HR/การเงิน และเครื่องมือดูแลระบบ</li>
+<li>พนักงาน ลูกจ้าง ผู้รับเหมา ที่ปรึกษา นักศึกษาฝึกงาน พันธมิตร และบัญชีชั่วคราว</li>
+<li>วงจร Joiner (เข้าใหม่) / Mover (โยกย้าย) / Leaver (พ้นสภาพ)</li>
+</ul>
+<hr />
+<h2 id="นยามศพท">3. นิยามศัพท์</h2>
+<table>
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>คำศัพท์</th>
+<th>ความหมาย</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Access Request</strong></td>
+<td>คำขอเปิดสิทธิ์หรือสร้างบัญชีใหม่</td>
+</tr>
+<tr class="even">
+<td><strong>Access Change</strong></td>
+<td>คำขอเพิ่ม ลด หรือปรับสิทธิ์ของบัญชีที่มีอยู่</td>
+</tr>
+<tr class="odd">
+<td><strong>Access Revocation</strong></td>
+<td>การระงับหรือเพิกถอนสิทธิ์/บัญชี</td>
+</tr>
+<tr class="even">
+<td><strong>Role-Based Access Control (RBAC)</strong></td>
+<td>การให้สิทธิ์ตามบทบาทงาน</td>
+</tr>
+<tr class="odd">
+<td><strong>Privileged Access</strong></td>
+<td>สิทธิ์ระดับผู้ดูแลระบบหรือสูงกว่าผู้ใช้ทั่วไป</td>
+</tr>
+<tr class="even">
+<td><strong>Joiner / Mover / Leaver</strong></td>
+<td>ผู้เข้าใหม่ / ผู้โยกย้ายหน่วยงานหรือบทบาท / ผู้พ้นสภาพ</td>
+</tr>
+<tr class="odd">
+<td><strong>SoD (Segregation of Duties)</strong></td>
+<td>การแบ่งแยกหน้าที่เพื่อลดความเสี่ยงจากการทำธุรกรรมคนเดียวครบวงจร</td>
+</tr>
+<tr class="even">
+<td><strong>Access Review</strong></td>
+<td>การทบทวนสิทธิ์ที่มีอยู่เป็นระยะ</td>
+</tr>
+<tr class="odd">
+<td><strong>Birthright Access</strong></td>
+<td>สิทธิ์พื้นฐานที่ให้โดยอัตโนมัติตามประเภทการจ้างงาน เช่น อีเมล ชุดสำนักงาน</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="บทบาทและหนาท">4. บทบาทและหน้าที่</h2>
+<table>
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>บทบาท</th>
+<th>หน้าที่หลัก</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>ผู้ขอสิทธิ์ (Requester)</strong></td>
+<td>ยื่นคำขอ ระบุเหตุผล ระบบ ระยะเวลา และขอบเขตสิทธิ์</td>
+</tr>
+<tr class="even">
+<td><strong>หัวหน้างานโดยตรง</strong></td>
+<td>ตรวจสอบความจำเป็นทางธุรกิจ และอนุมัติคำขอทั่วไป</td>
+</tr>
+<tr class="odd">
+<td><strong>เจ้าของระบบ / เจ้าของข้อมูล (System/Data Owner)</strong></td>
+<td>อนุมัติสิทธิ์ในระบบหรือข้อมูลที่รับผิดชอบ โดยเฉพาะระดับลับขึ้นไป</td>
+</tr>
+<tr class="even">
+<td><strong>HR</strong></td>
+<td>แจ้งสถานะเข้าใหม่ โยกย้าย ลาออก/หมดสัญญา ให้ IT ทราบตามเวลาที่กำหนด</td>
+</tr>
+<tr class="odd">
+<td><strong>IT Access Admin</strong></td>
+<td>ดำเนินการสร้าง/ปรับ/เพิกถอนสิทธิ์ บันทึกหลักฐาน และแจ้งผล</td>
+</tr>
+<tr class="even">
+<td><strong>ISO / Security</strong></td>
+<td>กำกับมาตรฐาน ทบทวนสิทธิพิเศษ และสุ่มตรวจ</td>
+</tr>
+<tr class="odd">
+<td><strong>ผู้ใช้งาน</strong></td>
+<td>ใช้สิทธิ์เท่าที่ได้รับ ห้ามแชร์บัญชี และแจ้งเมื่อไม่ต้องการใช้สิทธิ์แล้ว</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="หลกการใหสทธ">5. หลักการให้สิทธิ์</h2>
+<ol type="1">
+<li>ให้สิทธิ์เท่าที่จำเป็นต่องานปัจจุบันเท่านั้น</li>
+<li>ใช้ RBAC / กลุ่มสิทธิ์มาตรฐานเป็นหลัก หลีกเลี่ยงสิทธิ์แบบกำหนดเองโดยไม่จำเป็น</li>
+<li>บัญชีต้องเป็นรายบุคคล ห้ามใช้บัญชีร่วม
+ยกเว้นได้รับอนุมัติเป็นลายลักษณ์อักษรและมีมาตรการชดเชย</li>
+<li>แยกบัญชีงานประจำวันออกจากบัญชีสิทธิพิเศษ</li>
+<li>สิทธิ์ชั่วคราวต้องกำหนดวันหมดอายุทุกครั้ง</li>
+<li>การอนุมัติต้องแยกจากผู้ดำเนินการให้สิทธิ์ตามหลัก SoD ให้ได้มากที่สุด</li>
+<li>ห้ามคัดลอกสิทธิ์จากบุคคลอื่นทั้งชุดโดยไม่ตรวจสอบความจำเป็น (ห้าม “copy all access”
+แบบไม่ได้กลั่นกรอง)</li>
+</ol>
+<hr />
+<h2 id="ประเภทคำขอและผอนมต">6. ประเภทคำขอและผู้อนุมัติ</h2>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 18%" />
+<col style="width: 33%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ประเภทคำขอ</th>
+<th>ตัวอย่าง</th>
+<th>ผู้อนุมัติขั้นต่ำ</th>
+<th>ผู้ดำเนินการ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>สิทธิ์พื้นฐาน (Birthright)</td>
+<td>อีเมล, SSO พื้นฐาน, อินทราเน็ต</td>
+<td>HR ยืนยันสถานภาพ + หัวหน้างาน</td>
+<td>IT Access Admin</td>
+</tr>
+<tr class="even">
+<td>สิทธิ์ธุรกิจทั่วไป</td>
+<td>โฟลเดอร์ทีม, แอปแผนก</td>
+<td>หัวหน้างาน + System Owner (ถ้ากำหนด)</td>
+<td>IT Access Admin</td>
+</tr>
+<tr class="odd">
+<td>สิทธิ์ข้อมูลระดับลับขึ้นไป</td>
+<td>ข้อมูลส่วนบุคคล, สัญญา, การเงิน</td>
+<td>หัวหน้างาน + Data/System Owner</td>
+<td>IT Access Admin</td>
+</tr>
+<tr class="even">
+<td>สิทธิพิเศษ</td>
+<td>Admin, root, cloud owner</td>
+<td>หัวหน้างาน + System Owner + ISO/IT Manager</td>
+<td>Privileged Access Admin</td>
+</tr>
+<tr class="odd">
+<td>สิทธิ์ผู้รับเหมา/บุคคลภายนอก</td>
+<td>VPN ชั่วคราว, โปรเจกต์</td>
+<td>เจ้าของงานภายใน + System Owner</td>
+<td>IT Access Admin</td>
+</tr>
+<tr class="even">
+<td>สิทธิ์ฉุกเฉิน (Break-glass)</td>
+<td>กู้ระบบนอกเวลา</td>
+<td>IT Manager / On-call lead อนุมัติย้อนหลังได้ภายในกำหนด</td>
+<td>On-call Admin</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="เปาหมายเวลาดำเนนการ-sla">7. เป้าหมายเวลาดำเนินการ (SLA)</h2>
+<table>
+<colgroup>
+<col style="width: 44%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ประเภท</th>
+<th>เป้าหมาย</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>สิทธิ์พื้นฐานสำหรับพนักงานเข้าใหม่</td>
+<td>ให้พร้อมภายในวันเริ่มงาน หากได้รับคำขอครบก่อนอย่างน้อย 2 วันทำการ</td>
+</tr>
+<tr class="even">
+<td>สิทธิ์ธุรกิจทั่วไป</td>
+<td>ภายใน <strong>2 วันทำการ</strong> หลังอนุมัติครบ</td>
+</tr>
+<tr class="odd">
+<td>สิทธิพิเศษ</td>
+<td>ภายใน <strong>1 วันทำการ</strong> หลังอนุมัติครบ
+หรือตามหน้าต่างเปลี่ยนแปลงที่กำหนด</td>
+</tr>
+<tr class="even">
+<td>เพิกถอนเมื่อลาออก/หมดสัญญา</td>
+<td><strong>ภายในวันสุดท้ายของการปฏิบัติงาน</strong>
+หรือทันทีเมื่อแจ้งให้ระงับก่อนกำหนด</td>
+</tr>
+<tr class="odd">
+<td>เพิกถอนฉุกเฉิน (ยึดบัญชี/เหตุรักษาความปลอดภัย)</td>
+<td><strong>ทันที</strong> ตาม PROC-IR-001</td>
+</tr>
+<tr class="even">
+<td>ระงับบัญชีผู้รับเหมาเมื่อสิ้นสุดโปรเจกต์</td>
+<td>ภายในวันสิ้นสุดที่ระบุในคำขอ</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ขนตอนการขอสทธใหม-access-request-joiner">8. ขั้นตอนการขอสิทธิ์ใหม่
+(Access Request / Joiner)</h2>
+<h3 id="ผขอจดทำคำขอ">8.1 ผู้ขอจัดทำคำขอ</h3>
+<p>ยื่นผ่านช่องทางที่กำหนด เช่น [ระบุ: ITSM / แบบฟอร์ม / อีเมล] โดยระบุอย่างน้อย</p>
+<ol type="1">
+<li>ชื่อ-นามสกุล / รหัสพนักงานหรือรหัสผู้รับเหมา</li>
+<li>หน่วยงาน ตำแหน่ง หัวหน้างาน</li>
+<li>ประเภทผู้ใช้ (พนักงาน / ชั่วคราว / ผู้รับเหมา)</li>
+<li>ระบบหรือ role ที่ขอ</li>
+<li>เหตุผลทางธุรกิจ</li>
+<li>วันเริ่มใช้ และวันสิ้นสุด (ถ้าเป็นสิทธิ์ชั่วคราว)</li>
+<li>การเข้าถึงระยะไกลจำเป็นหรือไม่</li>
+</ol>
+<h3 id="การอนมต">8.2 การอนุมัติ</h3>
+<ol type="1">
+<li>หัวหน้างานตรวจสอบความจำเป็น</li>
+<li>System/Data Owner อนุมัติเพิ่มเมื่อเข้าเกณฑ์</li>
+<li>ISO/IT Manager อนุมัติเพิ่มสำหรับสิทธิพิเศษ</li>
+<li>หากคำขอไม่ครบหรือเกินจำเป็น ให้ตีกลับเพื่อแก้ไข</li>
+</ol>
+<h3 id="การดำเนนการโดย-it">8.3 การดำเนินการโดย IT</h3>
+<ol type="1">
+<li>ตรวจสอบว่ามีบัญชีอยู่แล้วหรือไม่ เพื่อเลี่ยงบัญชีซ้ำ</li>
+<li>สร้างบัญชีตามมาตรฐานการตั้งชื่อขององค์กร</li>
+<li>ให้สิทธิ์ตาม role ที่อนุมัติ และเปิด MFA ตาม STD-ITSEC-001</li>
+<li>ส่งข้อมูลเข้าสู่ระบบแบบปลอดภัย (รหัสชั่วคราว / self-service reset)</li>
+<li>บันทึกหลักฐานคำขอ การอนุมัติ และสิทธิ์ที่ให้จริง</li>
+<li>แจ้งผู้ขอและหัวหน้างานเมื่อเสร็จ</li>
+</ol>
+<h3 id="สทธพนฐานแนะนำสำหรบผเขาใหม">8.4 สิทธิ์พื้นฐานแนะนำสำหรับผู้เข้าใหม่</h3>
+<ul>
+<li>บัญชีตัวตนกลาง (IdP/SSO)</li>
+<li>อีเมลองค์กรและชุดสำนักงานตามสิทธิ์ตำแหน่ง</li>
+<li>สิทธิ์อินทราเน็ต/ระบบ HR บริการตนเองตามที่กำหนด</li>
+<li>MFA บังคับก่อนใช้งานระบบสำคัญ</li>
+</ul>
+<hr />
+<h2 id="ขนตอนการเปลยนแปลงสทธ-access-change-mover">9.
+ขั้นตอนการเปลี่ยนแปลงสิทธิ์ (Access Change / Mover)</h2>
+<p>ใช้เมื่อมีการย้ายหน่วยงาน เปลี่ยนตำแหน่ง เพิ่มโปรเจกต์ หรือปรับหน้าที่</p>
+<ol type="1">
+<li>ผู้ขอหรือ HR แจ้งการเปลี่ยนแปลงผ่านช่องทางคำขอ</li>
+<li>ระบุสิทธิ์ที่ต้องการ <strong>เพิ่ม</strong> และสิทธิ์ที่ต้อง
+<strong>ลด/เพิกถอน</strong></li>
+<li>หัวหน้างานใหม่และ/หรือเจ้าของระบบอนุมัติ</li>
+<li>IT ดำเนินการเพิ่มสิทธิ์ใหม่ก่อนหรือคู่กับการลดสิทธิ์เก่าตามแผน เพื่อไม่ให้กระทบงาน
+โดยต้องไม่ค้างสิทธิ์เก่าเกินจำเป็น</li>
+<li>สิทธิ์ของหน่วยงานเดิมที่ไม่มีเหตุคงไว้ ต้องเพิกถอนภายใน <strong>3
+วันทำการ</strong> หลังวันโยกย้ายมีผล</li>
+<li>บันทึกการเปลี่ยนแปลงและแจ้งผลให้ผู้เกี่ยวข้องทราบ</li>
+</ol>
+<blockquote>
+<p>หากผู้ใช้ย้ายไปบทบาทที่ขัดกับหลัก SoD
+ต้องปรับสิทธิ์ให้เหลือเฉพาะชุดที่ผ่านการประเมินความขัดแย้งแล้ว</p>
+</blockquote>
+<hr />
+<h2 id="ขนตอนการเพกถอนสทธ-access-revocation-leaver">10.
+ขั้นตอนการเพิกถอนสิทธิ์ (Access Revocation / Leaver)</h2>
+<h3 id="การพนสภาพตามแผน-ลาออก-หมดสญญา-สนสดโปรเจกต">10.1 การพ้นสภาพตามแผน
+(ลาออก / หมดสัญญา / สิ้นสุดโปรเจกต์)</h3>
+<ol type="1">
+<li>HR หรือเจ้าของงานแจ้ง IT ล่วงหน้าอย่างน้อยตามรอบที่ตกลง และยืนยัน
+<strong>วัน-เวลาที่มีผล</strong></li>
+<li>IT จัดทำ checklist เพิกถอนตามข้อ 10.3</li>
+<li>ในวันที่มีผล ให้ระงับการเข้าสู่ระบบหลักทันที เช่น SSO อีเมล VPN</li>
+<li>เพิกถอนสิทธิ์ระบบอื่นที่เกี่ยวข้อง โอนกรรมสิทธิ์ไฟล์/กล่องเมลตามนโยบาย</li>
+<li>เรียกคืนอุปกรณ์ บัตรผ่าน และโทเคน MFA (ถ้ามี)</li>
+<li>บันทึกเวลาที่เพิกถอนจริง และปิดคำขอ</li>
+</ol>
+<h3 id="การเพกถอนฉกเฉน">10.2 การเพิกถอนฉุกเฉิน</h3>
+<p>ใช้เมื่อมีเหตุทางวินัย การยึดบัญชี ความเสี่ยงต่อข้อมูล หรือคำสั่งผู้บริหาร</p>
+<ol type="1">
+<li>ผู้มีอำนาจแจ้ง IT/Security ทันที</li>
+<li>ระงับบัญชีและถอน session โดยไม่ต้องรอวันพ้นสภาพ</li>
+<li>เก็บรักษาเมล/ไฟล์ตามคำสั่งกฎหมายหรือ HR ห้ามลบทันทีหากเป็นพยานหลักฐาน</li>
+<li>เปิดเคสตาม PROC-IR-001 หากเกี่ยวข้องกับเหตุความปลอดภัย</li>
+</ol>
+<h3 id="checklist-การเพกถอน">10.3 Checklist การเพิกถอน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />ระงับบัญชี IdP / Active Directory /
+SSO</label></li>
+<li><label><input type="checkbox" />เพิกถอนอีเมล และจัดการ forwarding
+ตามนโยบาย</label></li>
+<li><label><input type="checkbox" />ตัด VPN / Remote access</label></li>
+<li><label><input type="checkbox" />เพิกถอนสิทธิ์แอปธุรกิจ คลาวด์ ไฟล์แชร์
+โค้ดรีโป</label></li>
+<li><label><input type="checkbox" />เพิกถอนสิทธิพิเศษและนำ secret ออกจาก
+vault ที่เกี่ยวข้อง</label></li>
+<li><label><input type="checkbox" />ถอน session / API token / device
+trust</label></li>
+<li><label><input type="checkbox" />เรียกคืนอุปกรณ์และ MFA
+token</label></li>
+<li><label><input type="checkbox" />โอนเจ้าของไฟล์ กลุ่ม
+และเอกสารสำคัญ</label></li>
+<li><label><input
+type="checkbox" />บันทึกเวลาเพิกถอนและผู้ดำเนินการ</label></li>
+</ul>
+<hr />
+<h2 id="สทธพเศษ-privileged-access">11. สิทธิพิเศษ (Privileged Access)</h2>
+<ol type="1">
+<li>ต้องมีคำขอแยก และระบุเหตุผล ระบบ ระยะเวลา และกิจกรรมที่จะทำ</li>
+<li>อนุมัติโดยหัวหน้างาน + System Owner + ISO/IT Manager</li>
+<li>ใช้บัญชีสิทธิพิเศษแยกจากบัญชีปกติ</li>
+<li>เปิด MFA และเก็บบันทึกการใช้งานตามที่ระบบรองรับ</li>
+<li>สิทธิ์ถาวรต้องมีจำนวนจำกัดและทบทวนบ่อยกว่าสิทธิ์ทั่วไป</li>
+<li>สิทธิ์ชั่วคราวควรเป็นค่าเริ่มต้น และหมดอายุอัตโนมัติเมื่อครบกำหนด</li>
+<li>ห้ามใช้บัญชีสิทธิพิเศษท่องเว็บ อ่านอีเมลทั่วไป หรือทำงานเอกสารประจำวัน</li>
+</ol>
+<hr />
+<h2 id="สทธผรบเหมา-บคคลภายนอก-และบญชชวคราว">12. สิทธิ์ผู้รับเหมา บุคคลภายนอก
+และบัญชีชั่วคราว</h2>
+<ol type="1">
+<li>ต้องมีพนักงานเจ้าของงานภายใน (internal sponsor) ทุกกรณี</li>
+<li>กำหนดวันเริ่มและวันสิ้นสุดบังคับทุกคำขอ</li>
+<li>ให้สิทธิ์เฉพาะระบบที่จำเป็นต่อโปรเจกต์</li>
+<li>เมื่อใกล้หมดอายุ 7 วัน ให้แจเตือน sponsor เพื่อต่ออายุหรือเพิกถอน</li>
+<li>หากไม่ต่ออายุ ให้ระงับบัญชีอัตโนมัติเมื่อครบกำหนด</li>
+<li>ห้ามใช้บัญชีกลางของบริษัทผู้รับเหมาแบบไม่ระบุตัวบุคคล
+เว้นแต่มีข้อยกเว้นและมาตรการชดเชย</li>
+</ol>
+<hr />
+<h2 id="บญชบรการและสทธของระบบ-service-accounts">13.
+บัญชีบริการและสิทธิ์ของระบบ (Service Accounts)</h2>
+<ol type="1">
+<li>ต้องระบุระบบเจ้าของ ผู้รับผิดชอบ และวัตถุประสงค์</li>
+<li>ห้ามผูกบัญชีบริการกับบุคคลเดียวโดยไม่มีเจ้าของสำรองในระดับทีม</li>
+<li>ให้สิทธิ์แคบที่สุด และไม่ใช้สำหรับ interactive login ของบุคคล หากไม่จำเป็น</li>
+<li>เก็บรหัสผ่าน/คีย์ใน secrets vault ตาม STD-ITSEC-001</li>
+<li>ทบทวนความจำเป็นอย่างน้อยทุก <strong>180 วัน</strong></li>
+</ol>
+<hr />
+<h2 id="การทบทวนสทธ-access-review">14. การทบทวนสิทธิ์ (Access Review)</h2>
+<table>
+<thead>
+<tr class="header">
+<th>ประเภทสิทธิ์</th>
+<th>ความถี่ขั้นต่ำ</th>
+<th>ผู้ทบทวน</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>สิทธิ์ทั่วไป</td>
+<td>ทุก <strong>90 วัน</strong></td>
+<td>หัวหน้างาน / System Owner</td>
+</tr>
+<tr class="even">
+<td>สิทธิ์ข้อมูลระดับลับขึ้นไป</td>
+<td>ทุก <strong>90 วัน</strong></td>
+<td>Data Owner + System Owner</td>
+</tr>
+<tr class="odd">
+<td>สิทธิพิเศษ</td>
+<td>ทุก <strong>30–90 วัน</strong></td>
+<td>System Owner + ISO</td>
+</tr>
+<tr class="even">
+<td>ผู้รับเหมา/ชั่วคราว</td>
+<td>ทุก <strong>30 วัน</strong> หรือก่อนหมดอายุ</td>
+<td>Internal sponsor</td>
+</tr>
+<tr class="odd">
+<td>บัญชีบริการ</td>
+<td>ทุก <strong>180 วัน</strong></td>
+<td>System Owner</td>
+</tr>
+</tbody>
+</table>
+<p>ผลลัพธ์ของการทบทวนต้องเป็นหนึ่งใน: <strong>คงไว้ / ปรับลด / เพิกถอน</strong>
+และให้ IT ดำเนินการภายใน SLA ของการเปลี่ยนแปลงสิทธิ์</p>
+<hr />
+<h2 id="การขอสทธฉกเฉน-break-glass">15. การขอสิทธิ์ฉุกเฉิน (Break-glass)</h2>
+<ol type="1">
+<li>ใช้ได้เฉพาะเมื่อจำเป็นเร่งด่วนต่อการกู้บริการหรือระงับเหตุ
+และช่องทางปกติใช้ไม่ได้ทันเวลา</li>
+<li>ผู้ดำเนินการต้องบันทึกเหตุผล เวลา ระบบ และการกระทำทันที</li>
+<li>แจ้ง IT Manager / ISO โดยเร็ว และขออนุมัติตาม internally ภายใน <strong>1
+วันทำการ</strong></li>
+<li>หลังเสร็จงานต้องเพิกถอนสิทธิ์ฉุกเฉินและรีเซ็ต credential ที่ใช้</li>
+<li>มีการสุ่มตรวจการใช้ break-glass เป็นระยะ</li>
+</ol>
+<hr />
+<h2 id="ชองทางคำขอและหลกฐานทตองเกบ">16. ช่องทางคำขอและหลักฐานที่ต้องเก็บ</h2>
+<h3 id="ชองทาง">ช่องทาง</h3>
+<ul>
+<li>[ระบุ: ระบบตั๋วงาน ITSM / แบบฟอร์มออนไลน์ / อีเมลถึง iam@company]</li>
+</ul>
+<h3 id="เอกสารประกอบขนตำ">เอกสารประกอบขั้นต่ำ</h3>
+<table>
+<thead>
+<tr class="header">
+<th>รหัส (ตัวอย่าง)</th>
+<th>ชื่อ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FORM-IAM-001</td>
+<td>แบบขอสิทธิ์ผู้ใช้</td>
+</tr>
+<tr class="even">
+<td>FORM-IAM-002</td>
+<td>แบบขอ/ต่ออายุสิทธิพิเศษ</td>
+</tr>
+<tr class="odd">
+<td>FORM-IAM-003</td>
+<td>แบบแจ้งโยกย้าย/พ้นสภาพเพื่อเพิกถอนสิทธิ์</td>
+</tr>
+<tr class="even">
+<td>FORM-IAM-004</td>
+<td>บันทึกผลการทบทวนสิทธิ์</td>
+</tr>
+<tr class="odd">
+<td>REG-IAM-001</td>
+<td>ทะเบียนบัญชีสิทธิพิเศษและบัญชีบริการ</td>
+</tr>
+</tbody>
+</table>
+<p>เก็บหลักฐานคำขอ การอนุมัติ การดำเนินการ และเวลาที่มีผล
+อย่างน้อยตามระยะเวลาที่นโยบายเอกสารขององค์กรกำหนด</p>
+<hr />
+<h2 id="การประสานงานกบ-hr-และหนวยงานอน">17. การประสานงานกับ HR
+และหน่วยงานอื่น</h2>
+<table>
+<thead>
+<tr class="header">
+<th>เหตุการณ์</th>
+<th>ผู้รับผิดชอบแจ้ง</th>
+<th>เวลาที่ควรแจ้ง IT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>พนักงานเข้าใหม่</td>
+<td>HR</td>
+<td>อย่างน้อย 2 วันทำการก่อนวันเริ่มงาน</td>
+</tr>
+<tr class="even">
+<td>โยกย้ายหน่วยงาน</td>
+<td>HR / หัวหน้างาน</td>
+<td>อย่างน้อย 2 วันทำการก่อนวันมีผล</td>
+</tr>
+<tr class="odd">
+<td>ลาออกตามแผน</td>
+<td>HR</td>
+<td>เมื่อทราบวันที่มีผล และยืนยันซ้ำก่อนวันสุดท้าย</td>
+</tr>
+<tr class="even">
+<td>เลิกจ้าง/ระงับฉุกเฉิน</td>
+<td>HR + ผู้บริหารที่เกี่ยวข้อง</td>
+<td>ทันที</td>
+</tr>
+<tr class="odd">
+<td>สิ้นสุดผู้รับเหมา</td>
+<td>เจ้าของงานภายใน</td>
+<td>อย่างน้อย 2 วันทำการก่อนวันสิ้นสุด</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ตวชวด-kpi">18. ตัวชี้วัด (KPI)</h2>
+<table>
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ตัวชี้วัด</th>
+<th>เป้าหมายแนะนำ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>% คำขอที่มีการอนุมัติครบก่อนให้สิทธิ์</td>
+<td>100% ยกเว้น break-glass ที่อนุมัติตามรอบย้อนหลัง</td>
+</tr>
+<tr class="even">
+<td>เวลาเฉลี่ยในการให้สิทธิ์ทั่วไปหลังอนุมัติ</td>
+<td>ภายใน SLA 2 วันทำการ</td>
+</tr>
+<tr class="odd">
+<td>% การเพิกถอนในวันพ้นสภาพ</td>
+<td>≥ 95% และเคสตกค้างต้องมีเหตุผล</td>
+</tr>
+<tr class="even">
+<td>จำนวนบัญชีชั่วคราวที่หมดอายุแล้วยังใช้งานได้</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>% สิทธิพิเศษที่ผ่านการทบทวนตามรอบ</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="การยกเวน">19. การยกเว้น</h2>
+<ol type="1">
+<li>การขอยกเว้นจากขั้นตอนนี้ต้องระบุเหตุผล ระยะเวลา มาตรการชดเชย และผู้อนุมัติ</li>
+<li>ต้องบันทึกเป็นลายลักษณ์อักษรและทบทวนอย่างน้อยทุก <strong>90 วัน</strong></li>
+<li>การให้สิทธิ์โดยไม่มีคำขอ/การอนุมัติ ถือว่าไม่สอดคล้องกับขั้นตอนนี้ เว้นแต่เป็น
+break-glass ที่ทำครบตามข้อ 15</li>
+</ol>
+<hr />
+<h2 id="การบงคบใช">20. การบังคับใช้</h2>
+<p>การฝ่าฝืนขั้นตอนนี้อาจถูกระงับสิทธิ์ ดำเนินการทางวินัย และ/หรือดำเนินการตามกฎหมาย
+โดยเฉพาะกรณี</p>
+<ul>
+<li>เปิดสิทธิ์ให้ผู้อื่นโดยไม่ได้รับอำนาจ</li>
+<li>แชร์บัญชีหรือรหัสผ่าน</li>
+<li>ไม่เพิกถอนสิทธิ์เมื่อพ้นสภาพจนเกิดความเสียหาย</li>
+<li>คงสิทธิพิเศษโดยไม่มีเหตุทางธุรกิจ</li>
+</ul>
+<hr />
+<h2 id="เอกสารอางอง">21. เอกสารอ้างอิง</h2>
+<ul>
+<li>POL-ITSEC-001 นโยบายการรักษาความปลอดภัยระบบเทคโนโลยีสารสนเทศ</li>
+<li>STD-ITSEC-001 มาตรฐานรหัสผ่านและการพิสูจน์ตัวตน</li>
+<li>STD-ITSEC-002 มาตรฐานการจัดประเภทข้อมูล</li>
+<li>PROC-IR-001 ขั้นตอนการจัดการเหตุการณ์ด้านความปลอดภัย</li>
+<li>ISO/IEC 27001:2022 / ISO/IEC 27002:2022 (Access control)</li>
+<li>พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562</li>
+</ul>
+<hr />
+<h2 id="ประวตการปรบปรงเอกสาร">22. ประวัติการปรับปรุงเอกสาร</h2>
+<table>
+<thead>
+<tr class="header">
+<th>เวอร์ชัน</th>
+<th>วันที่</th>
+<th>ผู้จัดทำ/แก้ไข</th>
+<th>สรุปการเปลี่ยนแปลง</th>
+<th>ผู้อนุมัติ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1.0</td>
+<td>[ระบุวันที่]</td>
+<td>[ชื่อผู้จัดทำ]</td>
+<td>จัดทำเอกสารฉบับแรก</td>
+<td>[ชื่อผู้อนุมัติ]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ภาคผนวก-ก-สรป-joiner-mover-leaver">23. ภาคผนวก ก — สรุป Joiner /
+Mover / Leaver</h2>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ระยะ</th>
+<th>การกระทำหลัก</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Joiner</strong></td>
+<td>HR แจ้ง → อนุมัติ → สร้างบัญชี → ให้ birthright + สิทธิ์งาน → เปิด MFA</td>
+</tr>
+<tr class="even">
+<td><strong>Mover</strong></td>
+<td>แจ้งบทบาทใหม่ → อนุมัติสิทธิ์ใหม่ → เพิ่มสิทธิ์ใหม่และลดสิทธิ์เก่า → ทบทวน SoD</td>
+</tr>
+<tr class="odd">
+<td><strong>Leaver</strong></td>
+<td>HR/Sponsor แจ้งวันมีผล → ระงับบัญชี → เพิกถอนทุกระบบ → เรียกคืนอุปกรณ์ →
+บันทึกหลักฐาน</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ภาคผนวก-ข-รายการตรวจสอบกอนปดคำขอใหสทธ">24. ภาคผนวก ข —
+รายการตรวจสอบก่อนปิดคำขอให้สิทธิ์</h2>
+<ul class="task-list">
+<li><label><input
+type="checkbox" />มีคำขอครบถ้วนและระบุเหตุผลทางธุรกิจ</label></li>
+<li><label><input type="checkbox" />มีการอนุมัติตามตารางผู้อนุมัติ</label></li>
+<li><label><input type="checkbox" />ให้สิทธิ์เท่าที่จำเป็น
+ไม่ได้คัดลอกสิทธิ์เกินจากผู้ใช้อ้างอิง</label></li>
+<li><label><input
+type="checkbox" />กำหนดวันหมดอายุกรณีสิทธิ์ชั่วคราว/ผู้รับเหมา</label></li>
+<li><label><input type="checkbox" />เปิด MFA สำหรับระบบที่บังคับ</label></li>
+<li><label><input
+type="checkbox" />บันทึกสิทธิ์ที่ให้จริงในตั๋วงาน/ทะเบียน</label></li>
+<li><label><input type="checkbox" />แจ้งผลกลับผู้ขอแล้ว</label></li>
+</ul>
+<hr />
+<h2 id="ภาคผนวก-ค-ตวอยางโครงสรางรหสคำขอ">25. ภาคผนวก ค —
+ตัวอย่างโครงสร้างรหัสคำขอ</h2>
+<pre class="text"><code>IAM-YYYYMMDD-XXX
+ตัวอย่าง: IAM-20260916-001</code></pre>
+<p>ประเภทคำขอแนะนำในตั๋วงาน - <code>IAM-REQUEST</code> -
+<code>IAM-CHANGE</code> - <code>IAM-REVOKE</code> -
+<code>IAM-REVIEW</code> - <code>IAM-BREAKGLASS</code></p>
+<hr />
+<p><em>เอกสารนี้เป็นทรัพย์สินขององค์กร
+ห้ามทำสำเนาหรือเผยแพร่ภายนอกโดยไม่ได้รับอนุญาต</em></p>
+</div></body>
+</html>
